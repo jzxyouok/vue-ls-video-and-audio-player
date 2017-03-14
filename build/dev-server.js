@@ -16,16 +16,15 @@ var proxyTable = config.dev.proxyTable
 var app = express()
 /*mock 数据接口----------------------------------------------------------------------------------------*/
 var appData = require('../data.json');
-var liveList = appData.liveList;
+var lives = appData.lives;
 var live = appData.live;
-
 var apiRoutes = express.Router();
 
-apiRoutes.get('/list', function (req, res) {
+apiRoutes.get('/live/circle/lives', function (req, res) {
   res.json({
     code: 0,
     message: '成功',
-    results: liveList
+    results: lives
   });
 });
 apiRoutes.get('/live', function (req, res) {

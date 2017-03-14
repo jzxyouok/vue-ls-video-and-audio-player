@@ -9,8 +9,16 @@
     name: 'liveList',
     data () {
       return {
-        msg: '直播列表'
+        msg: '直播列表',
+        lives: []
       }
+    },
+    created(){
+      this.$http.get('/api/live/circle/lives').then((response) => {
+        var lives = response.body.results;
+        this.lives = lives;
+        console.log(lives);
+      });
     }
   }
 </script>
