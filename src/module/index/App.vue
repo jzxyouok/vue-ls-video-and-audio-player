@@ -2,6 +2,7 @@
   <div id="app">
     <h3>
       此页面不是业务页面，可当做一个模板示例使用
+      dev 分支测试
     </h3>
     <hello></hello>
     <g-header></g-header>
