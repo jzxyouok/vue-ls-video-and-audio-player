@@ -1,2 +1,2 @@
 # gaiay
-Gaiay前端小组 社群主页改造 项目框架
+Gaiay前端小组 Vue+webpack 项目骨架
