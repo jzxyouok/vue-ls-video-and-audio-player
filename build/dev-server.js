@@ -16,23 +16,23 @@ var proxyTable = config.dev.proxyTable
 var app = express()
 /*mock 数据接口----------------------------------------------------------------------------------------*/
 var appData = require('../data.json');
-var liveList = appData.liveList;
-var live = appData.live;
+var lives = appData.lives;
+var liveIds = appData.liveIds;
 
 var apiRoutes = express.Router();
 
-apiRoutes.get('/list', function (req, res) {
+apiRoutes.get('/live/circle/lives', function (req, res) {
   res.json({
     code: 0,
     message: '成功',
-    results: liveList
+    results: lives
   });
 });
 apiRoutes.get('/live', function (req, res) {
   res.json({
     code: 0,
     message: '成功',
-    result: live
+    result: liveIds
   });
 });
 
