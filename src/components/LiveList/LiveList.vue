@@ -75,7 +75,7 @@ export default ({
   .live_list{padding: 0.3rem 0.3rem 1rem;}
   .live_list li{display: -webkit-box; padding-bottom: 0.2rem;}
   .lt_img{width: 2.4rem; height: 1.5rem; position: relative; float: left;}
-  .lt_img p:nth-child(2){width: 0.44rem; height: 0.24rem; line-height: 0.24rem; font-size: 0.18rem; color: #fff; text-align: center; position: absolute; top:0.1rem; left: 0.1rem;}
+  .lt_img p:nth-child(2){width: 0.5rem; height: 0.24rem; line-height: 0.24rem; font-size: 0.18rem; color: #fff; text-align: center; position: absolute; top:0.1rem; left: 0.1rem;}
   .lt_img p.red{background: #f01414;}
   .lt_img p.blue{background: #3c8cfa;}
   .lt_img p.orgin{background: #ff9600;}

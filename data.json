@@ -133,6 +133,11 @@
    "hls": "",
    "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
  },
-  "liveIds": [{"id":122},{"id":132},{"id":22},{"id":12},{"id":123},{"id":222},{"id":111},{"id":11},{"id":42},{"id":54},{"id":354},{"id":65},{"id":76},{"id":89},{"id":55},{"id":69},{"id":77}]
+  "liveIds": [{"id":122},{"id":132},{"id":22},{"id":12},{"id":123},{"id":222},{"id":111},{"id":11},{"id":42},{"id":54},{"id":354},{"id":65},{"id":76},{"id":89},{"id":55},{"id":69},{"id":77}],
+ "roleInfo":{
+  "code": 0,
+  "message":"成功",
+  "role": 4
+ }
 }
 

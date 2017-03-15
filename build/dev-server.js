@@ -18,6 +18,7 @@ var app = express()
 var appData = require('../data.json');
 var lives = appData.lives;
 var liveIds = appData.liveIds;
+var roleInfo = appData.roleInfo;
 var apiRoutes = express.Router();
 
 apiRoutes.get('/live/circle/lives', function (req, res) {
@@ -33,6 +34,10 @@ apiRoutes.get('/live', function (req, res) {
     message: '成功',
     result: liveIds
   });
+});
+
+apiRoutes.get('/circle/member/role', function (req, res) {
+  res.json(roleInfo);
 });
 
 app.use('/api', apiRoutes);
