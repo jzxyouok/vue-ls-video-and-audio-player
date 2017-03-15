@@ -18,7 +18,6 @@ var app = express()
 var appData = require('../data.json');
 var lives = appData.lives;
 var liveIds = appData.liveIds;
-
 var apiRoutes = express.Router();
 
 apiRoutes.get('/live/circle/lives', function (req, res) {

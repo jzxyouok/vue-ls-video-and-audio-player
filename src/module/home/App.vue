@@ -21,13 +21,22 @@
     components: {
       GHeader,LiveList
     },
+    created(){
+//      this.$http.get('/api/live').then((response) => {
+//        var live = response.body.result;
+//        this.live = live;
+//      });
+      console.log(this.circleInfo);
+    },
     data () {
         return {
             lives:[],
             circleInfo:window.circleInfo
         }
     },
-    methods: {}
+    methods: {
+
+    }
   }
 </script>
 
