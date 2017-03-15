@@ -1,31 +1,38 @@
 <template>
   <div id="app">
-    <g-header></g-header>
+    <g-header :name="circleInfo.name" :logo="circleInfo.logo" :desc="circleInfo.desc" :memberNum="circleInfo.memberNum"></g-header>
   </div>
 </template>
 
 <script>
   import 'common/css/reset.css';
+  import 'common/js/reset.js'
   import GHeader from 'components/GHeader/GHeader'
   export default {
     name: 'app',
     components: {
       GHeader
     },
-    data () {
-      return {}
+    created(){
+//      this.$http.get('/api/live').then((response) => {
+//        var live = response.body.result;
+//        this.live = live;
+//      });
+      console.log(this.circleInfo);
     },
-    methods: {}
+    data () {
+      return {
+        lives:[],
+        circleInfo:window.circleInfo
+      }
+    },
+    methods: {
+
+    }
   }
 </script>
 
 <style>
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
+
+
 </style>
