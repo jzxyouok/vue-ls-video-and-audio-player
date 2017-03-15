@@ -45,8 +45,7 @@
       },
 
       doJoin(){
-        console.log(this.circleInfo.joinAuto );
-        if (this.circleInfo.role == 4) {
+        if (this.roleInfo.role == 4) {
           var joinAuto = this.circleInfo.joinAuto;
           switch (joinAuto) {
             case 0:// 0直接加入
