@@ -18,21 +18,29 @@ var app = express()
 var appData = require('../data.json');
 var lives = appData.lives;
 var liveIds = appData.liveIds;
+var members = appData.members;
 var apiRoutes = express.Router();
 
-apiRoutes.get('/live/circle/lives', function (req, res) {
+apiRoutes.get('/live/info', function (req, res) {
   res.json({
     code: 0,
     message: '成功',
     results: lives
   });
 });
-apiRoutes.get('/live', function (req, res) {
+apiRoutes.get('/live/circle/liveIds', function (req, res) {
   res.json({
     code: 0,
     message: '成功',
     result: liveIds
   });
+});
+apiRoutes.get('/zm/circle/member-list', function (req, res) {
+    res.json({
+        code: 0,
+        message: '成功',
+        results: members
+    });
 });
 
 app.use('/api', apiRoutes);

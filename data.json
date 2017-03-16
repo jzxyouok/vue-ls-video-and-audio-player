@@ -1,138 +1,246 @@
 {
- "lives": [
-  {
-   "liveId": 11487,
-   "title": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-   "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-   "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-   "startTime": 1488768255000,
-   "state": 4,
-   "type": 1,
-   "view": 4,
-   "hls": "",
-   "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
+  "lives": [
+    {
+      "liveId": 11487,
+      "title": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "startTime": 1488768255000,
+      "state": 4,
+      "type": 1,
+      "view": 4,
+      "hls": "",
+      "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
+    },
+    {
+      "liveId": 11487,
+      "title": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "startTime": 1488768255000,
+      "state": 2,
+      "type": 1,
+      "view": 2,
+      "hls": "",
+      "playbackUrl": ""
+    },
+    {
+      "liveId": 11487,
+      "title": "rent_test的掌门直播",
+      "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "startTime": 1488768255000,
+      "state": 2,
+      "type": 2,
+      "view": 4,
+      "hls": "",
+      "playbackUrl": ""
+    },
+    {
+      "liveId": 11487,
+      "title": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "startTime": 1488768255000,
+      "state": 1,
+      "type": 2,
+      "view": 8,
+      "hls": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8",
+      "playbackUrl": ""
+    },
+    {
+      "liveId": 11487,
+      "title": "rent_test的掌门直播",
+      "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "startTime": 1488768255000,
+      "state": 1,
+      "type": 1,
+      "view": 16,
+      "hls": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8",
+      "playbackUrl": ""
+    },
+    {
+      "liveId": 11487,
+      "title": "rent_test的掌门直播",
+      "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "startTime": 1488768255000,
+      "state": 4,
+      "type": 1,
+      "view": 16,
+      "hls": "",
+      "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
+    },
+    {
+      "liveId": 11487,
+      "title": "rent_test的掌门直播",
+      "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "startTime": 1488768255000,
+      "state": 4,
+      "type": 2,
+      "view": 16,
+      "hls": "",
+      "playbackUrl": ""
+    },
+    {
+      "liveId": 11487,
+      "title": "rent_test的掌门直播",
+      "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "startTime": 1488768255000,
+      "state": 4,
+      "type": 1,
+      "view": 8,
+      "hls": "",
+      "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
+    },
+    {
+      "liveId": 11487,
+      "title": "rent_test的掌门直播",
+      "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "startTime": 1488768255000,
+      "state": 1,
+      "type": 4,
+      "view": 4,
+      "hls": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8",
+      "playbackUrl": ""
+    },
+    {
+      "liveId": 11487,
+      "title": "rent_test的掌门直播",
+      "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+      "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "startTime": 1488768255000,
+      "state": 4,
+      "type": 2,
+      "view": 2,
+      "hls": "",
+      "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
+    }
+  ],
+  "live": {
+    "liveId": 11487,
+    "title": "rent_test的掌门直播",
+    "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
+    "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+    "startTime": 1488768255000,
+    "state": 4,
+    "type": 2,
+    "view": 2,
+    "hls": "",
+    "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
   },
-   {
-     "liveId": 11487,
-     "title": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-     "startTime": 1488768255000,
-     "state": 2,
-     "type": 1,
-     "view": 2,
-     "hls": "",
-     "playbackUrl": ""
-   },
-   {
-     "liveId": 11487,
-     "title": "rent_test的掌门直播",
-     "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-     "startTime": 1488768255000,
-     "state": 2,
-     "type": 2,
-     "view": 4,
-     "hls": "",
-     "playbackUrl": ""
-   },
-   {
-     "liveId": 11487,
-     "title": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-     "startTime": 1488768255000,
-     "state": 1,
-     "type": 2,
-     "view": 8,
-     "hls": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8",
-     "playbackUrl": ""
-   },
-   {
-     "liveId": 11487,
-     "title": "rent_test的掌门直播",
-     "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-     "startTime": 1488768255000,
-     "state": 1,
-     "type": 1,
-     "view": 16,
-     "hls": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8",
-     "playbackUrl": ""
-   },
-   {
-     "liveId": 11487,
-     "title": "rent_test的掌门直播",
-     "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-     "startTime": 1488768255000,
-     "state": 4,
-     "type": 1,
-     "view": 16,
-     "hls": "",
-     "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
-   },
-   {
-     "liveId": 11487,
-     "title": "rent_test的掌门直播",
-     "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-     "startTime": 1488768255000,
-     "state": 4,
-     "type": 2,
-     "view": 16,
-     "hls": "",
-     "playbackUrl": ""
-   },
-   {
-     "liveId": 11487,
-     "title": "rent_test的掌门直播",
-     "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-     "startTime": 1488768255000,
-     "state": 4,
-     "type": 1,
-     "view": 8,
-     "hls": "",
-     "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
-   },
-   {
-     "liveId": 11487,
-     "title": "rent_test的掌门直播",
-     "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-     "startTime": 1488768255000,
-     "state": 1,
-     "type": 4,
-     "view": 4,
-     "hls": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8",
-     "playbackUrl": ""
-   },
-   {
-     "liveId": 11487,
-     "title": "rent_test的掌门直播",
-     "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-     "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-     "startTime": 1488768255000,
-     "state": 4,
-     "type": 2,
-     "view": 2,
-     "hls": "",
-     "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
-   }
- ],
- "live": {
-   "liveId": 11487,
-   "title": "rent_test的掌门直播",
-   "desc": "掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播掌门直播",
-   "pic": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
-   "startTime": 1488768255000,
-   "state": 4,
-   "type": 2,
-   "view": 2,
-   "hls": "",
-   "playbackUrl": "http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58bcccf9a95be71db652a543/1488768255.1488768261.m3u8"
- },
-  "liveIds": [{"id":122},{"id":132},{"id":22},{"id":12},{"id":123},{"id":222},{"id":111},{"id":11},{"id":42},{"id":54},{"id":354},{"id":65},{"id":76},{"id":89},{"id":55},{"id":69},{"id":77}]
+  "liveIds": [
+    {
+      "id": 122
+    },
+    {
+      "id": 132
+    },
+    {
+      "id": 22
+    },
+    {
+      "id": 12
+    },
+    {
+      "id": 123
+    },
+    {
+      "id": 222
+    },
+    {
+      "id": 111
+    },
+    {
+      "id": 11
+    },
+    {
+      "id": 42
+    },
+    {
+      "id": 54
+    },
+    {
+      "id": 354
+    },
+    {
+      "id": 65
+    },
+    {
+      "id": 76
+    },
+    {
+      "id": 89
+    },
+    {
+      "id": 55
+    },
+    {
+      "id": 69
+    },
+    {
+      "id": 77
+    }
+  ],
+  "members": [
+    {
+      "id": 122,
+      "logo": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "name": "张大大",
+      "position": "董事长",
+      "company": "北京盛世智华科技股份有限公司",
+      "userType": 0,
+      "authState": 3
+    },
+    {
+      "id": 122,
+      "logo": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "name": "张大大",
+      "position": "董事长",
+      "company": "北京盛世智华科技股份有限公司",
+      "userType": 1,
+      "authState": 0
+    },
+    {
+      "id": 122,
+      "logo": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "name": "张大大",
+      "position": "董事长",
+      "company": "北京盛世智华科技股份有限公司",
+      "userType": 1,
+      "authState": 3
+    },
+    {
+      "id": 122,
+      "logo": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "name": "张大大",
+      "position": "董事长",
+      "company": "北京盛世智华科技股份有限公司",
+      "userType": 2,
+      "authState": 3
+    },
+    {
+      "id": 122,
+      "logo": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "name": "张大大",
+      "position": "董事长",
+      "company": "北京盛世智华科技股份有限公司",
+      "userType": 2,
+      "authState": 0
+    },
+    {
+      "id": 122,
+      "logo": "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      "name": "张大大",
+      "position": "董事长",
+      "company": "北京盛世智华科技股份有限公司",
+      "userType": 2,
+      "authState": 3
+    }
+  ]
 }
 
