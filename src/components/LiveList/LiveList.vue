@@ -59,7 +59,11 @@
             getLiveList: function () {
                 this.$http.get('/api/live/info', {'circleId': this.circleId, 'liveId': this.liveIds})
                     .then((response) => {
-                        this.lives = response.body.results;
+                        if(response.body.code == 0) {
+                            this.lives = response.body.results;
+                        }else{
+                            console.log(response.message);
+                        }
                     })
                     .catch(function (response) {
                         console.log(response)
