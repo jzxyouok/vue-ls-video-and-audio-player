@@ -19,6 +19,7 @@ var appData = require('../data.json');
 var lives = appData.lives;
 var liveIds = appData.liveIds;
 var members = appData.members;
+var roleInfo = appData.roleInfo;
 var apiRoutes = express.Router();
 
 apiRoutes.get('/live/info', function (req, res) {
@@ -41,6 +42,10 @@ apiRoutes.get('/zm/circle/member-list', function (req, res) {
         message: '成功',
         results: members
     });
+});
+
+apiRoutes.get('/circle/member/role', function (req, res) {
+  res.json(roleInfo);
 });
 
 app.use('/api', apiRoutes);
