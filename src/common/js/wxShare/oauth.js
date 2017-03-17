@@ -21,7 +21,7 @@ var oauth = function () {
    *  ctype：来源类型 {@link ChannelType}
    *  ttype：目标业务 {@link TargetType}
    */
-  this.init = function (innerRedirectUrl, needLogin, ctype, ttype, tid) {
+  this.init = function (innerRedirectUrl, needLogin, tid) {
 //			this.initAppId();
     if (innerRedirectUrl) {
       this.innerRedirectUrl = innerRedirectUrl;
@@ -29,14 +29,12 @@ var oauth = function () {
     if (needLogin) {
       this.needLogin = needLogin;
     }
-    if (ctype) this.ctype = ctype;
-    if (ttype) this.ttype = ttype;
     if (tid) this.tid = tid;
   };
   this.initAppId = function () {
     var that = this;
     utils.ajax({
-      method: 'GET',
+      type: 'GET',
       url: '/api/zm/weixin/web-oauth-config',
       data: {},
       async: false,
@@ -137,7 +135,6 @@ var oauth = function () {
     return "";
   };
 };
-export default oauth;
 function getDomain() {
   var zmServer = '';
   var protocol = window.location.protocol + "//";

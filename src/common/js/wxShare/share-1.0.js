@@ -120,11 +120,10 @@ function showHint() {
 }
 
 function onBridgeReady() {
-	$.ajax({
-		type : "get",
+  utils.ajax({
+		type : "GET",
 		url : share.WEIXIN_CONFIG,
 		data : "url=" + encodeURIComponent(window.location.href),
-		dataType : "json",
 		async : true,
 		success : function(data) {
 			var tData = data.result;
@@ -248,11 +247,10 @@ Share.prototype.qqC = function(shareUrl, shareContent, shareTitle, sharePic){
 
 Share.prototype.weibo = function(shareUrl, shareContent, shareTitle, sharePic){
 	shareUrl = this.parserShareUrl(shareUrl);
-	$.ajax({
+	utils.ajax({
 		type : "get",
 		url : share.SHORT_URL,
 		data : "url=" + encodeURIComponent(shareUrl),
-		dataType : "json",
 		async : true,
 		success : function(data) {
 			shareTitle = shareTitle.replace("#shareUrl#", data.url);
@@ -302,29 +300,45 @@ Share.prototype.weixinTimeline = function(shareUrl, shareTitle, sharePic){
 };
 
 Share.prototype.init = function(){
-	document.getElementById("shareToSinaWeibo").click(function(){
-		share.shareToSinaWeibo();
-	});
+	var shareToSinaWeibo = document.getElementById("shareToSinaWeibo");
+	if(shareToSinaWeibo){
+    shareToSinaWeibo.onclick=function(){
+      share.shareToSinaWeibo();
+    };
+  }
+  var shareToTencentWeibo = document.getElementById("shareToTencentWeibo");
+	if (shareToTencentWeibo){
+    shareToTencentWeibo.onclick=function(){
+      share.shareToQQ();
+    };
+  }
+  var shareToQQZone = document.getElementById("shareToQQZone");
+	if(shareToQQZone){
+    shareToQQZone.onclick=function(){
+      share.shareToQQZone();
+    };
+  }
 
-  document.getElementById("shareToTencentWeibo").click(function(){
-		share.shareToQQ();
-	});
+  var shareToQQ = document.getElementById("shareToQQ");
+  if(shareToQQ){
+    shareToQQ.onclick=function(){
+      share.shareToQQ();
+    };
+  }
 
-  document.getElementById("shareToQQZone").click(function(){
-		share.shareToQQZone();
-	});
+  var weixin_friend = document.getElementById("weixin_friend");
+  if(weixin_friend){
+    weixin_friend.onclick=function(){
+      weixin_share_tip();
+    };
+  }
 
-  document.getElementById("shareToQQ").click(function(){
-		share.shareToQQ();
-	});
-
-  document.getElementById("weixin_friend").click(function(){
-		weixin_share_tip();
-	});
-
-  document.getElementById("weixin_timeline").click(function(){
-		weixin_share_tip();
-	});
+  var weixin_timeline = document.getElementById("weixin_timeline");
+  if(weixin_timeline){
+    weixin_timeline.onclick=function(){
+      weixin_share_tip();
+    };
+  }
 };
 
 function card_detail_share(uid, source, joinState){
