@@ -12,7 +12,13 @@
       <live-list v-if="selected==0"></live-list>
       <members v-if="selected==1"></members>
     </div>
-    <a href="javascript:;" class="join_circle">加入社群</a>
+    <join-circle :text="joinButtonText"
+                 :onOff="showJoin"
+                 :circleId="circleInfo.circleId"
+                 :userId="circleInfo.userId"
+                 :followerId="circleInfo.followerId"
+                 :joinWay="circleInfo.joinAuto">
+    </join-circle>
     <div class="sf_popups" v-bind:class="{hide:true}" v-if="addGroup == 0 || addGroup == 1">
       <div class="popups" v-if="addGroup == 0">
         <img src="./images/g_ioc_10.png">
@@ -37,11 +43,11 @@
   import GHeader from 'components/GHeader/GHeader';
   import LiveList from 'components/LiveList/LiveList';
   import Members from 'components/Members/Members'
-
+  import JoinCircle from 'components/JoinCircle/JoinCircle'
   export default {
     name: 'app',
     components: {
-      GHeader, LiveList, Members
+      GHeader, LiveList, Members, JoinCircle
     },
     created(){
       this.getRoleInfo();
@@ -59,6 +65,7 @@
         addGroup: 2,//0:失败 1:成功 -1：异常
         roleInfo: {},
         showJoin: true,
+        joinButtonText: "",
         howJoin: 0
       }
     },
@@ -68,12 +75,21 @@
       },
       getRoleInfo(){
         this.$http.get('/api/circle/member/role')
-          .then((response) => {
-            this.roleInfo = response.body
-          })
-          .catch(function (response) {
-
-          })
+        .then((res) => {
+          this.roleInfo = res.body;
+          let role = this.roleInfo.role;
+          console.log("角色码："+role);
+          if (role < 3) {//已经入群，不显示按钮，顺便将文本置空
+            this.showJoin = false;
+            this.joinButtonText = "";
+          } else if (role == 3) {//当前用户正在进行入群审核中
+            this.showJoin = true;
+            this.joinButtonText = "审核中"
+          } else {//游客，显示加群按钮
+            this.showJoin = true;
+            this.joinButtonText = "加入社群";
+          }
+        })
       }
     }
   }
