@@ -36,11 +36,13 @@
     </div>
   </div>
 </template>
-
 <script>
   import 'common/css/reset.css';
   import 'common/js/reset.js';
   import utils from 'common/js/utils.js';
+  import 'common/js/wxShare/share-1.0.js';
+  import 'common/js/wxShare/oauth.js';
+  import 'common/js/wxShare/secondShare.js';
   import GHeader from 'components/GHeader/GHeader';
   import LiveList from 'components/LiveList/LiveList';
   import Members from 'components/Members/Members'
@@ -50,7 +52,7 @@
     components: {
       GHeader, LiveList, Members, JoinCircle
     },
-    created(){
+    created(){//相当于init
       this.getRoleInfo();
     },
     data () {
@@ -61,8 +63,8 @@
           {tabName: '直播'},
           {tabName: '群成员'}
         ],
-        selected: 0,
-        utils: utils,
+        selected: 0,//根据它来判断切换内容显示
+        utils: utils,//接收utils插件的对象
         addGroup: 2,//0:失败 1:成功 -1：异常
         roleInfo: {},
         showJoin: true,

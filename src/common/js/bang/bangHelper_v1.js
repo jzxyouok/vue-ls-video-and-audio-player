@@ -78,7 +78,7 @@ var bangHelper = {
 		bangData.userId = userId;
 		bangData.bangType = bangType;
     utils.ajax({
-      method: 'GET',
+      type: 'GET',
       url: this.bangServer + '/api/statistic/element',
       data: {"bizType":bangType,"srcType":bangData.srcUrl,"parentId":bangData.sharerId,"currentId":userId,"circleId":bangData.circleId},
       async: false,

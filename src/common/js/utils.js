@@ -1,8 +1,8 @@
-var utils = {
+window.utils = {
   //下载掌门APP
   downloadApp: function (version) {
     version = (typeof version == "undefined" || version == "") ? "rc" : version;
-    window.location.href = this.zmServerCfg() + "/zhangmen/download/app-download?preview=" + version + "&version=" + version;
+    window.location.href = "http://m.zm518.cn/zhangmen/download/app-download?preview=" + version + "&version=" + version;
   },
   zmServerCfg: function () {
     var url = window.location.href;
@@ -25,7 +25,7 @@ var utils = {
    */
   ajax: function (opt) {
     opt = opt || {};
-    opt.method = opt.method.toUpperCase() || 'POST';
+    opt.type = opt.type.toUpperCase() || 'POST';
     opt.url = opt.url || '';
     opt.async = opt.async || true;
     opt.data = opt.data || null;
@@ -45,13 +45,13 @@ var utils = {
       params.push(key + '=' + opt.data[key]);
     }
     var postData = params.join('&');
-    if (opt.method.toUpperCase() === 'POST') {
-      xmlHttp.open(opt.method, opt.url, opt.async);
+    if (opt.type.toUpperCase() === 'POST') {
+      xmlHttp.open(opt.type, opt.url, opt.async);
       xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
       xmlHttp.send(postData);
     }
-    else if (opt.method.toUpperCase() === 'GET') {
-      xmlHttp.open(opt.method, opt.url + '?' + postData, opt.async);
+    else if (opt.type.toUpperCase() === 'GET') {
+      xmlHttp.open(opt.type, opt.url + '?' + postData, opt.async);
       xmlHttp.send(null);
     }
     xmlHttp.onreadystatechange = function () {
