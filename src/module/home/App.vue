@@ -17,7 +17,8 @@
                  :circleId="circleInfo.circleId"
                  :userId="circleInfo.userId"
                  :followerId="circleInfo.followerId"
-                 :joinWay="circleInfo.joinAuto">
+                 :joinWay="circleInfo.joinAuto"
+    >
     </join-circle>
     <div class="sf_popups" v-bind:class="{hide:true}" v-if="addGroup == 0 || addGroup == 1">
       <div class="popups" v-if="addGroup == 0">
@@ -90,6 +91,9 @@
             this.joinButtonText = "加入社群";
           }
         })
+      },
+      joinChanged(flag){
+        this.showJoin=flag;
       }
     }
   }

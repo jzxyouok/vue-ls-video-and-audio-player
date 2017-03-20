@@ -4,6 +4,7 @@ var liveIds = appData.liveIds;
 var members = appData.members;
 var roleInfo = appData.roleInfo;
 var validJoin = appData.validJoin;
+var doJoin = appData.doJoin;
 
 module.exports = {
   setApi: function (apiRoutes) {
@@ -37,8 +38,8 @@ module.exports = {
       res.json(validJoin);
     });
     
-    apiRoutes.get('/v2/w/circle/member', function (req, res) {
-      res.json(validJoin);
+    apiRoutes.put('/v2/w/circle/member', function (req, res) {
+      res.json(doJoin);
     });
     
   }

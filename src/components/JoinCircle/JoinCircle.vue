@@ -59,14 +59,14 @@
       }
     },
     watch: {
-      "validStatus": "doJoin"
+//      "validStatus": "doJoin"
     },
     methods: {
       /**
        * 加群事件函数
        */
       joinEvent(){
-        console.log("点击加群生效：进入JoinCircle组件。。。。");
+
         if (this.text == "审核中")return;
         switch (this.joinWay) {
           case 8:// 入群类型为 会员入群
@@ -127,6 +127,7 @@
             }
           } else {//通过加群资格验证：进入加群流程
             this.validStatus = true;
+            this.doJoin();
           }
         })
       },
@@ -142,13 +143,19 @@
 
           this.$http.put(this.baseUrls.joinApiUrl, {circleId, userId, followerId})
           .then(function (res) {
-            var data = res.body.data;
+            var data = res.body;
             if (data.code == 0) {
-              //alert("加群成功（按钮底部按钮消失）");
-              this.onOff = false;
-            } else if (data.code == 16061) {
-//            alert('按钮不消失，文案改为 审核中。。。');
-              this.text = '审核中';
+              alert("加群成功（按钮底部按钮消失）");
+            } else if (data.code == "16021") {//提示文案： 已加入该社群
+              alert("已加入该社群");
+            } else if (data.code == "16022") {//提示文案：群成员已满
+              alert("群成员已满");
+            } else if (data.code == "16051") {// 提示文案： 你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群
+              alert("你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群");
+            } else if (data.code == "16062") {//提示文案:  您已被社群加入黑名单,不能加入该社群
+              alert("您已被社群加入黑名单,不能加入该社群");
+            } else if (data.code == "16061") {
+              this.$parent.joinButtonText="审核中";
             } else if (data.code != 0) {
               alert("加群失败");
             }
