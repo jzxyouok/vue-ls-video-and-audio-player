@@ -31,8 +31,8 @@
       </div>
     </div>
     <div class="join_popups" v-if="addGroup == -1">
-      <p>加群方式获取失败，请稍后尝试</p>
-      <a>我知道了</a>
+      <p>{{popuText}}</p>
+      <a @click="addGroup=2">我知道了</a>
     </div>
   </div>
 </template>
@@ -40,6 +40,7 @@
   import 'common/css/reset.css';
   import 'common/js/reset.js';
   import utils from 'common/js/utils.js';
+  import {tryAgin} from 'common/js/httpErr.js';
   import 'common/js/wxShare/share-1.0.js';
   import 'common/js/wxShare/oauth.js';
   import 'common/js/wxShare/secondShare.js';
@@ -66,6 +67,7 @@
         selected: 0,//根据它来判断切换内容显示
         utils: utils,//接收utils插件的对象
         addGroup: 2,//0:失败 1:成功 -1：异常
+        popuText:'你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群',
         roleInfo: {},
         showJoin: true,
         joinButtonText: "",
@@ -81,7 +83,6 @@
         .then((res) => {
           this.roleInfo = res.body;
           let role = this.roleInfo.role;
-          console.log("角色码："+role);
           if (role < 3) {//已经入群，不显示按钮，顺便将文本置空
             this.showJoin = false;
             this.joinButtonText = "";
@@ -95,7 +96,7 @@
         })
       },
       joinChanged(flag){
-        this.showJoin=flag;
+        this.showJoin = flag;
       }
     }
   }
@@ -218,7 +219,7 @@
     color: #000;
     text-align: center;
     padding: 0.3rem;
-    line-height: 1.3rem;
+    height: 1.9rem;
   }
 
   .join_popups a {

@@ -66,7 +66,6 @@
        * 加群事件函数
        */
       joinEvent(){
-
         if (this.text == "审核中")return;
         switch (this.joinWay) {
           case 8:// 入群类型为 会员入群
@@ -116,19 +115,27 @@
           var joinMsg = data.message;
           if (joinstate != 0) {
             this.jionAuth = false;
-            if (joinstate == 16051) {//加群资格
+            if (joinstate == 16053) {//加群资格
               var url = this.baseUrls.faildAuthUrl + '?';
               url += 'userId=' + this.userId;
               url += '&type=1&bizId=' + this.circleId;
               url += '&fromUrl=' + encodeURIComponent(this.baseUrls.hostUrl);
               window.location.href = url;
             } else {
-              alert("校验错误信息");
+              this.$parent.addGroup = -1;
+              this.$parent.popuText = "你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群";
             }
-          } else {//通过加群资格验证：进入加群流程
+          } else {//通过加群资格验证：
             this.validStatus = true;
             this.doJoin();
           }
+        }, (err)=> {
+          var code = err.status;
+          var text = err.statusText;
+          tryAgin(code, this.hasJoinAuth(), (text)=> {
+            this.$parent.addGroup = -1;
+            this.$parent.popuText = text;
+          });
         })
       },
 
@@ -140,25 +147,34 @@
           var circleId = this.circleId;
           var userId = this.userId;
           var followerId = this.followerId;
-
+          this.$parent.addGroup = 2;
           this.$http.put(this.baseUrls.joinApiUrl, {circleId, userId, followerId})
           .then(function (res) {
             var data = res.body;
             if (data.code == 0) {
-              alert("加群成功（按钮底部按钮消失）");
+              this.$parent.addGroup = 1
+              this.$parent.showJoin = false;
             } else if (data.code == "16021") {//提示文案： 已加入该社群
-              alert("已加入该社群");
+              this.$parent.addGroup = -1;
+              this.$parent.popuText = '已加入该社群';
             } else if (data.code == "16022") {//提示文案：群成员已满
-              alert("群成员已满");
-            } else if (data.code == "16051") {// 提示文案： 你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群
-              alert("你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群");
+              this.$parent.addGroup = -1;
+              this.$parent.popuText = '群成员已满';
             } else if (data.code == "16062") {//提示文案:  您已被社群加入黑名单,不能加入该社群
-              alert("您已被社群加入黑名单,不能加入该社群");
+              this.$parent.addGroup = -1;
+              this.$parent.popuText = '您已被社群加入黑名单,不能加入该社群';
             } else if (data.code == "16061") {
-              this.$parent.joinButtonText="审核中";
-            } else if (data.code != 0) {
-              alert("加群失败");
+              this.$parent.joinButtonText = "审核中";
+            } else {
+              this.$parent.addGroup = 0;
             }
+          }, function (err) {
+            var code = err.status;
+            var text = err.statusText;
+            tryAgin(code, this.doJoin(), (text)=> {
+              this.$parent.addGroup = -1;
+              this.$parent.popuText = text;
+            });
           })
         }
       }

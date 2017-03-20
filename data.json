@@ -252,7 +252,7 @@
   "message": "校验返回消息"
  },
  "doJoin": {
-  "code": 16022,
+  "code": 0,
   "message": "加群成功",
   "type": 2,
   "circleId": "111111111"
