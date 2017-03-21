@@ -247,8 +247,14 @@
    "authState": 3
   }
  ],
- "validJoin":{
-  "code":0,
-  "message":"校验返回消息"
+ "validJoin": {
+  "code": 0,
+  "message": "校验返回消息"
+ },
+ "doJoin": {
+  "code": 0,
+  "message": "加群成功",
+  "type": 2,
+  "circleId": "111111111"
  }
 }

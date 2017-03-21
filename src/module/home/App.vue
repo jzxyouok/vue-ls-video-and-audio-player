@@ -17,7 +17,8 @@
                  :circleId="circleInfo.circleId"
                  :userId="circleInfo.userId"
                  :followerId="circleInfo.followerId"
-                 :joinWay="circleInfo.joinAuto">
+                 :joinWay="circleInfo.joinAuto"
+    >
     </join-circle>
     <div class="sf_popups" v-bind:class="{hide:true}" v-if="addGroup == 0 || addGroup == 1">
       <div class="popups" v-if="addGroup == 0">
@@ -30,8 +31,8 @@
       </div>
     </div>
     <div class="join_popups" v-if="addGroup == -1">
-      <p>加群方式获取失败，请稍后尝试</p>
-      <a>我知道了</a>
+      <p>{{popuText}}</p>
+      <a @click="addGroup=2">我知道了</a>
     </div>
   </div>
 </template>
@@ -40,6 +41,7 @@
   import 'common/js/reset.js';
   import utils from 'common/js/utils.js';
   import 'common/js/wxShare/wxHelper-6.1.js';
+  import {tryAgin} from 'common/js/httpErr.js';
   import 'common/js/wxShare/oauth.js';
   import GHeader from 'components/GHeader/GHeader';
   import LiveList from 'components/LiveList/LiveList';
@@ -58,7 +60,7 @@
         liveBa: 0,
         lives: [],
         circleInfo: window.circleInfo,
-        userRoleUrl:"//zm.gaiay.net.cn/api/v2/circle/member/role",
+        userRoleUrl: "//zm.gaiay.net.cn/api/v2/circle/member/role",
         tabs: [
           {tabName: "直播"},
           {tabName: "群成员"}
@@ -66,6 +68,7 @@
         selected: 0,//根据它来判断切换内容显示
         utils: utils,//接收utils插件的对象
         addGroup: 2,//0:失败 1:成功 -1：异常
+        popuText: '你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群',
         roleInfo: {},
         showJoin: true,
         joinButtonText: "",
@@ -100,6 +103,9 @@
           .catch(function (response) {
             console.log(response);
           })
+      },
+      joinChanged(flag){
+        this.showJoin = flag;
       }
     }
   }
@@ -222,7 +228,7 @@
     color: #000;
     text-align: center;
     padding: 0.3rem;
-    line-height: 1.3rem;
+    height: 1.9rem;
   }
 
   .join_popups a {
