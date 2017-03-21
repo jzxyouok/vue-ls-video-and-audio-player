@@ -3,13 +3,13 @@ var secondShare = {
   checkFollowerId : function(shareUrl){
     if(shareUrl.indexOf('followerId=') == -1){
       if(shareUrl.indexOf('?') != -1){
-        shareUrl += "&followerId="+window.circleInfo.followerId;
+        shareUrl += "&followerId="+followerId;
       }else{
-        shareUrl += "?followerId="+window.circleInfo.followerId;
+        shareUrl += "?followerId="+followerId;
       }
     }else{
       var old = "followerId="+this._getQueryString('followerId');
-      shareUrl = shareUrl.replace(old,'followerId='+window.circleInfo.followerId);
+      shareUrl = shareUrl.replace(old,'followerId='+followerId);
     }
     return shareUrl;
   },
@@ -20,31 +20,26 @@ var secondShare = {
     }else{
       shareContent = shareContent.replace(/&/g, "%26").replace(/=/g, "%3D");
     }
-    // update 2016.1.22 wq
-    // update sharerId
     var shareUrl = window.location.href;
     shareUrl = this.checkFollowerId(shareUrl);//检测分销商id
     if(typeof bangHelper != "undefined"){
-      shareUrl = bangHelper.renewSharer(shareUrl, window.circleInfo.userId, "") ;
+      shareUrl = bangHelper.renewSharer(shareUrl, userId, "") ;
       shareUrl = this.removeWeixinAuth(shareUrl);
     }
     // end
-    if(share){
-      share.type = 2;
-      share.shareId = window.circleInfo.circleId;
+    if(window.share){
+      window.share.type = 2;
+      window.share.shareId = window.circleInfo.circleId;
       //把logo赋值给分享图片地址
       var sharePic = window.circleInfo.logo;
-      if(sharePic == undefined || sharePic == ""){
-        sharePic = "http://"+window.location.host+"/images/share/shareCircle.png";
-      }
       var weixinTitle = "邀请你加入掌门社群【" + window.circleInfo.name + "】,人脉资源立刻对接";
       //资讯分享到微信朋友圈初始化分享内容
-      share.weixinTimeline(shareUrl, weixinTitle, sharePic);
+      window.share.weixinTimeline(shareUrl, weixinTitle, sharePic);
       //资讯分享到微信好友、qq好友初始化分享内容
-      share.weixinFirends(shareUrl, shareContent, weixinTitle, sharePic);
+      window.share.weixinFirends(shareUrl, shareContent, weixinTitle, sharePic);
       var weiboShareTitle = "邀请你加入【" + window.circleInfo.name+"】,"+shareContent.substring(0,60) +",#shareUrl#；下载掌门，查看更多内容：";
-      share.weibo(shareUrl, "", weiboShareTitle, sharePic);
-      share.init();// 分享
+      window.share.weibo(shareUrl, "", weiboShareTitle, sharePic);
+      window.share.init();// 分享
     }
   },
   removeWeixinAuth: function(url){

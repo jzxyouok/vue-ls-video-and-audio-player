@@ -29,3 +29,21 @@ a{
   -webkit-touch-callout: none;
   /* 禁止长按链接与图片弹出菜单 */
 }
+
+.clearfix::after{visibility:hidden;display:block;font-size:0;content:".";clear:both;height:0;overflow:hidden;}
+.fl{float:left;}
+.fr{float:right;}
+/**{-webkit-text-size-adjust:none;}*/
+.pubFlex{display: -webkit-box;display: -webkit-flex;display: flex;}/*普通flex布局 */
+.autoFlex{-webkit-box-flex: 1; -webkit-flex: 1; flex: 1; }/*宽度自动伸缩*/
+/*控制元素绝对居中*/
+.a_center{display: -webkit-box;-webkit-box-align:center;-webkit-box-pack:center;}
+/*单行文字溢出用点显示*/
+.oneline_text{overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+/*两行文字溢出用点显示 */
+.twoline_text,.threeline_text{overflow: hidden;display: -webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+.threeline_text{-webkit-line-clamp:3;}/*三行文字溢出用点显示(改变clamp即可)*/
+html{ font-size: 20px;}
+body{ font-family: Microsoft YaHei; color: #323232; font-size:.22rem;}
+/*点击按下效果*/
+.dsfsdf:active{ opacity:.85}

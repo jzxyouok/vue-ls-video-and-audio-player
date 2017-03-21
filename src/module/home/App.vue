@@ -9,7 +9,7 @@
       <li><a href="javascript:;" @click="utils.downloadApp()">更多精彩</a></li>
     </ul>
     <div class="nav_com">
-      <live-list v-if="selected==0"></live-list>
+      <live-list v-show="selected==0"></live-list>
       <members v-if="selected==1"></members>
     </div>
     <join-circle :text="joinButtonText"
@@ -39,9 +39,8 @@
   import 'common/css/reset.css';
   import 'common/js/reset.js';
   import utils from 'common/js/utils.js';
-  import 'common/js/wxShare/share-1.0.js';
+  import 'common/js/wxShare/wxHelper-6.1.js';
   import 'common/js/wxShare/oauth.js';
-  import 'common/js/wxShare/secondShare.js';
   import GHeader from 'components/GHeader/GHeader';
   import LiveList from 'components/LiveList/LiveList';
   import Members from 'components/Members/Members'
@@ -56,11 +55,13 @@
     },
     data () {
       return {
+        liveBa: 0,
         lives: [],
         circleInfo: window.circleInfo,
+        userRoleUrl:"//zm.gaiay.net.cn/api/v2/circle/member/role",
         tabs: [
-          {tabName: '直播'},
-          {tabName: '群成员'}
+          {tabName: "直播"},
+          {tabName: "群成员"}
         ],
         selected: 0,//根据它来判断切换内容显示
         utils: utils,//接收utils插件的对象
@@ -76,22 +77,29 @@
         this.selected = index;
       },
       getRoleInfo(){
-        this.$http.get('/api/circle/member/role')
-        .then((res) => {
-          this.roleInfo = res.body;
-          let role = this.roleInfo.role;
-          console.log("角色码："+role);
-          if (role < 3) {//已经入群，不显示按钮，顺便将文本置空
-            this.showJoin = false;
-            this.joinButtonText = "";
-          } else if (role == 3) {//当前用户正在进行入群审核中
-            this.showJoin = true;
-            this.joinButtonText = "审核中"
-          } else {//游客，显示加群按钮
-            this.showJoin = true;
-            this.joinButtonText = "加入社群";
-          }
-        })
+        this.$http.get(this.userRoleUrl)
+          .then((res) => {
+            if (res.body.code == 0) {
+              this.roleInfo = res.body;
+              let role = this.roleInfo.role;
+              console.log("角色码：" + role);
+              if (role < 3) {//已经入群，不显示按钮，顺便将文本置空
+                this.showJoin = false;
+                this.joinButtonText = "";
+              } else if (role == 3) {//当前用户正在进行入群审核中
+                this.showJoin = true;
+                this.joinButtonText = "审核中"
+              } else {//游客，显示加群按钮
+                this.showJoin = true;
+                this.joinButtonText = "加入社群";
+              }
+            } else {
+              console.log(response);
+            }
+          })
+          .catch(function (response) {
+            console.log(response);
+          })
       }
     }
   }

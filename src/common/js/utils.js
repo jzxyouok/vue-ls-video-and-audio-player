@@ -72,6 +72,28 @@ window.utils = {
     var r = window.location.search.substr(1).match(reg);
     if (r != null) return unescape(r[2]);
     return "";
+  },
+  warrantLogin:function (liveState,liveId) {
+    //调用登录服务
+    var oauth = new oauth();
+    var loginState = false;
+    var cType = 13;	//channleType 社群主页 13
+    var ttype = 0;	//业务类型，1：直播，2：回放，默认为 0
+    var bizId = window.circleInfo.circleId;	//业务id，默认社群Id，对应的直播或回放id
+    var innerRedirectUrl = encodeURIComponent(window.location.href);
+    //根据分享内容，给不同的业务类型和业务Id
+    if (liveState) {
+      ttype = 1;
+    } else if (liveState) {
+      ttype = 2;
+    }
+
+    if(userId){
+      loginState = true;
+    }
+
+    oauth.init(innerRedirectUrl, loginState, cType, ttype, liveId);
+    oauth.auth();
   }
 }
 // utils.zmServerCfg();

@@ -24,18 +24,7 @@ if(!Share){
 		this.ZHANGXIN = 7;
 		this.QUANLIAO = 8;
 
-		this.SHORT_URL = "/api/zm/short-url";
-
-		/*dylan 2014.12.22 添加分享数量api调用统计*/
-		this.SHARE_COUNT_URL = "/api/zm/w/share-log";
-
-		this.WEIXIN_CONFIG = "/api/zm/weixin/js-config";
-
-		this.GET_SHARE_CHANNEL_LIST_URL = "/api/zm/share/channel-list";
-
-		this.SHARE_QQZONE_URL = "http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
-
-		this.SHARE_QQ_URL = "http://connect.qq.com/widget/shareqq/index.html?";
+		this.WEIXIN_CONFIG = "//zm.gaiay.net.cn/api/weixin/share/";
 
 		this.JIATHIS_URL  = "http://www.jiathis.com/send/?webid=";
 
@@ -43,17 +32,6 @@ if(!Share){
 	window.share = new Share();
 }
 
-//在分享成功了调用
-Share.prototype.updateCount = function(bizId, type, channel, callback){
-	// 能量卡分享成功后提示下载APP
-	if(!share.shareCount) return;
-	if(type == undefined || type == ""){
-		return;
-	}else{
-		var data = "type="+type+"&bizId="+bizId+"&channel="+channel;
-		zm.post(this.SHARE_COUNT_URL, data, callback);
-	}
-};
 
 Share.prototype.shareToSinaWeibo = function(){
 	share.channel = this.SINA_WEIBO;
@@ -82,42 +60,7 @@ Share.prototype.shareToWeibo = function() {
 	url += "&url="+share.weibo.shareUrl;
 
 	zm.forward(url);
-	share.updateCount(share.shareId, share.type, share.channel, "");
 };
-
-document.addEventListener("WeixinJSBridgeReady", function() {
-	weixin_share_tip();
-}, false);
-/**
-	微信分享提示
-*/
-function weixin_share_tip(){
-	var div = document.createElement("div");
-	var img = document.createElement("img");
-	div.setAttribute("class", "yindaoPop");
-	div.style.display = 'none';
-	div.setAttribute("onclick", "document.getElementById('div_hint').style.display = 'none';");
-	div.setAttribute("id", "div_hint");
-	//判断，如果是app中打开的使用app自带的分享
-	if (typeof(_platform) != "undefined" && m_app_platform() != "") {
-		div.setAttribute("class", "yindaoPop");
-		img.setAttribute("src", "/images/share/bigSharePic.png");
-	}else{
-		div.setAttribute("class", "yindaoPop2");
-		img.setAttribute("src", "/images/share/weixintishi.png");
-	}
-	div.appendChild(img);
-	$("body").append(div);
-  document.getElementById("weixin_friend").onclick = function(){
-    showHint();
-  };
-  document.getElementById("weixin_timeline").onclick = function(){
-    showHint();
-  };
-};
-function showHint() {
-  document.getElementById("div_hint").style.display = 'block';
-}
 
 function onBridgeReady() {
   utils.ajax({
@@ -247,14 +190,8 @@ Share.prototype.qqC = function(shareUrl, shareContent, shareTitle, sharePic){
 
 Share.prototype.weibo = function(shareUrl, shareContent, shareTitle, sharePic){
 	shareUrl = this.parserShareUrl(shareUrl);
-	utils.ajax({
-		type : "get",
-		url : share.SHORT_URL,
-		data : "url=" + encodeURIComponent(shareUrl),
-		async : true,
-		success : function(data) {
-			shareTitle = shareTitle.replace("#shareUrl#", data.url);
-			shareUrl = "";
+
+			shareTitle = shareTitle.replace("#shareUrl#", shareUrl);
 
 			share.qqZoneC.shareUrl = shareUrl;
 			share.qqZoneC.shareContent = shareContent;
@@ -265,8 +202,7 @@ Share.prototype.weibo = function(shareUrl, shareContent, shareTitle, sharePic){
 			share.weibo.shareContent = shareContent;
 			share.weibo.shareTitle = shareTitle+"http://t.cn/RyadQR6";
 			share.weibo.sharePic = sharePic;
-	    }
-	});
+
 };
 
 Share.prototype.weixinFirends = function(shareUrl, shareContent, shareTitle, sharePic){
@@ -341,14 +277,3 @@ Share.prototype.init = function(){
   }
 };
 
-function card_detail_share(uid, source, joinState){
-	var fp = zm.get_from_page(arguments);
-	if(joinState != undefined || joinState != ''){
-		//如果是从社群过来的，参数传到名片分享页，三个参数是因为get_from_page有两个参数获取fromPage的判断
-		window.location.href = '/zhangmen/card/info/detail-share-'+uid+"?"+"&source=" + source
-		+ '&joinState=' + joinState;
-	}else{
-		window.location.href = "/zhangmen/card/info/detail-share-"+uid+"?fromPage="+ encodeURIComponent(fp);
-	}
-
-}
