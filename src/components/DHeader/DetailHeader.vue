@@ -1,0 +1,350 @@
+<template>
+  <article class="topVideo">
+    <span class="topVSub topVLive" v-show="(liveInfo.state & 1)==1">直播</span>
+    <span class="topVSub" v-show="(liveInfo.state & 4)==4">回放</span>
+    <section class="topVFail" v-show="authStatus==-1">
+      <div class="topVFailCont">
+        <h3 class="tit">连接失败，点击重试</h3>
+        <button class="btn">重试</button>
+      </div>
+    </section>
+    <section class="topVStatus" v-show="authStatus==8">
+      <div class="topVStatusCont">
+        <h3 class="tit">本直播为私密直播</h3>
+        <div class="topVStatusForm">
+          <input type="password" placeholder="请输入密码" class="tex" v-model="passValue"/>
+          <button class="ok" @click="passEvt">确定</button>
+        </div>
+      </div>
+    </section>
+    <section class="topVStatus" v-show="authStatus==2">
+      <div class="topVStatusCont">
+        <h3 class="tit">本直播仅限群成员观看</h3>
+        <button class="btn" @click="joinEvt">加入社群</button>
+      </div>
+    </section>
+    <section class="topVStatus" v-show="authStatus==4">
+      <div class="topVStatusCont">
+        <h3 class="tit">本直播为收费直播，付费即可以观看</h3>
+        <button class="btn" @click="payEvt">支付¥1.0观看</button>
+      </div>
+    </section>
+    <section class="topVStatus" v-show="authStatus==16">
+      <div class="topVStatusCont">
+        <h3 class="tit">本直播仅限群会员观看</h3>
+        <button class="btn" @click="payVipEvt">本直播仅限群会员观看</button>
+      </div>
+    </section>
+    <section class="topVStatus" v-show="authStatus==-2">
+      <div class="topVStatusCont">
+        <h3 class="tit">您的会员类型无法观看本直播</h3>
+        <button class="btn" @click="payVipEvt">购买其它会员</button>
+      </div>
+    </section>
+    <!--<video-player :options="videoOptions" style="display:block;width:100%;height:100%"></video-player>-->
+    <gaiay-player :liveSource="dealLiveSrc" :livePoster="liveInfo.pic"></gaiay-player>
+  </article>
+</template>
+<script>
+  import {videoPlayer} from 'vue-video-player'
+  import GaiayPlayer from 'components/GaiayPlayer/GaiayPlayer';
+  export default {
+    name: 'detailheader',
+    components: {
+      videoPlayer,
+      GaiayPlayer
+    },
+    props: {
+      circleId: {
+        type: String,
+        default: ''
+      },
+      userId: {
+        type: String,
+        default: ''
+      },
+      userRole: {
+        type: Number,
+        default: 4
+      },
+      liveInfo: {
+        type: Object,
+        default: {}
+      },
+      authStatus: {
+        type: Number,
+        default: 1
+      }
+    },
+    data() {
+      return {
+        passValue: '',
+        videoOptions: {//     vue-video-player使用的配置，备用勿删
+          source: {
+            type: "application/x-mpegURL",
+            src: "http://pili-live-hls.live.zm.gaiay.cn/gaiay-pro/58d1de1da3d5ec03e9001a24.m3u8",
+            withCredentials: false
+          },
+          poster: "",
+          live: true,
+          autoplay: false
+        }
+      }
+    },
+    created: function () {
+      console.log("详情头部组件的详情信息：");
+      console.log(this.liveInfo);
+    },
+    methods: {
+      passEvt(){ //密码框按钮点击事件
+        var val = this.passValue;
+        if (val)
+          this.$parent.getViewAuth();
+        else
+          alert("请输入密码");
+      },
+      joinEvt(){//加群点击事件
+        alert("加群");
+      },
+      payEvt(){
+//        alert("进入支付流程");
+        this.viewAuth_charge();
+      },
+      payVipEvt(){
+//        alert("购买会员、其它会员流程");
+        this.viewVipList_change();
+      },
+      //跳转交费
+      viewAuth_charge: function () {
+        var url = "/zhangmen/live/view/charge";
+        var param = "liveName=" + this.liveInfo.title
+            + "&userId=" + this.userId
+            + "&liveId=" + this.liveInfo.id
+            + "&circleId=" + this.circleId
+            + "&liveChargeCallback="
+            + this.replaceLiveId(window.location.href, this.liveInfo.id)
+//            + "&followerId=" + this.followerId;
+        if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
+           param += "&type=1";
+        }
+        window.location.href = url + "?" + param;
+      },
+      //会员购买
+      viewVipList_change: function () {
+        var url = "/vip/" + this.circleId + "/product/list";
+        if ((this.liveInfo.state & 2) == 2) {
+          var param = "userId=" + this.userId
+              + "&circleId=" + this.circleId
+              + "&liveId=" + this.liveInfo.id
+//              + "&followerId=" + this.followerId;
+        } else {
+          var param = "userId=" + this.userId
+              + "&circleId=" + this.circleId
+              + "&liveId=" + this.liveInfo.id
+              + "&liveUrl=" + this.replaceLiveId(window.location.href, this.liveInfo.id)
+//              + "&followerId=" + this.followerId;
+        }
+        if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
+          param += "&type=1";
+        }
+        window.location.href = url + "?" + param;
+      },
+      //替换现在播放的直播地址
+      replaceLiveId: function (url, liveId) {
+        var s = url.indexOf("liveId=");
+        var key = "";
+        if (s != -1) {
+          e = url.indexOf("&", s);
+          if (e != -1)
+            key = url.substring(s + 7, e);
+          else
+            key = url.substring(s + 7);
+        }
+        if (key != "")
+          url = url.replace("liveId=" + key, "liveId=" + liveId);
+        else {
+          if (url.indexOf("?") != -1)
+            url += "&liveId=" + liveId;
+          else
+            url += "?liveId=" + liveId;
+        }
+        return encodeURIComponent(url);
+      }
+
+    },
+    computed: {
+      dealLiveSrc(){
+        let src = "";
+        let liveInfo = this.liveInfo;
+        if ((liveInfo.state & 1) == 1)src = liveInfo.hls;
+        else if ((liveInfo.state & 4) == 4) src = liveInfo.playbackUrl;
+        return src;
+      }
+    }
+  }
+</script>
+
+<style>
+  .topVideo {
+    width: 100%;
+    height: 4.22rem;
+    position: fixed;
+    top: 0;
+    z-index: 5
+  }
+
+  .topVSub {
+    position: absolute;
+    left: 0;
+    top: .2rem;
+    display: inline-block;
+    background: rgba(0, 0, 0, .4);
+    font-size: .2rem;
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    padding: .05rem .14rem .06rem .17rem;
+    color: #fff;
+  }
+
+  .topVLive {
+    padding-left: .24rem;
+  }
+
+  .topVLive::before {
+    width: .08rem;
+    height: .08rem;
+    background: #f04640;
+    content: "";
+    border-radius: 100%;
+    left: .1rem;
+    top: 50%;
+    margin-top: -.04rem;
+  }
+
+  .topVBf {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -.6rem 0 0 -.6rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    background: rgba(0, 0, 0, .4);
+    border-radius: 100%;
+    display: block;
+  }
+
+  .topVBf::after {
+    width: .44rem;
+    height: .5rem;
+    background-position: 0 -3.81rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -.25rem 0 0 -.2rem;
+  }
+
+  /*连接失败*/
+  .topVFail, .topVStatus {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    z-index: 1000
+  }
+
+  .topVFailCont, .topVStatusCont {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 90%
+  }
+
+  .topVFail .tit, .topVStatusCont .tit {
+    text-align: center;
+    font-size: .28rem;
+    opacity: .8;
+    margin-bottom: .35rem;
+    color: #fff;
+  }
+
+  .topVFail .btn {
+    display: inline-block;
+    color: #fff;
+    font-size: .32rem;
+    line-height: .7rem;
+    height: .7rem;
+    padding: 0 .45rem 0 .94rem;
+    border: 1px solid #fff;
+    border-radius: .5rem;
+    position: relative;
+  }
+
+  .topVFail .btn::before {
+    width: .33rem;
+    height: .33rem;
+    background-position: 0 -4.53rem;
+    position: absolute;
+    top: 50%;
+    margin: -.165rem 0 0 .46rem;
+  }
+
+  /*各种状态*/
+  .topVStatus {
+    background: rgba(0, 0, 0, .4);
+  }
+
+  .topVStatusCont .tit {
+    font-size: .32rem;
+    opacity: 1
+  }
+
+  .topVStatusCont .btn {
+    font-size: .32rem;
+    line-height: .8rem;
+    min-width: 3rem;
+    height: .8rem;
+    padding: 0 .55rem;
+    border-radius: .5rem;
+    background: #db423d;
+    color: #fff;
+    text-align: center;
+  }
+
+  .topVStatusForm {
+    text-align: center;
+  }
+
+  .topVStatusForm .tex {
+    height: .8rem;
+    width: 2rem;
+    padding: 0 .2rem;
+    font-size: .32rem;
+    line-height: .8rem;
+    background: #fff;
+    border-top-left-radius: .5rem;
+    border-bottom-left-radius: .5rem;
+  }
+
+  .topVStatusForm .ok {
+    height: .8rem;
+    width: 1.2rem;
+    font-size: .32rem;
+    line-height: .8rem;
+    background: #fff;
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    background: #db433e;
+    text-align: center;
+    color: #fff;
+  }
+
+  .vjs_video_3-dimensions {
+    height: 4.22rem;
+  }
+
+</style>
