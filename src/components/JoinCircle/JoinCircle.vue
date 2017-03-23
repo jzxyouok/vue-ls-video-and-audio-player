@@ -1,5 +1,5 @@
 <template>
-  <a @click="joinEvent" class="join_circle" v-if="onOff">{{text}}</a>
+  <a @click="joinEvent" class="join_circle" v-if="onOff">{{text||'加入社群'}}</a>
 </template>
 
 <style>
@@ -17,6 +17,7 @@
 </style>
 
 <script>
+  import zmOauth from 'common/js/wxShare/oauth.js';
   export default {
     name: 'joincircle',
     props: {
@@ -32,9 +33,9 @@
         type: String,
         default: ''
       },
-      joinWay: {
+      join: {
         type: Number,
-        default: 4
+        default: 1
       },
       text: {
         type: String,
@@ -48,12 +49,12 @@
     data(){
       return {
         baseUrls: {
-          joinOnPayUrl: 'http://zhangmen/circle/circle-pay',            //付费加群跳转页面URL
-          joinOnVipUrl: 'http://vip/`${this.circleId}`/product/list',   //会员加群跳转页面URL
-          faildAuthUrl: 'http://zhangmen/community/qualified/list',
-          joinAuthApiUrl: '/api/v2/circle/member/validation',            //用户是否有访问权限的api请求地址
-          joinApiUrl: '/api/v2/w/circle/member',         //执行加群操作api请求地址
-          hostUrl: window.location.href                            //当前页URL
+          joinOnPayUrl: requstUrl+'/zhangmen/circle/circle-pay',            //付费加群跳转页面URL
+          joinOnVipUrl: requstUrl+'/vip/'+this.circleId+'/product/list',   //会员加群跳转页面URL
+          faildAuthUrl: requstUrl+'/zhangmen/community/qualified/list',
+          joinAuthApiUrl: requstUrl+'/api/v2/circle/member/validation',            //用户是否有访问权限的api请求地址
+          joinApiUrl: requstUrl+'/api/v2/w/circle/member/',         //执行加群操作api请求地址
+          hostUrl: window.location.href            //当前页URL
         },
         validStatus: false      //校验加群资格改变的标记
       }
@@ -66,17 +67,24 @@
        * 加群事件函数
        */
       joinEvent(){
+          console.log(this.userId);
         if (this.text == "审核中")return;
-        switch (this.joinWay) {
-          case 8:// 入群类型为 会员入群
-            this.joinOnVip();
-            break;
-          case 4:// 入群类型为 付费入群
-            this.joinOnPay();
-            break;
-          default://其它入群方式
-            this.hasJoinAuth();
-            break;
+        if(userId == undefined || userId == ""){
+          var auth = new oauth();
+          auth.init("", 1);
+          return auth.auth();
+        }else{
+          switch (this.join) {
+            case 8:// 入群类型为 会员入群
+              this.joinOnVip();
+              break;
+            case 4:// 入群类型为 付费入群
+              this.joinOnPay();
+              break;
+            default://其它入群方式
+              this.hasJoinAuth();
+              break;
+          }
         }
       },
       /**
@@ -85,7 +93,7 @@
       joinOnPay(){
         var url = this.baseUrls.joinOnPayUrl + '?';
         url += "circleId=" + this.circleId;
-        url += "&userId=" + this.userId;
+        url += "&userId=" + userId;
         url += "&bizType=joinCirclePay";
         url += "&liveChargeCallback=" + this.baseUrls.hostUrl;
         url += "&followerId=" + this.followerId;
@@ -95,7 +103,7 @@
        * 处理会员类型的入群操作
        */
       joinOnVip(){
-        var url = this.baseUrls.joinOnPayUrl + '?';
+        var url = this.baseUrls.joinOnVipUrl + '?';
         url += "userId=" + this.userId;
         url += "&noJoin=0";
         url += "&liveChargeCallback=" + this.baseUrls.hostUrl;
@@ -108,7 +116,7 @@
       hasJoinAuth(){
         var userId = this.userId;
         var circleId = this.circleId;
-        this.$http.get(this.baseUrls.joinAuthApiUrl, {userId, circleId})
+        this.$http.get(this.baseUrls.joinAuthApiUrl,{params:{"token":this.$parent.token, "circleId":circleId}})
         .then((res) => {
           var data = res.body;
           var joinstate = data.code;
@@ -121,6 +129,9 @@
               url += '&type=1&bizId=' + this.circleId;
               url += '&fromUrl=' + encodeURIComponent(this.baseUrls.hostUrl);
               window.location.href = url;
+            }else if(joinstate == 16022){
+              this.$parent.addGroup = -1;
+              this.$parent.popuText = "群成员已满";
             } else {
               this.$parent.addGroup = -1;
               this.$parent.popuText = "你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群";
@@ -148,7 +159,7 @@
           var userId = this.userId;
           var followerId = this.followerId;
           this.$parent.addGroup = 2;
-          this.$http.put(this.baseUrls.joinApiUrl, {circleId, userId, followerId})
+          this.$http.put(this.baseUrls.joinApiUrl,{"circleId":circleId,"followerId":followerId,"type":109})
           .then(function (res) {
             var data = res.body;
             if (data.code == 0) {

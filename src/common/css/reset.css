@@ -12,6 +12,7 @@ body, ul, li, p, nav, footer, section, header, article, div, dl, dt, dd, button,
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-box-sizing: border-box;
 }
+body{overflow: auto;}
 i{
   font-style: normal;
   font-weight: normal;

@@ -1,5 +1,5 @@
 // 外部初始化对象
-var wxHelper6 ={
+window.wxHelper6 ={
 		// 分享标题
 		title:"",
 		// 分享描述（分享好友、QQ、微博可用）
@@ -10,11 +10,11 @@ var wxHelper6 ={
 		img:"",
 		// 获取js config信息接口地址，请求参数外部拼接
 		// 参数xyCaId，当前活动id
-		ajaxUrl:"",
-		
+		ajaxUrl:"/api/weixin/share?url=",//微信分享js获取
+
 		// 是否进行初始化
-		enable:false,
-		
+		enable:true,
+
 		// 设置分享朋友圈回调
 		// function (res)
 		// res : 用户点击- do 成功-ok 取消-cancel 失败-error
@@ -24,42 +24,48 @@ var wxHelper6 ={
 		// function (res)
 		// res : 用户点击- do  成功-ok 取消-cancel 失败-error
 		callback_msg:function(){},
-		
+
 		// 设置分享微博回调
 		// function (res)
 		// res : 用户点击- do  成功-ok 取消-cancel 失败-error
 		callback_weibo:function(){},
-		
+
 		// 设置分享qq回调
 		// function (res)
 		// res : 用户点击- do  成功-ok 取消-cancel 失败-error
-		callback_qq:function(){},		
+		callback_qq:function(){},
 };
 
-
 //2. 分享接口
-window.onload = function onload() {
+wxHelper6.init = function init() {
 	if (!wxHelper6.enable)
 		return;
-	var htmlobj = $.ajax({
-		//url : "${baseUrl}webapp/wxCenter/wxJsSignature?xyCaId=${xyCaId}",
-		url : wxHelper6.ajaxUrl,
-		async : false
+
+  function callBack(htmlobj) {
+    if (!htmlobj || htmlobj == "")
+      return;
+
+    var json = htmlobj.result;
+    console.log(json.appId);
+    wx.config({
+      debug : true,
+      appId : json.appId,
+      timestamp : json.timestamp,
+      nonceStr : json.nonceStr,
+      signature : json.signature,
+      jsApiList : [ "onMenuShareTimeline", "onMenuShareAppMessage",
+        "onMenuShareQQ", "onMenuShareWeibo" ]
+    });
+  }
+
+  utils.ajax({
+	  type:"GET",
+		url : wxHelper6.ajaxUrl+encodeURIComponent(window.location.href),
+    success:callBack
 	});
 
-	if (!htmlobj.responseText || htmlobj.responseText == "")
-		return;
-	
-	var json = JSON.parse(htmlobj.responseText);
-	wx.config({
-		debug : false,
-		appId : json.appid,
-		timestamp : json.time,
-		nonceStr : json.noncestr,
-		signature : json.signature,
-		jsApiList : [ "onMenuShareTimeline", "onMenuShareAppMessage",
-				"onMenuShareQQ", "onMenuShareWeibo" ]
-	});
+
+
 };
 
 wx.ready(function() {
@@ -149,3 +155,4 @@ wx.ready(function() {
 						}
 					});
 		});
+

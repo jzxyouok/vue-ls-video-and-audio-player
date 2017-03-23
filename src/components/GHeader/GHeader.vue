@@ -19,7 +19,8 @@
         data () {
             return {
                 bgStyle: {
-                    background:'url('+this.logo+') no-repeat center'
+                    background:'url('+this.logo+') no-repeat center',
+                    backgroundSize:'100% 4.2rem'
                 },
                 tHeight : 0.86,
                 upHtBtn : false,
@@ -119,7 +120,11 @@
     padding: 0.2rem 1.23rem 0;
     line-height: 0.33rem;
     height: 0.86rem;
-    overflow: hidden;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   .home_top .ht_open_btn {

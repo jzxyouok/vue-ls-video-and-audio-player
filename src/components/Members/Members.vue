@@ -20,9 +20,8 @@
         </a>
       </li>
     </ul>
-
     <p class="more">
-      <a class="more_btn" v-if="length == 15" v-on:click="getMoreMembers()">更多</a>
+      <a class="more_btn" v-if="length == 15 && pageNo != 3 &&noData == false" v-on:click="getMoreMembers()">更多</a>
       <a class="down_btn" v-if="pageNo == 3" v-on:click="utils.downloadApp()">下载APP查看更多</a>
       <a class="no_more" v-if="length < 15 && length == 0">没有更多了</a>
     </p>
@@ -36,45 +35,56 @@
       return {
         utils: this.$parent.utils,
         pageNo: 1,
-        length: 1,
-        userId: '',
-        circleId: '27802014882a6a6d9-7e54',
+        length: 15,
+        circleId: window.circleInfo.circleId,
         members: [],
-        noData: false
+        noData: false,
+        memberListUrl:requstUrl+'/api/v2/circle/member/info/',//获取成员列表api
       }
     },
     created: function () {
       this.getMembers();
     },
     methods: {
+        /**
+         * 获取成员列表
+         **/
       getMembers: function () {
-        this.$http.get('//zm.gaiay.net.cn/api/v2/circle/member/info/', {params:{
+        this.$http.get(this.memberListUrl, {params:{
           'circleId': this.circleId,
           'num': this.pageNo
         }})
           .then((response) => {
             if (response.body.code == 0) {
               this.members = this.members.concat(response.body.results);
-              this.length = response.body.results.length;
+              this.length = response.body.results.length || 0;
               this.noData = false;
             } else {
               this.noData = true;
+              console.log(this.noData);
             }
           })
           .catch(function (response) {
             this.noData = true;
-            console.log(response);
+            console.log(this.noData);
           })
       },
+      /**
+       * 获取更多成员
+       */
       getMoreMembers: function () {
-        if (this.pageNo == 3) {
-          return;
+        ++this.pageNo;
+        console.log(this.pageNo);
+        if (this.pageNo <= 3) {
+          this.getMembers();
         }
-        this.pageNo++;
-        this.getMembers();
       },
+      /**
+       * 跳转名片详情
+       * @param userId
+       */
       cardDetail: function (userId) {
-        window.location.href = '//zm.gaiay.net.cn/zhangmen/card/info/detail-share-' + userId + "?"
+        window.location.href = requstUrl+'/zhangmen/card/info/detail-share-' + userId + "?"
           + 'fromPage=' + encodeURIComponent(window.location.href);
       },
     }
@@ -133,10 +143,14 @@
   }
 
   .m_zhi .c_job {
+    max-width: 2.6rem;
     padding-left: 0.2rem;
     font-size: 0.24rem;
     color: #a0a0a0;
     line-height: 0.48rem;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
   }
 
   .m_zhi img {

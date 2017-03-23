@@ -27,12 +27,10 @@ window.utils = {
     opt = opt || {};
     opt.type = opt.type.toUpperCase() || 'POST';
     opt.url = opt.url || '';
-    opt.async = opt.async || true;
+    opt.async = (opt.async == false) || true;
     opt.data = opt.data || null;
-    opt.success = opt.success || function () {
-      };
-    opt.error = opt.error || function () {
-      };
+    opt.success = opt.success || '';
+    opt.error = opt.error || '';
     var xmlHttp = null;
     if (XMLHttpRequest) {
       xmlHttp = new XMLHttpRequest();
@@ -51,12 +49,18 @@ window.utils = {
       xmlHttp.send(postData);
     }
     else if (opt.type.toUpperCase() === 'GET') {
-      xmlHttp.open(opt.type, opt.url + '?' + postData, opt.async);
-      xmlHttp.send(null);
+      xmlHttp.open(opt.type, opt.url, opt.async);
+      xmlHttp.send();
     }
     xmlHttp.onreadystatechange = function () {
       if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-        opt.success(xmlHttp.responseText);
+        var data = JSON.parse(xmlHttp.responseText);
+
+        if(typeof (opt.success) !== "function"){
+          return data;
+        }else{
+          opt.success(data);
+        }
       }
     };
     xmlHttp.error = function () {
@@ -73,7 +77,7 @@ window.utils = {
     if (r != null) return unescape(r[2]);
     return "";
   },
-  warrantLogin:function (liveState,liveId) {
+  warrantLogin: function (liveState, liveId) {
     //调用登录服务
     var oauth = new oauth();
     var loginState = false;
@@ -88,13 +92,44 @@ window.utils = {
       ttype = 2;
     }
 
-    if(userId){
+    if (userId) {
       loginState = true;
     }
 
     oauth.init(innerRedirectUrl, loginState, cType, ttype, liveId);
     oauth.auth();
+  },
+  getCookie: function (name) {
+    var cookieName = encodeURIComponent(name) + '=';
+    var cookieStart = document.cookie.indexOf(cookieName);
+    var cookieValue = null;
+    if (cookieStart > -1) {
+      var cookieEnd = document.cookie.indexOf(';', cookieStart);
+      if (cookieEnd == -1) {
+        cookieEnd = document.cookie.length;
+      }
+      cookieValue = decodeURIComponent(document.cookie.substring(cookieStart + cookieName.length, cookieEnd));
+    }
+    return cookieValue;
   }
+}
+Date.prototype.Format = function(fmt)
+{ //author: meizz
+  var o = {
+    "M+" : this.getMonth()+1,                 //月份
+    "d+" : this.getDate(),                    //日
+    "h+" : this.getHours(),                   //小时
+    "m+" : this.getMinutes(),                 //分
+    "s+" : this.getSeconds(),                 //秒
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度
+    "S"  : this.getMilliseconds()             //毫秒
+  };
+  if(/(y+)/.test(fmt))
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+  for(var k in o)
+    if(new RegExp("("+ k +")").test(fmt))
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+  return fmt;
 }
 // utils.zmServerCfg();
 export default utils;

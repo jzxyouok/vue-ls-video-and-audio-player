@@ -3,21 +3,22 @@
     <g-header :name="circleInfo.name" :logo="circleInfo.logo" :desc="circleInfo.desc"
               :memberNum="circleInfo.memberNum"></g-header>
     <ul class="home_nav">
-      <li v-for="(tab, index) in tabs" @click="choose(index)"><a href="javascript:;"
-                                                                 :class="{'selected':index===selected}">{{tab.tabName}}</a>
+      <li v-for="(tab, index) in tabs" @click="choose(index)">
+        <a href="javascript:;"
+           :class="{'selected':index===selected}">{{tab.tabName}}</a>
       </li>
       <li><a href="javascript:;" @click="utils.downloadApp()">更多精彩</a></li>
     </ul>
     <div class="nav_com">
       <live-list v-show="selected==0"></live-list>
-      <members v-if="selected==1"></members>
+      <members v-show="selected==1"></members>
     </div>
     <join-circle :text="joinButtonText"
                  :onOff="showJoin"
-                 :circleId="circleInfo.circleId"
-                 :userId="circleInfo.userId"
-                 :followerId="circleInfo.followerId"
-                 :joinWay="circleInfo.joinAuto"
+                 :circleId="circleInfo.id"
+                 :userId="userId"
+                 :followerId="followerId"
+                 :join="circleInfo.join"
     >
     </join-circle>
     <div class="sf_popups" v-bind:class="{hide:true}" v-if="addGroup == 0 || addGroup == 1">
@@ -31,7 +32,7 @@
       </div>
     </div>
     <div class="join_popups" v-if="addGroup == -1">
-      <p>{{popuText}}</p>
+      <div><p>{{popuText}}</p></div>
       <a @click="addGroup=2">我知道了</a>
     </div>
   </div>
@@ -41,11 +42,11 @@
   import 'common/js/reset.js';
   import utils from 'common/js/utils.js';
   import 'common/js/wxShare/wxHelper-6.1.js';
+  import 'common/js/wxShare/secondShare.js';
   import {tryAgin} from 'common/js/httpErr.js';
-  import 'common/js/wxShare/oauth.js';
   import GHeader from 'components/GHeader/GHeader';
   import LiveList from 'components/LiveList/LiveList';
-  import Members from 'components/Members/Members'
+  import Members from 'components/Members/Members';
   import JoinCircle from 'components/JoinCircle/JoinCircle'
   export default {
     name: 'app',
@@ -53,14 +54,23 @@
       GHeader, LiveList, Members, JoinCircle
     },
     created(){//相当于init
-      this.getRoleInfo();
+      window.circleInfo.circleId = window.circleInfo.id
+      sessionStorage.setItem('circleId', window.circleInfo.id);
+      if(userId){
+        this.getRoleInfo();
+        this.getFollowerId();
+      }
     },
     data () {
       return {
         liveBa: 0,
         lives: [],
         circleInfo: window.circleInfo,
-        userRoleUrl: "//zm.gaiay.net.cn/api/v2/circle/member/role",
+        userId:userId,
+        followerId: utils._getQueryString("followerId"),
+        userRoleUrl: requstUrl + "/api/v2/circle/member/role?circleId="+window.circleInfo.id,//社群身份信息
+        followerIdUrl: requstUrl + "/api/sf/" + window.circleInfo.id + "/belong?userId=" + userId + "&circleIds=" + window.circleInfo.id + "&sfType=1",//查询当前用户是否分销商
+        conditionUrl: requstUrl + "/api/sf/" + window.circleInfo.id + "/condition",//查询当前社群是否开启加群资格
         tabs: [
           {tabName: "直播"},
           {tabName: "群成员"}
@@ -72,13 +82,20 @@
         roleInfo: {},
         showJoin: true,
         joinButtonText: "",
-        howJoin: 0
+        howJoin: 0,
+        token: utils.getCookie('zhangmen_token_cookie'),
       }
     },
     methods: {
+      /**
+       * tab切换
+       **/
       choose(index) {
         this.selected = index;
       },
+      /**
+       * 根据用户身份判断底部按钮文案
+       **/
       getRoleInfo(){
         this.$http.get(this.userRoleUrl)
           .then((res) => {
@@ -89,23 +106,67 @@
               if (role < 3) {//已经入群，不显示按钮，顺便将文本置空
                 this.showJoin = false;
                 this.joinButtonText = "";
-              } else if (role == 3) {//当前用户正在进行入群审核中
+              } else if (role == 4) {//当前用户正在进行入群审核中
                 this.showJoin = true;
                 this.joinButtonText = "审核中"
-              } else {//游客，显示加群按钮
+              } else if (role == 3) {//游客，显示加群按钮
                 this.showJoin = true;
                 this.joinButtonText = "加入社群";
               }
             } else {
-              console.log(response);
+              console.log(res);
             }
           })
           .catch(function (response) {
             console.log(response);
           })
       },
+      /**
+       * 加群按钮显示隐藏
+       **/
       joinChanged(flag){
         this.showJoin = flag;
+      },
+      /**
+       * 判断用户是否推客资格
+       **/
+      getFollowerId(){
+        this.$http.get(this.followerIdUrl)
+          .then((res) => {
+            if (res.body.code == 0) {
+              let data = res.body;
+              if (data.result) {
+                if (data.result.length >= 1) {
+                  sessionStorage.setItem("followerId", userId);
+                }
+              }
+            } else {
+              console.log(res);
+            }
+          })
+          .catch(function (response) {
+            this.getCricleFollower();
+            console.log(response);
+          })
+      },
+      /**
+       * 获取社群是否开启推客资格
+       */
+      getCricleFollower(){
+        this.$http.get(this.conditionUrl)
+          .then((res) => {
+            if (res.body.code == 0) {
+              let data = res.body;
+              if (data.joinState == 1) {
+
+              }
+            } else {
+              console.log(res);
+            }
+          })
+          .catch(function (response) {
+            console.log(response);
+          })
       }
     }
   }
@@ -221,14 +282,21 @@
     margin: -1.4rem -2.7rem;
     background: #fff;
     border-radius: 0.26rem;
+    z-index: 99;
+  }
+
+  .join_popups div {
+    padding: 0.3rem;
+    height: 1.9rem;
+    display: -webkit-box;
+    -webkit-box-align: center;
   }
 
   .join_popups p {
     font-size: 0.26rem;
     color: #000;
     text-align: center;
-    padding: 0.3rem;
-    height: 1.9rem;
+    line-height: 0.4rem;
   }
 
   .join_popups a {
