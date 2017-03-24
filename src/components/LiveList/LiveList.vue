@@ -95,7 +95,12 @@
       },
       clickLiveList(list){
         sessionStorage.setItem("list", JSON.stringify(list));
-        window.location.href = './bespeak.html';
+        if((list.state&2) == 2){
+          window.location.href = './bespeak.html';
+        }else{
+          window.location.href = './detail.html';
+        }
+
       }
     }
   });
