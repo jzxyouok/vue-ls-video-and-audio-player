@@ -1,21 +1,21 @@
 <template>
   <div id="app">
-    <detail-header :liveInfo="liveInfo" :authStatus="authStatus">
+    <detail-header :liveInfo="liveInfo" :userId="userId" :price="price" :circleId="circleId" :authStatus="authStatus">
     </detail-header>
     <article class="topMenu clearfix">
       <ul class="topMenuTabs fl">
         <li v-bind:class="{'active':0===selected}" class="xq" @click="tabChange(0)">详情</li>
-        <li v-bind:class="{'active':1===selected}" class="lt" @click="tabChange(1)">聊天</li>
+        <!--<li v-bind:class="{'active':1===selected}" class="lt" @click="tabChange(1)">聊天</li>-->
       </ul>
       <ul class="topMenuTool fr">
         <li class="share" @click="shareStatus = 0">分享</li>
-        <li class="shang">赏</li>
+        <!--<li class="shang">赏</li>-->
       </ul>
     </article><!-- 菜单栏 -->
     <div  v-show="selected==0">
       <article class="mainCont">
         <h3 class="moreListFree" v-if="descError  == 0">数据获取失败，点击<a @click="" href="javascript:;">重试</a></h3>
-        <d-summary  v-if="descError == -1"></d-summary>
+        <d-summary :circleId="circleId" :liveInfo="liveInfo" v-if="descError == -1"></d-summary>
       </article>
       <live-list v-if="descError == -1"></live-list>
     </div>
@@ -31,6 +31,7 @@
         <button class="sharePopBtn" @click="shareStatus = -1">关闭</button>
       </div>
     </section>
+    <mark-layer :addGroup="addGroup" :popuText="popuText"></mark-layer>
   </div>
 </template>
 
@@ -41,24 +42,28 @@
   import 'common/js/wxShare/wxHelper-6.1.js';
   import 'common/js/wxShare/secondShare.js';
   import zmOauth from 'common/js/wxShare/oauth.js';
-  import {tryAgin} from 'common/js/httpErr.js';
   import DSummary from 'components/DSummary/DSummary';
   import LiveList from 'components/LiveList/LiveList';
   import GroupChat from 'components/GroupChat/GroupChat';
   import DetailHeader from 'components/DHeader/DetailHeader';
+  import MarkLayer from 'components/MarkLayer/MarkLayer'
   export default {
     name: 'app',
     components: {
-      DSummary, LiveList, GroupChat, DetailHeader
+      DSummary, LiveList, GroupChat, DetailHeader,MarkLayer
     },
     data () {
       return {
         token: utils.getCookie('zhangmen_token_cookie'),
         userId: '',
         userRole: 4,
-        circleId: "b2887e15af4a18c89-8000",
-        liveInfo: {},
+        circleId: '',
+        join:0,
+        liveInfo: '',
         circleInfo: {},
+        price:0,
+        addGroup: 2,//0:失败 1:成功 -1：异常
+        popuText: '你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群',
         authStatus: 1,//1免费,2成员,4付费,8密码,16会员类型，预告不需要这个属性
         liveDetail: {},
         liveBa: 1,
@@ -69,13 +74,7 @@
       }
     },
     created: function () {
-      this.liveDetail = JSON.parse(sessionStorage.getItem("list"));
-      console.log(this.liveDetail);
-
-      this.get();
       this.loadStaticData();
-      console.log("加载的静态化直播数据为：");
-      console.log(this.liveInfo);
 
       this.getUserRole();
       if (this.liveInfo.view == 4 || this.liveInfo.view == 16) {
@@ -86,18 +85,22 @@
       tabChange(num){
         this.selected = num;
       },
-      get(){
-        this.circleInfo = JSON.parse(sessionStorage.getItem("circleInfo"));
-        this.liveDetail = JSON.parse(sessionStorage.getItem("list"));
-      },
       loadStaticData(){//获取页面的静态化数据并初始化为组件属性
-        this.liveInfo = window.liveInfo;
-        this.circleId = window.circleId;
+        if(this.liveDetail){
+          this.liveInfo = window.liveInfo;
+        } else {
+          this.liveInfo = JSON.parse(sessionStorage.getItem("list"));
+        }
+        this.circleId = utils._getQueryString('circleId');
+        sessionStorage.setItem('circleId',this.circleId);
+        window.circleInfo.id = this.circleId;
         this.userId = window.userId;
+        if(this.liveInfo.price != undefined){
+          this.price = this.liveInfo.price;
+        }
       },
       getUserRole(){//获取用户角色
-        var params = {token: this.token};
-        this.$http.get('//zm.gaiay.net.cn/api/v2/circle/member/role/', {params: params})
+        this.$http.get(requstUrl+'/api/v2/circle/member/role/', {params: {"circleId":this.circleId}})
           .then((res) => {
             var data = res.body;
             var code = data.code;
@@ -113,24 +116,25 @@
       },
       getViewAuth(password){//鉴定观看权限
         var params = {
-          liveId: this.liveId,
+          liveId: this.liveInfo.id,
+          dataType:this.liveInfo.view,
           token: this.token
         }
-        if (password) params.password = password;
+        if (password) params.body = password;
         this.$http.get('//zm.gaiay.net.cn/api/live/view/', {params: params})
           .then((res) => {
             var data = res.body;
             var code = data.code;
             var msg = data.message;
             if (data.views) {
-              var view = data.views[0];
-              this.viewByAuth(this.liveInfo.view, view.code);
+              var view = data.views[this.liveInfo.id];
+              this.viewByAuth(this.liveInfo.view, view);
             } else {
               //测试：
 //            data.views=[];
 //            var view= data.views[0]={code:16322};
 //            this.viewByAuth(this.liveInfo.view, view.code);
-              alert(msg);
+              console.log(msg);
             }
 
           });
@@ -209,9 +213,9 @@
 
 <style>
   /*伪类*/
-  .topMenuTabs li::before,.liveInfoSub li::before,.moreListSp::after,.topVLive::before,.topVFail .btn::before,.sharePopCent span::after,.noticeTimeBtn::before,.yugaoSuccTit::before,.yugaoSuccClose::after{display: block;content: "";position: absolute;left:0;}
+  .topMenuTabs li::before,.liveInfoSub li::before,.moreListSp::after,.topVLive::before,.topVFail .btn::before,.sharePopCent span::after,.noticeTimeBtn::before,.yugaoSuccTit::before,.topVBf::after,.yugaoSuccClose::after{display: block;content: "";position: absolute;left:0;}
   /*社群公用背景*/
-  .topMenuTabs li::before,.topMenuTool li,.liveInfoSub li::before,.introArrow,.moreListSp::after,.topVBf::after,.topVFail .btn::before,.sharePopCent span::after,.noticeTimeBtn::before,.yugaoSuccTit::before,.yugaoSuccClose::after{background-image:url(../detail/images/pubBack.png);background-repeat: no-repeat;background-size:1rem 5rem; }
+  .topMenuTabs li::before,.topMenuTool li,.liveInfoSub li::before,.introArrow,.moreListSp::after,.topVBf::after,.topVFail .btn::before,.sharePopCent span::after,.noticeTimeBtn::before,.yugaoSuccTit::before,.yugaoSuccClose::after{background-image:url(/static/images/pubBack.png);background-repeat: no-repeat;background-size:1rem 5rem; }
   /*菜单栏*/
   .topMenu {
     width: 100%;

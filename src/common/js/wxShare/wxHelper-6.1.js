@@ -63,9 +63,6 @@ wxHelper6.init = function init() {
 		url : wxHelper6.ajaxUrl+encodeURIComponent(window.location.href),
     success:callBack
 	});
-
-
-
 };
 
 wx.ready(function() {

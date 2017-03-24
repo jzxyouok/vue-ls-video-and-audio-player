@@ -1,8 +1,8 @@
 <template>
   <section class="liveInfo clearfix">
-    <h1 class="liveInfoTit twoline_text">{{liveDetail.title}}</h1>
+    <h1 class="liveInfoTit twoline_text">{{liveInfo.title}}</h1>
     <ul class="liveInfoSub clearfix">
-      <li class="date fl">{{ new Date(liveDetail.startTime).Format("yyyy-MM-dd hh:mm:ss")}}</li>
+      <li class="date fl">{{ new Date(liveInfo.startTime).Format("yyyy-MM-dd hh:mm:ss")}}</li>
       <!--<li class="num fl">128</li>-->
     </ul>
     <div class="introduction" v-if="desc">
@@ -20,23 +20,31 @@
 <script>
   export default {
     name: 'dheader',
+    props: {
+      circleId: {
+        type: String,
+        default: ''
+      },
+      liveInfo: {
+        type: Object,
+        default: {}
+      },
+    },
     data () {
       return {
         liveDetail: this.$parent.liveDetail,//获取父组件的这个对象
         circleInfo: {},//从缓存里面取出社群信息
-        liveId:liveInfo.id,//直播id
-        list: JSON.parse(sessionStorage.getItem('list')),//从缓存里面取出社群信息
+        liveId:'',//直播id
         descUrl: requstUrl + "/api/live/desc?liveId=",//获取直播详情简介
         showHeight: false,//控制简介高度
         desc:'',
-        circleId:circleId,
         circleInfoUrl:requstUrl +"/api/v2/circle/info",
       }
     },
-    computed: {},
     created: function () {
       this.getDescByLiveId();
       this.getCircleInfo();
+      this.liveId = this.liveInfo.id;
     },
     methods: {
       hrefCircle(){
@@ -56,11 +64,7 @@
        * 根据直播id获取直播简介
        **/
       getDescByLiveId(){
-        var liveId = this.liveId;
-        if(liveId == ''|| liveId == undefined){
-            console.log("0000"+liveId);
-          liveId = this.list.id;
-        }
+        var liveId = this.liveInfo.id;
         this.$http.get(this.descUrl+liveId)
           .then((response) => {
             var data = response.body;
@@ -81,10 +85,10 @@
         this.$http.get(this.circleInfoUrl, {params:{'circleId': this.circleId}})
           .then((response) => {
             var body = response.body;
-            console.log(this.circleId);
             if (body.code == 0) {
               this.circleInfo = body.result;
               window.circleInfo = body.result;
+              window.circleInfo.name = body.result.title;
               this.$parent.descError = -1;
             } else {
               this.$parent.descError = 0;

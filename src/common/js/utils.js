@@ -27,7 +27,7 @@ window.utils = {
     opt = opt || {};
     opt.type = opt.type.toUpperCase() || 'POST';
     opt.url = opt.url || '';
-    opt.async = (opt.async == false) || true;
+    opt.async = (opt.async == false) ? false : true;
     opt.data = opt.data || null;
     opt.success = opt.success || '';
     opt.error = opt.error || '';
@@ -43,12 +43,15 @@ window.utils = {
       params.push(key + '=' + opt.data[key]);
     }
     var postData = params.join('&');
-    if (opt.type.toUpperCase() === 'POST') {
+    if (opt.type.toUpperCase() === 'POST' || opt.type.toUpperCase() === 'PUT') {
       xmlHttp.open(opt.type, opt.url, opt.async);
       xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
       xmlHttp.send(postData);
     }
-    else if (opt.type.toUpperCase() === 'GET') {
+    else if (opt.type.toUpperCase() === 'GET'|| opt.type.toUpperCase() === 'DELETE') {
+      xmlHttp.open(opt.type, opt.url, opt.async);
+      xmlHttp.send();
+    }else {
       xmlHttp.open(opt.type, opt.url, opt.async);
       xmlHttp.send();
     }
@@ -133,3 +136,4 @@ Date.prototype.Format = function(fmt)
 }
 // utils.zmServerCfg();
 export default utils;
+

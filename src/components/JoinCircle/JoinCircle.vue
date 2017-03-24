@@ -48,6 +48,7 @@
     },
     data(){
       return {
+        timer:0,
         baseUrls: {
           joinOnPayUrl: requstUrl+'/zhangmen/circle/circle-pay',            //付费加群跳转页面URL
           joinOnVipUrl: requstUrl+'/vip/'+this.circleId+'/product/list',   //会员加群跳转页面URL
@@ -59,14 +60,14 @@
         validStatus: false      //校验加群资格改变的标记
       }
     },
-    watch: {
-//      "validStatus": "doJoin"
-    },
     methods: {
       /**
        * 加群事件函数
        */
       joinEvent(){
+          if(this.timer!=0){
+              return;
+          }
           console.log(this.userId);
         if (this.text == "审核中")return;
         if(userId == undefined || userId == ""){
@@ -110,6 +111,14 @@
         url += "&followerId=" + this.followerId;
         window.location.href = url;
       },
+      clearStatus(){
+        var _that = this;
+        this.timer = window.setTimeout(function () {
+            window.clearTimeout(_that.timer);
+            _that.timer = 0;
+            _that.$parent.addGroup = 2;
+        },2000);
+      },
       /**
        * 判断用户是否有入群资格
        */
@@ -133,8 +142,9 @@
               this.$parent.addGroup = -1;
               this.$parent.popuText = "群成员已满";
             } else {
-              this.$parent.addGroup = -1;
-              this.$parent.popuText = "你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群";
+              this.$parent.addGroup = 0;
+              this.$parent.popuText = '加群失败！';
+              this.clearStatus();
             }
           } else {//通过加群资格验证：
             this.validStatus = true;
@@ -165,6 +175,7 @@
             if (data.code == 0) {
               this.$parent.addGroup = 1
               this.$parent.showJoin = false;
+              this.clearStatus();
             } else if (data.code == "16021") {//提示文案： 已加入该社群
               this.$parent.addGroup = -1;
               this.$parent.popuText = '已加入该社群';
@@ -178,6 +189,7 @@
               this.$parent.joinButtonText = "审核中";
             } else {
               this.$parent.addGroup = 0;
+              this.clearStatus();
             }
           }, function (err) {
             var code = err.status;
