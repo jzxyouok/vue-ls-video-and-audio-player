@@ -94,13 +94,17 @@
           })
       },
       clickLiveList(list){
-        sessionStorage.setItem("list", JSON.stringify(list));
-        if((list.state&2) == 2){
-          window.location.href = './bespeak.html';
-        }else{
-          window.location.href = './detail.html';
+        try {
+          sessionStorage.setItem("list", JSON.stringify(liveInfo));
+        }catch (e){
+          sessionStorage.setItem("list", JSON.stringify(list));
+        }finally {
+          if((list.state&2) == 2){
+            window.location.href = './bespeak.html';
+          }else{
+            window.location.href = './detail.html';
+          }
         }
-
       }
     }
   });

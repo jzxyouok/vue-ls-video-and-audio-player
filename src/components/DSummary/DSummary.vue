@@ -57,9 +57,9 @@
        **/
       getDescByLiveId(){
         var liveId = this.liveId;
-        console.log(liveId)
-        if(liveId){
-            liveId = this.list.id;
+        if(liveId == ''|| liveId == undefined){
+            console.log("0000"+liveId);
+          liveId = this.list.id;
         }
         this.$http.get(this.descUrl+liveId)
           .then((response) => {

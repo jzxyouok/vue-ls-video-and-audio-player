@@ -208,12 +208,10 @@
 </script>
 
 <style>
+  /*伪类*/
+  .topMenuTabs li::before,.liveInfoSub li::before,.moreListSp::after,.topVLive::before,.topVFail .btn::before,.sharePopCent span::after,.noticeTimeBtn::before,.yugaoSuccTit::before,.yugaoSuccClose::after{display: block;content: "";position: absolute;left:0;}
   /*社群公用背景*/
-  .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after,   .topVFail .btn::before, .sharePopCent span::after {
-    background-image: url(../detail/images/pubBack.png);
-    background-repeat: no-repeat;
-    background-size: 1rem 5rem;
-  }
+  .topMenuTabs li::before,.topMenuTool li,.liveInfoSub li::before,.introArrow,.moreListSp::after,.topVBf::after,.topVFail .btn::before,.sharePopCent span::after,.noticeTimeBtn::before,.yugaoSuccTit::before,.yugaoSuccClose::after{background-image:url(../detail/images/pubBack.png);background-repeat: no-repeat;background-size:1rem 5rem; }
   /*菜单栏*/
   .topMenu {
     width: 100%;
