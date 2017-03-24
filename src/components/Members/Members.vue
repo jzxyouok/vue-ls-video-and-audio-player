@@ -52,7 +52,7 @@
       getMembers: function () {
         this.$http.get(this.memberListUrl, {params:{
           'circleId': this.circleId,
-          'num': this.pageNo
+          'pageNo': this.pageNo
         }})
           .then((response) => {
             if (response.body.code == 0) {

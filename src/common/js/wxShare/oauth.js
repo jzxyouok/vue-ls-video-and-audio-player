@@ -47,7 +47,7 @@ window.oauth = function () {
   };
   this.zmOauth = function () {
     //统一到注册界面
-    window.location.href = this.getOption("domain") + "/zhangmen/cards/create/commmunity?circleId=" + decodeURIComponent(window.circleInfo.id) + "&source=BY_COMMUNITY&redirectUrl=" + this.innerRedirectUrl;
+    window.location.href = this.getOption("domain") + "/zhangmen/cards/create/commmunity?circleId=" + encodeURIComponent(window.circleInfo.id) + "&source=BY_COMMUNITY&redirectUrl=" + this.innerRedirectUrl;
   };
   this.auth = function () {
     if (navigator.userAgent.indexOf("MicroMessenger") > 0) {

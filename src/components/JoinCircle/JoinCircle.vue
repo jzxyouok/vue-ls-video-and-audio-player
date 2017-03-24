@@ -95,7 +95,7 @@
         url += "circleId=" + this.circleId;
         url += "&userId=" + userId;
         url += "&bizType=joinCirclePay";
-        url += "&liveChargeCallback=" + this.baseUrls.hostUrl;
+        url += "&liveChargeCallback=" + encodeURIComponent(this.baseUrls.hostUrl);
         url += "&followerId=" + this.followerId;
         window.location.href = url;
       },
@@ -106,7 +106,7 @@
         var url = this.baseUrls.joinOnVipUrl + '?';
         url += "userId=" + this.userId;
         url += "&noJoin=0";
-        url += "&liveChargeCallback=" + this.baseUrls.hostUrl;
+        url += "&liveChargeCallback=" + encodeURIComponent(this.baseUrls.hostUrl);
         url += "&followerId=" + this.followerId;
         window.location.href = url;
       },
@@ -143,10 +143,10 @@
         }, (err)=> {
           var code = err.status;
           var text = err.statusText;
-          tryAgin(code, this.hasJoinAuth(), (text)=> {
+          /*tryAgin(code, this.hasJoinAuth(), (text)=> {
             this.$parent.addGroup = -1;
             this.$parent.popuText = text;
-          });
+          });*/
         })
       },
 
@@ -182,10 +182,10 @@
           }, function (err) {
             var code = err.status;
             var text = err.statusText;
-            tryAgin(code, this.doJoin(), (text)=> {
+            /*tryAgin(code, this.doJoin(), (text)=> {
               this.$parent.addGroup = -1;
               this.$parent.popuText = text;
-            });
+            });*/
           })
         }
       }

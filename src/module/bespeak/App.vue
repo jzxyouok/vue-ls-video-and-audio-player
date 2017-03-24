@@ -53,7 +53,7 @@
     },
     data () {
       return {
-        token: utils.getCookie('zhangmen_token_cookie'),
+        token: 'f4414108169d784e58a27e9ed9b90b4d',
         userId: '',
         userRole: 4,
         circleId: "b2887e15af4a18c89-8000",

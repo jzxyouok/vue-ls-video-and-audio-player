@@ -256,5 +256,15 @@
   "message": "加群成功",
   "type": 2,
   "circleId": "111111111"
+ },
+ "viewAuth": {
+  "code": 0,
+  "views": [
+   {
+    "liveId": "",
+    "code": 16301
+   }
+  ],
+  "message": ""
  }
 }

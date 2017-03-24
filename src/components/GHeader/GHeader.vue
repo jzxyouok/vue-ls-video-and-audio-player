@@ -22,7 +22,7 @@
                     background:'url('+this.logo+') no-repeat center',
                     backgroundSize:'100% 4.2rem'
                 },
-                tHeight : 0.86,
+                tHeight : 1.12,
                 upHtBtn : false,
                 num : 1,
                 dnHtBtn : true
@@ -55,12 +55,12 @@
                 if(this.num){
                     this.upHtBtn = true;
                     this.dnHtBtn = false;
-                    this.tHeight = 2.2;
+                    this.tHeight = 2.8;
                     this.num--;
                 }else{
                     this.upHtBtn = false;
                     this.dnHtBtn = true;
-                    this.tHeight = 0.86;
+                    this.tHeight = 1.12;
                     this.num++;
                 }
             }
