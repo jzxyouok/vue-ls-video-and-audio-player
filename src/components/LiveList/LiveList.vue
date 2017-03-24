@@ -4,29 +4,31 @@
       群主还在马不停蹄，准备直播内容中
     </div>
     <div class="live_list_con" v-else="">
-      <p class="live_more" v-if="liveBa == 0"><a href="javascript:;" @click="utils.downloadApp()">查看全部直播</a></p>
+      <p class="live_more" v-if="liveBa == 0"><a href="javascript:;" @click="moreLiveList">查看全部直播</a></p>
       <h2 class="moreListTit" v-if="liveBa == 1">更多直播</h2>
       <ul class="live_list">
         <li v-for="list in lives">
           <a @click="clickLiveList(list)">
             <div class="lt_img">
               <img v-bind:src="list.pic">
-              <p v-if="list.state == 1" class="mode red">直播</p>
-              <p v-if="list.state == 2" class="mode blue">预告</p>
-              <p v-if="list.state == 4" class="mode orgin">回放</p>
-              <p v-if="list.type == 1" class="ioc video_ioc"></p>
-              <p v-if="list.type == 2" class="ioc aideo_ioc"></p>
+              <p v-if="(list.state&1) == 1" class="mode red">直播</p>
+              <p v-if="(list.state&2) == 2" class="mode blue">预告</p>
+              <p v-if="(list.state&4) == 4" class="mode orgin">回放</p>
+              <p v-bind:class="{'video_ioc':list.type == 1,'aideo_ioc':list.type == 2}" class="ioc"></p>
             </div>
             <div class="lt_text">
               <p class="title">{{list.title}}</p>
               <div class="lt_time">
-                <p>{{ new Date(list.startTime).toLocaleString()}}</p>
+                <p>{{ new Date(list.startTime).Format("yyyy-MM-dd hh:mm:ss")}}</p>
                 <p v-if="list.num">{{list.num}}</p>
               </div>
             </div>
           </a>
         </li>
       </ul>
+      <p class="more" v-if="lives.length == 15" v-on:click="moreLiveList">
+          <a class="more_btn">更多</a>
+      </p>
     </div>
   </div>
 </template>
@@ -35,22 +37,31 @@
     name: 'liveList',
     data () {
       return {
-        liveBa:this.$parent.liveBa,
-        liveIds: [],
-        lives: [],
-        circleId: 'eef332154510eeb62-7ff7',
-        utils: this.$parent.utils
+        liveBa:this.$parent.liveBa,//直播列表是在社群主页用
+        liveIds: [],//存储直播id的集合
+        lives: [],//存储直播详情的集合
+        liveIdstUrl:requstUrl+"/api/live/circle/liveIds",//获取直播id api
+        liveListUrl:requstUrl+"/api/live/info",//获取直播详情api
+        circleId: sessionStorage.getItem('circleId'),
+        followerId:sessionStorage.getItem('followerId'),
+        allLiveListUrl:requstUrl+"/html/live/livesList.html",
       }
     },
-
     created: function () {
       this.getLiveIds();
     },
     methods: {
+      moreLiveList(){
+        window.location.href = this.allLiveListUrl+"?id="+this.circleId+"&followerId="+this.followerId;
+      },
+      /**
+       * 获取直播ids
+       **/
       getLiveIds: function () {
-        this.$http.get('//zm.gaiay.net.cn/api/live/circle/liveIds', {params:{'circleId': this.circleId, 'size': 15}})
+        this.$http.get(this.liveIdstUrl, {params:{'circleId': this.circleId, 'size': 15}})
           .then((response) => {
             var body = response.body;
+            console.log(body);
             if (body.code == 0) {
               var results = body.liveIds;
               var end = results.length > 15 ? 15 : results.length;
@@ -66,8 +77,11 @@
             console.log(response);
           })
       },
+      /**
+       * 获取直播列表详情
+       **/
       getLiveList: function () {
-        this.$http.get('//zm.gaiay.net.cn/api/live/info', {params: {'circleId': this.circleId, 'liveId': this.liveIds, 'dataType': 11}})
+        this.$http.get(this.liveListUrl, {params: {'circleId': this.circleId, 'liveId': this.liveIds, 'dataType': 11}})
           .then((response) => {
             if (response.body.code == 0) {
               this.lives = response.data.lives;
@@ -80,8 +94,17 @@
           })
       },
       clickLiveList(list){
-        sessionStorage.setItem("list", JSON.stringify(list));
-        window.location.href = './detail.html'
+        try {
+          sessionStorage.setItem("list", JSON.stringify(liveInfo));
+        }catch (e){
+          sessionStorage.setItem("list", JSON.stringify(list));
+        }finally {
+          if((list.state&2) == 2){
+            window.location.href = './bespeak.html';
+          }else{
+            window.location.href = './detail.html';
+          }
+        }
       }
     }
   });
@@ -123,7 +146,7 @@
   }
 
   .live_list {
-    padding: 0.2rem 0 1rem;
+    padding: 0.2rem 0;
   }
 
   .live_list li {
@@ -133,6 +156,7 @@
 
   .live_list li a {
     display: -webkit-box;
+    width: 100%;
   }
 
   .lt_img {
@@ -211,7 +235,7 @@
   }
 
   .lt_time p:nth-child(1) {
-    width: 2.3rem;
+    width: 2.7rem;
     float: left;
     background: url("../../module/home/images/g_ioc_5.png") no-repeat left center;
     background-size: 0.28rem 0.28rem;
@@ -221,5 +245,22 @@
     float: right;
     background: url("../../module/home/images/g_ioc_6.png") no-repeat left center;
     background-size: 0.28rem 0.28rem;
+  }
+  .more {
+    padding-bottom: 0.96rem;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+  }
+  .more a {
+    display: block;
+    height: 0.88rem;
+    line-height: 0.88rem;
+    font-size: 0.28rem;
+  }
+  .more_btn {
+    color: #787878;
+    background: url("../../module/home/images/g_ioc_7.png") no-repeat right center;
+    background-size: 0.14rem 0.24rem;
+    padding-right: 0.3rem;
   }
 </style>

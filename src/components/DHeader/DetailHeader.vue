@@ -26,7 +26,7 @@
     <section class="topVStatus" v-show="authStatus==4">
       <div class="topVStatusCont">
         <h3 class="tit">本直播为收费直播，付费即可以观看</h3>
-        <button class="btn" @click="payEvt">支付¥1.0观看</button>
+        <button class="btn" @click="payEvt">支付¥{{price}}观看</button>
       </div>
     </section>
     <section class="topVStatus" v-show="authStatus==16">
@@ -48,6 +48,7 @@
 <script>
   import {videoPlayer} from 'vue-video-player'
   import GaiayPlayer from 'components/GaiayPlayer/GaiayPlayer';
+  import {joinEvent} from 'common/js/joinCircle.js';
   export default {
     name: 'detailheader',
     components: {
@@ -74,6 +75,10 @@
       authStatus: {
         type: Number,
         default: 1
+      },
+      price: {
+        type: Number,
+        default: 0
       }
     },
     data() {
@@ -98,13 +103,26 @@
     methods: {
       passEvt(){ //密码框按钮点击事件
         var val = this.passValue;
-        if (val)
-          this.$parent.getViewAuth();
-        else
+        if (val){
+          if(userId == undefined || userId == ""){
+            var auth = new oauth();
+            auth.init("", 1);
+            return auth.auth();
+          }
+          this.$parent.getViewAuth(val);
+        }
+        else{
           alert("请输入密码");
+        }
       },
-      joinEvt(){//加群点击事件
-        alert("加群");
+      joinEvt(){
+          let _this = this;
+          joinEvent(this.userId,utils._getQueryString('followerId'),this.circleId,this.$parent.join, function(addGroup, popuText, authStatus){
+            _this.$parent.addGroup = addGroup;
+            _this.$parent.popuText = popuText;
+            _this.$parent.authStatus = authStatus;
+          });
+  //      console.log(obj);
       },
       payEvt(){
 //        alert("进入支付流程");
@@ -116,68 +134,46 @@
       },
       //跳转交费
       viewAuth_charge: function () {
-        var url = "/zhangmen/live/view/charge";
+        var url = requstUrl+"/zhangmen/live/view/charge";
         var param = "liveName=" + this.liveInfo.title
             + "&userId=" + this.userId
             + "&liveId=" + this.liveInfo.id
             + "&circleId=" + this.circleId
             + "&liveChargeCallback="
-            + this.replaceLiveId(window.location.href, this.liveInfo.id)
-//            + "&followerId=" + this.followerId;
+            + encodeURIComponent(window.location.href)
+            + "&followerId=" + this.followerId;
         if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
-           param += "&type=1";
+          param += "&type=1";
         }
         window.location.href = url + "?" + param;
       },
       //会员购买
       viewVipList_change: function () {
-        var url = "/vip/" + this.circleId + "/product/list";
+        var url = requstUrl+"/vip/" + this.circleId + "/product/list";
         if ((this.liveInfo.state & 2) == 2) {
           var param = "userId=" + this.userId
               + "&circleId=" + this.circleId
               + "&liveId=" + this.liveInfo.id
-//              + "&followerId=" + this.followerId;
+              + "&followerId=" + this.followerId;
         } else {
           var param = "userId=" + this.userId
               + "&circleId=" + this.circleId
               + "&liveId=" + this.liveInfo.id
-              + "&liveUrl=" + this.replaceLiveId(window.location.href, this.liveInfo.id)
-//              + "&followerId=" + this.followerId;
+              + "&liveUrl=" + encodeURIComponent(window.location.href)
+              + "&followerId=" + this.followerId;
         }
         if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
           param += "&type=1";
         }
         window.location.href = url + "?" + param;
       },
-      //替换现在播放的直播地址
-      replaceLiveId: function (url, liveId) {
-        var s = url.indexOf("liveId=");
-        var key = "";
-        if (s != -1) {
-          e = url.indexOf("&", s);
-          if (e != -1)
-            key = url.substring(s + 7, e);
-          else
-            key = url.substring(s + 7);
-        }
-        if (key != "")
-          url = url.replace("liveId=" + key, "liveId=" + liveId);
-        else {
-          if (url.indexOf("?") != -1)
-            url += "&liveId=" + liveId;
-          else
-            url += "?liveId=" + liveId;
-        }
-        return encodeURIComponent(url);
-      }
-
     },
     computed: {
       dealLiveSrc(){
         let src = "";
         let liveInfo = this.liveInfo;
-        if ((liveInfo.state & 1) == 1)src = liveInfo.hls;
-        else if ((liveInfo.state & 4) == 4) src = liveInfo.playbackUrl;
+        if ((liveInfo.state & 1) == 1)src = liveInfo.play.hls;
+        else if ((liveInfo.state & 4) == 4) src = liveInfo.playBackUrl;
         return src;
       }
     }
@@ -204,6 +200,7 @@
     border-bottom-right-radius: .5rem;
     padding: .05rem .14rem .06rem .17rem;
     color: #fff;
+    z-index: 999;
   }
 
   .topVLive {

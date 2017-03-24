@@ -19,9 +19,10 @@
         data () {
             return {
                 bgStyle: {
-                    background:'url('+this.logo+') no-repeat center'
+                    background:'url('+this.logo+') no-repeat center',
+                    backgroundSize:'100% 4.2rem'
                 },
-                tHeight : 0.86,
+                tHeight : 1.12,
                 upHtBtn : false,
                 num : 1,
                 dnHtBtn : true
@@ -54,12 +55,12 @@
                 if(this.num){
                     this.upHtBtn = true;
                     this.dnHtBtn = false;
-                    this.tHeight = 2.2;
+                    this.tHeight = 2.8;
                     this.num--;
                 }else{
                     this.upHtBtn = false;
                     this.dnHtBtn = true;
-                    this.tHeight = 0.86;
+                    this.tHeight = 1.12;
                     this.num++;
                 }
             }
@@ -119,7 +120,11 @@
     padding: 0.2rem 1.23rem 0;
     line-height: 0.33rem;
     height: 0.86rem;
-    overflow: hidden;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   .home_top .ht_open_btn {

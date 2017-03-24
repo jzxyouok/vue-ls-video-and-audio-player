@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>掌门直播详情页</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta http-equiv="imagetoolbar" content="no"/>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="0"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <script>
+    window.liveInfo = {
+      title: "直播标题",
+      id: "直播id",
+      pic: "http://ss.zm518.cn/aedcc0e204ad43b4a9b1fb195cbd9971/image/20170301/11/0101.00001.jpeg",
+      startTime: "", //直播开始时间
+      state: 65, //直播状态，1直播、2预告、4回放
+      type: 1,  //直播类型，1视频、2音频、4vr
+      view: 16,  //直播观看方式，1免费,2成员,4付费,8密码,16会员类型，预告不需要这个属性
+      hls: "http://pili-live-hls.live.zm.gaiay.cn/gaiay-pro/58d399fd20a05d185608ab8c.m3u8", //直播才有该属性
+      playbackUrl: "http://pili-live-hls.live.zm.gaiay.cn/gaiay-pro/58d399fd20a05d185608ab8c.m3u8"//回放才有该属性
+    };
+    window.circleId = "";
+    window.userId = ""; //判断用户是否登录
+  </script>
+</head>
+<body>
+<script>
+  var requstUrl = '//zm.gaiay.net.cn';
+  var liveInfo ={
+      title: "直播标题",
+      id: "直播id",
+      pic: "直播封面，可能为空",
+      startTime: "直播开始时间",
+      state: 2,//直播状态，1直播、2预告、4回放
+      type: 1,//直播类型，1视频、2音频、4vr
+      view: 1, //直播观看方式，1免费,2成员,4付费,8密码,16会员类型，预告不需要这个属性
+      hls: "http://pili-live-hls.live.zm.gaiay.cn/gaiay-pro/58d1de1da3d5ec03e9001a24.m3u8", //直播才有该属性
+      playbackUrl: "http://pili-live-hls.live.zm.gaiay.cn/gaiay-pro/58d1de1da3d5ec03e9001a24.m3u8"//回放才有该属性
+  };
+  var circleId = '7a609c1555845ea76-7ffe';
+  var userId = '39f185150f49b2f6b-7eac'; //判断用户是否登录
+  window.circleInfo = {};
+</script>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+<script type="text/javascript" src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+</body>
+</html>
