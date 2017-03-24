@@ -106,6 +106,15 @@
       joinEvt(){//加群点击事件
         alert("加群");
       },
+      joinEvt(){
+        var url = "/api/v2/w/circle/member";
+        this.$http.put(url, {params:{circleId:this.circleId, userId:this.userId, followerId:this.followerId}})
+        .then((res)=> {
+          this.$parent.authStatus = 1;
+        }, (res)=> {
+
+        })
+      },
       payEvt(){
 //        alert("进入支付流程");
         this.viewAuth_charge();
@@ -125,7 +134,7 @@
             + this.replaceLiveId(window.location.href, this.liveInfo.id)
 //            + "&followerId=" + this.followerId;
         if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
-           param += "&type=1";
+          param += "&type=1";
         }
         window.location.href = url + "?" + param;
       },
@@ -170,6 +179,7 @@
         }
         return encodeURIComponent(url);
       }
+
 
     },
     computed: {
