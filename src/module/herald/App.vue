@@ -7,7 +7,7 @@
     <article class="mainCont mainCont-yg">
       <section class="noticeTime">
         <count-down :targetTime="liveInfo.startTime" :callBack="countDownEvent"></count-down>
-        <button class="noticeTimeBtn" @click="popShareLayer">呼叫小伙伴一起看直播</button>
+        <button class="noticeTimeBtn" @click="shareFlag=true">呼叫小伙伴一起看直播</button>
       </section>
       <section class="liveInfo clearfix">
         <h1 class="liveInfoTit twoline_text">{{liveInfo.title}}</h1>
@@ -23,65 +23,12 @@
           <dd class="oneline_text autoFlex" @click="linkCirclePageEvent">{{circleName}}</dd>
         </dl>
       </section><!-- 信息 -->
-      <article class="moreList">
-        <h2 class="moreListTit">更多直播</h2>
-        <section class="moreListCont" id="moreListCont">
-          <dl>
-            <dt><img src="./images/del_img/1.jpg" alt=""><span class="tips blue">预告</span><em class="moreListSp">视频ICON</em></dt>
-            <dd>
-              <h2 class="tit">陈家大宝不鲁小朋友的创意童年回忆记录</h2>
-              <ul class="liveInfoSub clearfix">
-                <li class="date fl">2017-02-12&nbsp;10:21</li>
-                <li class="num fr">128</li>
-              </ul>
-            </dd>
-          </dl>
-          <dl>
-            <dt><img src="./images/del_img/1.jpg" alt=""><span class="tips blue">预告</span><em class="moreListSp">视频ICON</em></dt>
-            <dd>
-              <h2 class="tit">陈家大宝不鲁小朋友的创意童年回忆记录</h2>
-              <ul class="liveInfoSub clearfix">
-                <li class="date fl">2017-02-12&nbsp;10:21</li>
-                <li class="num fr">128</li>
-              </ul>
-            </dd>
-          </dl>
-          <dl>
-            <dt><img src="./images/del_img/1.jpg" alt=""><span class="tips yellow">回放</span><em class="moreListSp">视频ICON</em></dt>
-            <dd>
-              <h2 class="tit">陈家大宝不鲁小朋友的创意童年回忆记录</h2>
-              <ul class="liveInfoSub clearfix">
-                <li class="date fl">2017-02-12&nbsp;10:21</li>
-                <li class="num fr">128</li>
-              </ul>
-            </dd>
-          </dl>
-          <dl>
-            <dt><img src="./images/del_img/1.jpg" alt=""><span class="tips red">直播</span><em class="moreListSp">视频ICON</em></dt>
-            <dd>
-              <h2 class="tit">陈家大宝不鲁小朋友的创意童年回忆记录</h2>
-              <ul class="liveInfoSub clearfix">
-                <li class="date fl">2017-02-12&nbsp;10:21</li>
-                <li class="num fr">128</li>
-              </ul>
-            </dd>
-          </dl>
-        </section>
-      </article><!-- 更多视频 -->
+      <!--<live-list :moreFlag="true"></live-list>-->
+      <lives-list></lives-list>
     </article><!-- 内容 -->
-    <section class="sharePop sharePic" style="display:none">
-      <img src="./images/liveDetails/sharePic.png"/>
+    <section class="sharePop sharePic" v-show="shareFlag" @click="shareFlag=false">
+      <img src="images/liveDetails/sharePic.png"/>
     </section><!-- 分享弹出层 -->
-    <section class="sharePop" style="display:none">
-      <div class="sharePopBox yugaoSucc">
-        <img src="./images/liveDetails/newLive.png" class="yugaoSuccPic"/>
-        <h2 class="yugaoSuccTit">预约成功</h2>
-        <h3 class="yugaoSuccDown">下载APP，接收直播提醒</h3>
-        <button class="yugaoSuccBtn" @click="downAppEvent">立即下载</button>
-        <button class="yugaoSuccClose">X</button>
-      </div>
-    </section><!-- 预约成功弹出层 -->
-    <!--<button class="fixedFd fixedFdRed" @click="operButtonEvent">开通会员预约直播</button>-->
     <oper-button></oper-button>
   </div>
 </template>
@@ -90,13 +37,17 @@
   import 'common/js/reset.js';
   import utils from 'common/js/utils.js';
   import 'common/js/wxShare/wxHelper-6.1.js';
+//  import 'common/js/wxShare/secondShare.js';
   import 'common/js/wxShare/oauth.js';
   import CountDown from 'components/Herald/CountDown';
   import OperButton from 'components/Herald/OperButton';
+//  import LiveList from 'components/LiveList/LiveList';
+  import LivesList from 'components/LiveList/LivesList';
   export default {
     name: 'app',
     components: {
-      CountDown,OperButton
+      CountDown, OperButton, LivesList
+//      ,LiveList,
     },
     created(){
       this.loadStaticData();
@@ -106,14 +57,20 @@
     data () {
       return {
         userId: '',
+        userRole: 4,
         circleId: '',
         circleName: '社群名称得取。。',
         circleLogo: ' ',
         liveInfo: {},   //预告信息
         introCont: '直播简介得取。。。。。', //社群介绍
+        shareFlag:false,
+
       }
     },
     methods: {
+      loadUserRole(){
+        this.userRole = 4;
+      },
       /*
        * 请求社群信息
        * */
@@ -135,12 +92,12 @@
         var url = "";
         var params = {liveId: this.liveInfo.id};
         this.$http.get(url, {params: params})
-        .then((response) => {
-          var data = response.body;
-          if (data.descs) {
-            this.introCont = data.descs[params.liveId];
-          }
-        })
+          .then((response) => {
+            var data = response.body;
+            if (data.descs) {
+              this.introCont = data.descs[params.liveId];
+            }
+          })
       },
 
       /**
@@ -152,18 +109,12 @@
         this.userId = window.userId;
       },
 
-      /**
-       * 下载App 调用事件
-       */
-      downAppEvent(){
-          alert("下载App");
-      },
 
       /**
        * 点击社群名称跳转页面事件
        */
       linkCirclePageEvent(){
-          alert("跳转社群主页");
+        alert("跳转社群主页");
       },
 
       /**
@@ -178,20 +129,6 @@
        */
       countDownEvent(){
         console.log("倒计时结束");
-      },
-
-      /**
-       * 弹出提示分享遮罩层
-       */
-      popShareLayer(){
-        alert("提示分享");
-      },
-
-      /**
-       * 弹出预约成功提示层
-       */
-      popSuccessLayer(){
-        alert("预约成功");
       }
 
     }

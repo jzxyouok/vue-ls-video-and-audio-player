@@ -47,7 +47,13 @@
         allLiveListUrl:requstUrl+"/html/live/livesList.html",
       }
     },
+    props:{
+      moreFlag:true //为了在其他页面切换 liveBa
+    },
     created: function () {
+      if(this.moreFlag){
+        this.liveBa=1;
+      }
       this.getLiveIds();
     },
     methods: {
