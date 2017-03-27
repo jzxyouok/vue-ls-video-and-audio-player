@@ -3,7 +3,7 @@
     <button class="fixedFd fixedFdRed" @click="operButtonEvent">{{text}}</button>
     <section class="sharePop" v-show="popFlag">
       <div class="sharePopBox yugaoSucc">
-        <img src="/images/liveDetails/newLive.png" class="yugaoSuccPic"/>
+        <img src="/static/images/herald/newLive.png" class="yugaoSuccPic"/>
         <h2 class="yugaoSuccTit">预约成功</h2>
         <h3 class="yugaoSuccDown">下载APP，接收直播提醒</h3>
         <button class="yugaoSuccBtn" @click="_EventDownApp">立即下载</button>

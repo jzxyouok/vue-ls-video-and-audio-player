@@ -106,7 +106,7 @@
           sessionStorage.setItem("list", JSON.stringify(list));
         }finally {
           if((list.state&2) == 2){
-            window.location.href = './bespeak.html';
+            window.location.href = './herald.html';
           }else{
             window.location.href = './detail.html';
           }

@@ -27,7 +27,7 @@
       <lives-list></lives-list>
     </article><!-- 内容 -->
     <section class="sharePop sharePic" v-show="shareFlag" @click="shareFlag=false">
-      <img src="images/liveDetails/sharePic.png"/>
+      <img src="/static/images/herald/sharePic.png"/>
     </section><!-- 分享弹出层 -->
     <oper-button></oper-button>
   </div>
@@ -177,7 +177,7 @@
 
   /*社群公用背景*/
   .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after {
-    background-image: url(./images/liveDetails/pubBack.png);
+    background-image: url(/static/images/pubBack.png);
     background-repeat: no-repeat;
     background-size: 1rem 5rem;
   }

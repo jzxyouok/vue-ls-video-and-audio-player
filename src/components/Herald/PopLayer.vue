@@ -1,11 +1,11 @@
 <template>
   <div>
     <section class="sharePop sharePic" style="display:none">
-      <img src="./images/liveDetails/sharePic.png"/>
+      <img src="/static/images/herald/sharePic.png"/>
     </section><!-- 分享弹出层 -->
     <section class="sharePop" style="display:none">
       <div class="sharePopBox yugaoSucc">
-        <img src="./images/liveDetails/newLive.png" class="yugaoSuccPic"/>
+        <img src="/static/images/herald/newLive.png" class="yugaoSuccPic"/>
         <h2 class="yugaoSuccTit">预约成功</h2>
         <h3 class="yugaoSuccDown">下载APP，接收直播提醒</h3>
         <button class="yugaoSuccBtn" @click="downAppEvent">立即下载</button>
