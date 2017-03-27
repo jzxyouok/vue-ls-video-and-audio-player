@@ -61,6 +61,7 @@
         join:0,
         liveInfo: '',
         circleInfo: {},
+        followerId:'',
         price:0,
         addGroup: 2,//0:失败 1:成功 -1：异常
         popuText: '你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群',
@@ -75,7 +76,10 @@
     },
     created: function () {
       this.loadStaticData();
-
+      if(this.userId){
+        this.getRoleInfo();
+        this.getFollowerId();
+      }
       this.getUserRole();
       if (this.liveInfo.view == 4 || this.liveInfo.view == 16) {
         this.getViewAuth();
@@ -118,6 +122,7 @@
         var params = {
           liveId: this.liveInfo.id,
           dataType:this.liveInfo.view,
+          circleId: this.circleId,
           token: this.token
         }
         if (password) params.body = password;
@@ -206,6 +211,49 @@
           default:
             break;
         }
+      },
+
+      /**
+       * 判断用户是否推客资格
+       **/
+      getFollowerId(){
+        this.$http.get("/api/sf/" + this.circleId + "/belong?userId=" + this.userId + "&circleIds=" + this.circleId + "&sfType=1")
+          .then((res) => {
+            if (res.body.code == 0) {
+              let data = res.body;
+              if (data.result) {
+                if (data.result.length >= 1) {
+                  this.followerId = this.userId;
+                  sessionStorage.setItem("followerId", this.userId);
+                }
+              }
+            } else {
+              console.log(res);
+            }
+          })
+          .catch(function (response) {
+            this.getCricleFollower();
+            console.log(response);
+          })
+      },
+      /**
+       * 获取社群是否开启推客资格
+       */
+      getCricleFollower(){
+        this.$http.get("/api/sf/" + this.circleId + "/condition")
+          .then((res) => {
+            if (res.body.code == 0) {
+              let data = res.body;
+              if (data.joinState == 1) {
+
+              }
+            } else {
+              console.log(res);
+            }
+          })
+          .catch(function (response) {
+            console.log(response);
+          })
       }
     }
   }

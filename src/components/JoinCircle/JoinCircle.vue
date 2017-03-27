@@ -125,7 +125,7 @@
       hasJoinAuth(){
         var userId = this.userId;
         var circleId = this.circleId;
-        this.$http.get(this.baseUrls.joinAuthApiUrl,{params:{"token":this.$parent.token, "circleId":circleId}})
+        this.$http.get(this.baseUrls.joinAuthApiUrl,{params:{ "circleId":circleId}})
         .then((res) => {
           var data = res.body;
           var joinstate = data.code;
@@ -169,7 +169,7 @@
           var userId = this.userId;
           var followerId = this.followerId;
           this.$parent.addGroup = 2;
-          this.$http.put(this.baseUrls.joinApiUrl,{"circleId":circleId,"followerId":followerId,"type":109})
+          this.$http.put(this.baseUrls.joinApiUrl,{"circleId":circleId,"followerId":followerId,"type":109},{emulateJSON:true})
           .then(function (res) {
             var data = res.body;
             if (data.code == 0) {
