@@ -405,5 +405,4 @@
     color: #007aff;
     text-align: center;
   }
-  .sss{text-align:center}
 </style>
