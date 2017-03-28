@@ -1,6 +1,5 @@
 @charset "utf-8";
-html{overflow:hidden!important; height:100%;}
-body{height:100%;}
+html,body{height:100%; width: 100%; margin: 0; padding: 0;}
 a,em,u{ text-decoration: none;font-style: normal;font-weight: normal;}
 a:active,a:visited,a:link,a:hover{text-decoration: none;}
 table {	border-spacing:0; border-collapse:collapse;}
@@ -12,7 +11,6 @@ body, ul, li, p, nav, footer, section, header, article, div, dl, dt, dd, button,
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-box-sizing: border-box;
 }
-body{overflow: auto;}
 i{
   font-style: normal;
   font-weight: normal;

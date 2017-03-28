@@ -11,17 +11,22 @@
       <!--<p class="introArrow down">箭头</p>向下-->
     </div>
     <dl class="liveInfoTuig pubFlex" @click="hrefCircle">
-      <dt><img v-bind:src="circleInfo.logo"></dt>
+      <dt><img v-lazy="circleInfo.logo"></dt>
       <dd class="oneline_text autoFlex">{{circleInfo.name}}</dd>
     </dl>
   </section><!-- 信息 -->
 </template>
 
 <script>
+  import {secondShare} from 'common/js/wxShare/secondShare.js';
   export default {
     name: 'dheader',
     props: {
       circleId: {
+        type: String,
+        default: ''
+      },
+      followerId: {
         type: String,
         default: ''
       },
@@ -33,7 +38,7 @@
     data () {
       return {
         liveDetail: this.$parent.liveDetail,//获取父组件的这个对象
-        circleInfo: {},//从缓存里面取出社群信息
+        circleInfo: '',//社群信息
         liveId:'',//直播id
         descUrl: requstUrl + "/api/live/desc?liveId=",//获取直播详情简介
         showHeight: false,//控制简介高度
@@ -88,7 +93,8 @@
             if (body.code == 0) {
               this.circleInfo = body.result;
               window.circleInfo = body.result;
-              window.circleInfo.name = body.result.title;
+              secondShare.circle_share(this.desc,this.circleInfo.logo,this.circleInfo.name,this.followerId);
+              this.$parent.join = body.result.join;
               this.$parent.descError = -1;
             } else {
               this.$parent.descError = 0;

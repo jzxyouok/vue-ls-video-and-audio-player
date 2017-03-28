@@ -10,7 +10,7 @@
         <li v-for="list in lives">
           <a @click="clickLiveList(list)">
             <div class="lt_img">
-              <img v-bind:src="list.pic">
+              <img v-lazy="list.pic">
               <p v-if="(list.state&1) == 1" class="mode red">直播</p>
               <p v-if="(list.state&2) == 2" class="mode blue">预告</p>
               <p v-if="(list.state&4) == 4" class="mode orgin">回放</p>
@@ -105,10 +105,12 @@
         }catch (e){
           sessionStorage.setItem("list", JSON.stringify(list));
         }finally {
-          if((list.state&2) == 2){
-            window.location.href = './herald.html';
+          var url = window.location.href;
+          if(window.liveInfo){
+            url = url.replace(window.liveInfo.id, list.id);
+            window.location.href = url;
           }else{
-            window.location.href = './detail.html';
+            window.location.href = url+"&liveId="+list.id;
           }
         }
       }
@@ -253,7 +255,6 @@
     background-size: 0.28rem 0.28rem;
   }
   .more {
-    padding-bottom: 0.96rem;
     display: -webkit-box;
     -webkit-box-pack: center;
   }

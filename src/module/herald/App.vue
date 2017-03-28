@@ -2,34 +2,22 @@
   <div id="app">
     <article class="topVideo">
       <span class="topVSub">预告</span>
-      <img :src="liveInfo.pic" style="display:block;width:100%;height:100%">
+      <img v-lazy="liveInfo.pic" style="display:block;width:100%;height:100%">
     </article>
     <article class="mainCont mainCont-yg">
       <section class="noticeTime">
         <count-down :targetTime="liveInfo.startTime" :callBack="countDownEvent"></count-down>
         <button class="noticeTimeBtn" @click="shareFlag=true">呼叫小伙伴一起看直播</button>
       </section>
-      <section class="liveInfo clearfix">
-        <h1 class="liveInfoTit twoline_text">{{liveInfo.title}}</h1>
-        <div class="introduction">
-          <div class="introCont">
-            {{introCont}}
-          </div>
-          <p class="introArrow" @click="introAnimationEvent">箭头</p>
-          <!--<p class="introArrow down">箭头</p>向下-->
-        </div>
-        <dl class="liveInfoTuig pubFlex">
-          <dt><img :src="circleLogo"></dt>
-          <dd class="oneline_text autoFlex" @click="linkCirclePageEvent">{{circleName}}</dd>
-        </dl>
-      </section><!-- 信息 -->
-      <!--<live-list :moreFlag="true"></live-list>-->
-      <lives-list></lives-list>
+      <h3 class="moreListFree" v-if="descError  == 0">数据获取失败，点击<a @click="" href="javascript:;">重试</a></h3>
+      <d-summary :circleId="circleId" :followerId="followerId" :liveInfo="liveInfo" v-if="descError == -1"></d-summary>
+      <live-list></live-list>
     </article><!-- 内容 -->
     <section class="sharePop sharePic" v-show="shareFlag" @click="shareFlag=false">
       <img src="/static/images/herald/sharePic.png"/>
     </section><!-- 分享弹出层 -->
-    <oper-button></oper-button>
+    <oper-button :utils="utils" :circleId="circleId" :role="role" :view="liveInfo.view" :liveId="liveInfo.id" :price="price" :userId="userId" :followerId="followerId" :join="join"></oper-button>
+    <mark-layer :addGroup="addGroup" :popuText="popuText"></mark-layer>
   </div>
 </template>
 <script>
@@ -37,93 +25,115 @@
   import 'common/js/reset.js';
   import utils from 'common/js/utils.js';
   import 'common/js/wxShare/wxHelper-6.1.js';
-//  import 'common/js/wxShare/secondShare.js';
-  import 'common/js/wxShare/oauth.js';
+  import {secondShare} from 'common/js/wxShare/secondShare.js';
+  import zmOauth from 'common/js/wxShare/oauth.js';
   import CountDown from 'components/Herald/CountDown';
   import OperButton from 'components/Herald/OperButton';
-//  import LiveList from 'components/LiveList/LiveList';
-  import LivesList from 'components/LiveList/LivesList';
+  import DSummary from 'components/DSummary/DSummary';
+  import LiveList from 'components/LiveList/LiveList';
+  import MarkLayer from 'components/MarkLayer/MarkLayer'
   export default {
     name: 'app',
     components: {
-      CountDown, OperButton, LivesList
-//      ,LiveList,
+      CountDown, OperButton, LiveList,DSummary,MarkLayer
     },
     created(){
       this.loadStaticData();
-      this.loadCircleInfo();
-      this.loadIntroCont();
+      if(this.userId){
+        this.getFollowerId();
+      }
     },
     data () {
       return {
+        addGroup:2,//0:失败 1:成功 -1：异常
         userId: '',
-        userRole: 4,
-        circleId: '',
-        circleName: '社群名称得取。。',
-        circleLogo: ' ',
+        utils:window.utils,
+        role: 0,
+        join:0,
+        price:0,
+        followerId:'',
+        circleId: utils._getQueryString('circleId'),
         liveInfo: {},   //预告信息
-        introCont: '直播简介得取。。。。。', //社群介绍
         shareFlag:false,
-
+        liveDetail:{},
+        descError:-1,
+        liveBa:1,
       }
     },
     methods: {
-      loadUserRole(){
-        this.userRole = 4;
-      },
-      /*
-       * 请求社群信息
-       * */
-      loadCircleInfo(){
-        var url = '/api/v2/circle/info';
-        var params = {circleId: this.circleId, dataType: 2}
-        this.$http.get(url, {params: params})
-        .then((res)=> {
-          var data = res.body;
-          this.circleLogo = data.logo;
-          this.circleName = res.name;
-        })
-      },
-
-      /*
-       * 请求直播简介
-       * */
-      loadIntroCont(){
-        var url = "";
-        var params = {liveId: this.liveInfo.id};
-        this.$http.get(url, {params: params})
-          .then((response) => {
-            var data = response.body;
-            if (data.descs) {
-              this.introCont = data.descs[params.liveId];
-            }
-          })
-      },
-
       /**
        * 转存静态化数据
        */
       loadStaticData(){
-        this.liveInfo = window.liveInfo;
-        this.circleId = window.circleId;
+        if(window.liveInfo){
+          this.liveInfo = window.liveInfo;
+        } else {
+          this.liveInfo = JSON.parse(sessionStorage.getItem("list"));
+        }
+        this.circleId = utils._getQueryString('circleId');
+        sessionStorage.setItem('circleId',this.circleId);
+        window.circleInfo.id = this.circleId;
         this.userId = window.userId;
+        if(this.liveInfo.price != undefined){
+          this.price = this.liveInfo.price;
+        }
       },
-
-
+      getUserRole(){//获取用户角色
+        this.$http.get(requstUrl+'/api/v2/circle/member/role/', {params: {"circleId":this.circleId}})
+          .then((res) => {
+          var data = res.body;
+          var code = data.code;
+          var role = data.role;
+          var msg = data.message;
+          if (code == 0) {
+            this.role = role;
+          } else {
+            alert(msg);
+          }
+        })
+      },
       /**
-       * 点击社群名称跳转页面事件
-       */
-      linkCirclePageEvent(){
-        alert("跳转社群主页");
+       * 判断用户是否推客资格
+       **/
+      getFollowerId(){
+        this.$http.get("/api/sf/" + this.circleId + "/belong?userId=" + this.userId + "&circleIds=" + this.circleId + "&sfType=1")
+          .then((res) => {
+          if (res.body.code == 0) {
+            let data = res.body;
+            if (data.result) {
+              if (data.result.length >= 1) {
+                this.followerId = this.userId;
+                sessionStorage.setItem("followerId", this.userId);
+              }
+            }
+          } else {
+            console.log(res);
+          }
+        })
+      .catch(function (response) {
+          this.getCricleFollower();
+          console.log(response);
+        })
       },
-
       /**
-       * 简介动画点击事件
+       * 获取社群是否开启推客资格
        */
-      introAnimationEvent(){
+      getCricleFollower(){
+        this.$http.get("/api/sf/" + this.circleId + "/condition")
+          .then((res) => {
+          if (res.body.code == 0) {
+            let data = res.body;
+            if (data.joinState == 1) {
 
+            }
+          } else {
+            console.log(res);
+          }
+        })
+      .catch(function (response) {
+          console.log(response);
+        })
       },
-
       /**
        * 倒计时结束执行动作
        */
@@ -172,7 +182,6 @@
     display: block;
     content: "";
     position: absolute;
-    left: 0;
   }
 
   /*社群公用背景*/
@@ -426,8 +435,7 @@
   /*============头部============end*/
   /*============详情============start*/
   .mainCont {
-    margin-top: 5.22rem;
-    padding: 0 .3rem;
+    padding: 0 .3rem 0.9rem;
     position: relative;
     z-index: 0
   }
@@ -470,6 +478,7 @@
 
   .liveInfoSub .date::before {
     background-position: -.76rem 0rem;
+    left:0;
   }
 
   .liveInfoSub .num::before {
@@ -723,7 +732,6 @@
   /*============预告（继承详情样式）============start*/
   .mainCont-yg {
     margin-top: 4.22rem;
-    padding-bottom: .9rem;
   }
 
   /*预告时间*/
@@ -736,7 +744,6 @@
     font-size: .32rem;
     line-height: .8rem;
     border-radius: .5rem;
-    padding: .05rem .14rem .06rem .17rem;
     color: #4fc6f5;
     padding: 0 .64rem 0 1.24rem;
     height: .8rem;
@@ -763,6 +770,7 @@
   .yugaoSuccPic {
     display: block;
     width: 100%;
+    height: 3.8rem;
     border-top-left-radius: .3rem;
     border-top-right-radius: .3rem;
     margin-bottom: .45rem;
@@ -836,9 +844,9 @@
     display: block;
     position: absolute;
     width: 100%;
-    left: 0;
+    height: 4.67rem;
     right: 0;
-    top: .6rem;
+    top: .4rem;
   }
 
   /*分享弹出层*/

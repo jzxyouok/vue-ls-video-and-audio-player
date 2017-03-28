@@ -24,7 +24,6 @@
   }
 
   .noticeTimeNum li:nth-child(odd) {
-    width: 1rem;
     text-align: center;
     font-size: .56rem;
     font-weight: bold;
@@ -32,7 +31,7 @@
 
   .noticeTimeNum li:nth-child(even) {
     font-size: .3rem;
-    padding-top: .18rem;
+    padding: .18rem 0.1rem 0;
   }
 
   .noticeTimeNum li:last-child {
@@ -52,6 +51,10 @@
       callBack: {
         type: Function,
         default: function () {
+          this.day= 0;
+          this.hour = 0;
+          this.minute = 0;
+          this.second = 0;
         }
       }
     },
@@ -61,10 +64,10 @@
     },
     data () {
       return {
-        day: '',
-        hour: '',
-        minute: '',
-        second: ''
+        day: 0,
+        hour: 0,
+        minute: 0,
+        second: 0
       }
     },
     methods: {

@@ -29,7 +29,7 @@
   import 'common/js/reset.js';
   import utils from 'common/js/utils.js';
   import 'common/js/wxShare/wxHelper-6.1.js';
-  import 'common/js/wxShare/secondShare.js';
+  import {secondShare} from 'common/js/wxShare/secondShare.js';
   import GHeader from 'components/GHeader/GHeader';
   import LiveList from 'components/LiveList/LiveList';
   import Members from 'components/Members/Members';
@@ -47,6 +47,7 @@
         this.getRoleInfo();
         this.getFollowerId();
       }
+      secondShare.circle_share(this.circleInfo.desc,this.circleInfo.logo,this.circleInfo.name,this.followerId);
     },
     data () {
       return {

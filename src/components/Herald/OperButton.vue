@@ -6,7 +6,7 @@
         <img src="/static/images/herald/newLive.png" class="yugaoSuccPic"/>
         <h2 class="yugaoSuccTit">预约成功</h2>
         <h3 class="yugaoSuccDown">下载APP，接收直播提醒</h3>
-        <button class="yugaoSuccBtn" @click="_EventDownApp">立即下载</button>
+        <button class="yugaoSuccBtn" @click="utils.downloadApp()">立即下载</button>
         <button class="yugaoSuccClose" @click="popFlag=false">X</button>
       </div>
     </section><!-- 预约成功弹出层 -->
@@ -38,19 +38,16 @@
     opacity: .85
   }
 
-  /*伪类*/
-  .topMenuTabs li::before, .liveInfoSub li::before, .moreListSp::after, .topVLive::before, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after {
-    display: block;
-    content: "";
-    position: absolute;
-    left: 0;
-  }
 </style>
 
 <script>
   export default {
     name: 'operbutton',
     props: {
+      utils: {
+        type: Object,
+        default: {}
+      },
       view: {
         type: Number,
         default: 4
@@ -59,11 +56,19 @@
         type: Number,
         default: 0
       },
-      token: {
+      userId: {
+        type: String,
+        default: ''
+      },
+      circleId: {
         type: String,
         default: ''
       },
       liveId: {
+        type: Number,
+        default: 0
+      },
+      join: {
         type: Number,
         default: 0
       },
@@ -73,13 +78,14 @@
       }
     },
     created(){
+      this.ajaxViewAuth();
       this.dealButtonView();
     },
     data () {
       return {
-        evtKey: 'sec', //点击按钮 调用何种事件的键 sec(预约成功), join(成员),pay(支付),vip(会员),
         text: '已预约，下载APP接收直播提醒',  //按钮的文案
-        popFlag: false
+        popFlag: false,
+        allow:false,
       }
     },
     methods: {
@@ -87,18 +93,17 @@
        * 预约直播点击事件
        */
       operButtonEvent(){
-        var key = this.evtKey;
-        switch (key) {
-          case 'sec':
+        switch (this.view) {
+          case 1:
             this.popFlag = true;
             break;
-          case 'join':
+          case 2:
             this._EventJoin();
             break;
-          case 'pay':
+          case 4:
             this._EventPay();
             break;
-          case 'vip':
+          case 16:
             this._EventVip();
             break;
         }
@@ -112,94 +117,64 @@
         var role = this.role;
         var view = this.view;
         if (role == 0 || role == 1) { //群主和管理员可观看任何类型
-          this.evtKey = 'sec';
           this.text = "已预约，下载APP接收直播提醒";
         } else {
           switch (view) {
             case 1:
-              this.evtKey = 'sec';
               this.text = "已预约，下载APP接收直播提醒";
               break;
             case 2:
-              if (role != 2) {
-                this.evtKey = 'join';
                 this.text = "加入社群预约直播";
-              } else {
-                this.evtKey = 'sec';
-                this.text = "已预约，下载APP接收直播提醒";
-              }
               break;
             case 4:
-              //成员、准成员、游客都需要鉴权
-              var allow = this.ajaxViewAuth();
-              if (allow) {
-                this.evtKey = 'sec';
-                this.text = "已预约，下载APP接收直播提醒";
-              } else {
-                this.evtKey = 'pay';
-                this.text = "支付 8.88 预约直播";
+                //成员、准成员、游客都需要鉴权
+              if(!this.allow){
+                this.text = "支付 "+this.price+" 预约直播";
               }
               break;
             case 16:
-              var allow = this.ajaxViewAuth();
-              if (allow) {
-                his.evtKey = 'sec';
-                this.text = "已预约，下载APP接收直播提醒";
-              } else {
-                this.evtKey = 'vip';
+              if(!this.allow) {
                 this.text = "开通会员预约直播";
               }
               break;
           }
         }
       },
-
       /**
        * 鉴权请求 成功返回true,失败返回false
        */
       ajaxViewAuth(){
-        var allow = false;
-        return allow;
-
-        var url = "";
-        var params = {};
-        this.$http.get(url, {params: params})
+        var url = requstUrl+"/api/v2/circle/member/validation";
+        this.$http.get(url,{params:{ "circleId":this.circleId}})
           .then((res)=> {
             var data = res.body;
             var code = data.code;
             if (code == 16301 || code == 16303) {//已付费
-              allow = true;
+              this.allow = true;
             } else if (code == 16321 || code == 16323 || code == 16331) {//未付费，点击跳付费连接
-              allow = false;
+              this.allow = false;
             }
           })
-        return allow;
       },
-
       /**
-       * 下载App 调用事件
-       */
-      _EventDownApp(){
-        alert("下载App");
-      },
-
-      /*
        * 加入社群预约直播
        * */
       _EventJoin(){
-        alert("加入社群预约直播");
-        return;// 防止报错，待删除。。。。。。。。。。。。
-        var url="";
-        var params={};
-        this.$http.get(url,{params:param()})
+        var url=requstUrl+"/api/v2/w/circle/member/";
+        var type = 109;
+        if(this.join == 1 || this.join == 2){
+          type = 101;
+        }
+        this.$http.put(url,{"circleId":this.circleId,"followerId":this.followerId,"type":type},{emulateJSON:true})
           .then((res)=>{
             var data=data.body;
             if (data.code == 0) { //入群成功
-              this.evtKey = 'sec';
               this.text = "已预约，下载APP接收直播提醒";
             } else if (data.code == "16021") {// 已加入该社群
+              //this.$parent.addGroup = 0;
                alert("已加入该社群");
             } else if (data.code == "16022") {//群成员已满
+              //this.$parent.addGroup = 0;
               alert("群成员已满");
             } else if (data.code == "16062") {//您已被社群加入黑名单,不能加入该社群
              alert("您已被社群加入黑名单,不能加入该社群");
@@ -208,39 +183,29 @@
             }
           })
       },
-
       /*
        * 支付金额预约直播
        * */
       _EventPay(){
-        alert("支付金额预约直播");
-        return ;//待删除。。。。。
-
-        var url = this.baseUrls.joinOnPayUrl + '?';
+        var url = "/zhangmen/circle/circle-pay" + "?";
         url += "circleId=" + this.circleId;
-        url += "&userId=" + userId;
+        url += "&userId=" + this.userId;
         url += "&bizType=joinCirclePay";
-        url += "&liveChargeCallback=" + encodeURIComponent(this.baseUrls.hostUrl);
+        url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
         url += "&followerId=" + this.followerId;
         window.location.href = url;
       },
-
       /**
        * 购买会员预约直播
        * @private
        */
       _EventVip(){
-        alert('购买会员预约直播');
-        return; //待删除。。。。。。
-
-        var url = this.baseUrls.joinOnVipUrl + '?';
+        var url = "/vip/"+this.circleId+"/product/list" + "?";
         url += "userId=" + this.userId;
         url += "&noJoin=0";
-        url += "&liveChargeCallback=" + encodeURIComponent(this.baseUrls.hostUrl);
+        url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
         url += "&followerId=" + this.followerId;
         window.location.href = url;
-
-
       }
     }
   }

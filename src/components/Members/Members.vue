@@ -6,7 +6,7 @@
     <ul class="merbers_list">
       <li v-for="m in members">
         <a @click="cardDetail(m.id)">
-          <img v-bind:src="m.logo" class="m_logo">
+          <img v-lazy="m.logo" class="m_logo">
           <div class="m_text">
             <div class="m_zhi">
               <p class="c_name">{{m.name}}</p>

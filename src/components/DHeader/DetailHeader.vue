@@ -64,6 +64,10 @@
         type: String,
         default: ''
       },
+      followerId: {
+        type: String,
+        default: ''
+      },
       userRole: {
         type: Number,
         default: 4
@@ -92,7 +96,7 @@
           },
           poster: "",
           live: true,
-          autoplay: false
+          autoplay: false,
         }
       }
     },
@@ -104,7 +108,7 @@
       passEvt(){ //密码框按钮点击事件
         var val = this.passValue;
         if (val){
-          if(userId == undefined || userId == ""){
+          if(this.userId == undefined || this.userId == ""){
             var auth = new oauth();
             auth.init("", 1);
             return auth.auth();
@@ -117,7 +121,7 @@
       },
       joinEvt(){
           let _this = this;
-          joinEvent(this.userId,utils._getQueryString('followerId'),this.circleId,this.$parent.join, function(addGroup, popuText, authStatus){
+          joinEvent(this.userId,this.followerId,this.circleId,this.$parent.join, function(addGroup, popuText, authStatus){
             _this.$parent.addGroup = addGroup;
             _this.$parent.popuText = popuText;
             _this.$parent.authStatus = authStatus;

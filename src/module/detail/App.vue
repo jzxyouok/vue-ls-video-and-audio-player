@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <detail-header :liveInfo="liveInfo" :userId="userId" :price="price" :circleId="circleId" :authStatus="authStatus">
+    <detail-header :liveInfo="liveInfo" :followerId="followerId" :userId="userId" :price="price" :circleId="circleId" :authStatus="authStatus">
     </detail-header>
     <article class="topMenu clearfix">
       <ul class="topMenuTabs fl">
@@ -15,7 +15,7 @@
     <div  v-show="selected==0">
       <article class="mainCont">
         <h3 class="moreListFree" v-if="descError  == 0">数据获取失败，点击<a @click="" href="javascript:;">重试</a></h3>
-        <d-summary :circleId="circleId" :liveInfo="liveInfo" v-if="descError == -1"></d-summary>
+        <d-summary :circleId="circleId" :followerId="followerId" :liveInfo="liveInfo" v-if="descError == -1"></d-summary>
       </article>
       <live-list v-if="descError == -1"></live-list>
     </div>
@@ -40,7 +40,7 @@
   import 'common/js/reset.js';
   import utils from 'common/js/utils.js';
   import 'common/js/wxShare/wxHelper-6.1.js';
-  import 'common/js/wxShare/secondShare.js';
+  import {secondShare} from 'common/js/wxShare/secondShare.js';
   import zmOauth from 'common/js/wxShare/oauth.js';
   import DSummary from 'components/DSummary/DSummary';
   import LiveList from 'components/LiveList/LiveList';
@@ -75,9 +75,9 @@
       }
     },
     created: function () {
+        this.followerId = utils._getQueryString('followerId');
       this.loadStaticData();
       if(this.userId){
-        this.getRoleInfo();
         this.getFollowerId();
       }
       this.getUserRole();

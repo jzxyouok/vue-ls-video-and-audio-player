@@ -23,7 +23,9 @@ window.wxHelper6 ={
 		// 设置分享好友回调
 		// function (res)
 		// res : 用户点击- do  成功-ok 取消-cancel 失败-error
-		callback_msg:function(){},
+		callback_msg:function(){
+
+    },
 
 		// 设置分享微博回调
 		// function (res)

@@ -35,7 +35,7 @@
       },
       join: {
         type: Number,
-        default: 1
+        default: 0
       },
       text: {
         type: String,
@@ -169,7 +169,11 @@
           var userId = this.userId;
           var followerId = this.followerId;
           this.$parent.addGroup = 2;
-          this.$http.put(this.baseUrls.joinApiUrl,{"circleId":circleId,"followerId":followerId,"type":109},{emulateJSON:true})
+          var type = 109;
+          if(this.join == 1 || this.join == 2){
+            type = 101;
+          }
+          this.$http.put(this.baseUrls.joinApiUrl,{"circleId":circleId,"followerId":followerId,"type":type},{emulateJSON:true})
           .then(function (res) {
             var data = res.body;
             if (data.code == 0) {

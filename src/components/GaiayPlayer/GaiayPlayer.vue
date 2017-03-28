@@ -1,6 +1,6 @@
 <template>
   <section class="familyNumVideo">
-    <img v-bind:data-src="livePoster" v-show="play" :src="livePoster" style="width:100%;height:100%">
+    <img v-bind:data-src="livePoster" v-show="play" v-lazy="livePoster" style="width:100%;height:100%">
     <div class="topVBf" style="display:block" v-show="play" @click="player"></div>
     <div class="videoPlayControl" style="display:block;">
       <video id="video" style="z-index:-1; object-fit: fill;" preload="" controls=""
