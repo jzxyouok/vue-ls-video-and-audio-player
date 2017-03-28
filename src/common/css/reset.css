@@ -1,8 +1,9 @@
+/*reset.css*/
 @charset "utf-8";
 html,body{height:100%; width: 100%; margin: 0; padding: 0;}
 a,em,u{ text-decoration: none;font-style: normal;font-weight: normal;}
 a:active,a:visited,a:link,a:hover{text-decoration: none;}
-table {	border-spacing:0; border-collapse:collapse;}
+table { border-spacing:0; border-collapse:collapse;}
 img {width:100%;height:100%;}
 body, ul, li, p, nav, footer, section, header, article, div, dl, dt, dd, button, h1, h2, h3, h4, h5, h6, input, textarea, img, cite, table, td, th {
   padding: 0; margin: 0; border: 0; text-align: left;line-height:normal;
@@ -44,5 +45,4 @@ a{
 .threeline_text{-webkit-line-clamp:3;}/*三行文字溢出用点显示(改变clamp即可)*/
 html{ font-size: 20px;}
 body{ font-family: Microsoft YaHei; color: #323232; font-size:.22rem;}
-/*点击按下效果*/
-.dsfsdf:active{ opacity:.85}
+

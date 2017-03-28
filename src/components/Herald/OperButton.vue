@@ -12,8 +12,8 @@
     </section><!-- 预约成功弹出层 -->
   </div>
 </template>
-
 <style>
+/*operButton.vue*/
   /*吸底按扭*/
   .fixedFd {
     position: fixed;
@@ -32,12 +32,7 @@
     color: #fff;
     background: #fc4e52;
   }
-
-  /*点击按下效果*/
-  .topVFail .btn:active, .sharePopBtn:active, .noticeTimeBtn:active, .fixedFdRed:active, .yugaoSuccBtn:active {
-    opacity: .85
-  }
-
+  
 </style>
 
 <script>

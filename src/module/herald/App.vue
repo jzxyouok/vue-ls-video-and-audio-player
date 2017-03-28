@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <article class="topVideo">
-      <span class="topVSub">预告</span>
-      <img v-lazy="liveInfo.pic" style="display:block;width:100%;height:100%">
+      <span class="topVSub topVYgao">预告</span>
+      <img :src="liveInfo.pic" style="display:block;width:100%;height:100%">
     </article>
     <article class="mainCont mainCont-yg">
       <section class="noticeTime">
@@ -153,39 +153,21 @@
      5.动画代码位置
 -->
 <style>
-  /*吸底按扭*/
-  .fixedFd {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 10;
-    text-align: center
-  }
-
-  .fixedFdRed {
-    text-align: center;
-    font: .32rem/.9rem 'Microsoft YaHei';
-    height: .9rem;
-    color: #fff;
-    background: #fc4e52;
-  }
-
-  /*点击按下效果*/
+/*herald.vue*/
+ /*点击按下效果*/
   .topVFail .btn:active, .sharePopBtn:active, .noticeTimeBtn:active, .fixedFdRed:active, .yugaoSuccBtn:active {
     opacity: .85
   }
 
   /*伪类*/
-  .topMenuTabs li::before, .liveInfoSub li::before, .moreListSp::after, .topVLive::before, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after {
+  .topMenuTabs li::before, .liveInfoSub li::before, .moreListSp::after, .topVLive::before, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after ,.topVLive::before,.topVHf::before,.topVYgao::before{
     display: block;
     content: "";
     position: absolute;
   }
 
   /*社群公用背景*/
-  .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after {
+  .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after,.liveInfoTuig dd:after {
     background-image: url(/static/images/pubBack.png);
     background-repeat: no-repeat;
     background-size: 1rem 5rem;
@@ -201,55 +183,12 @@
     z-index: 5
   }
 
-  .topVSub {
-    position: absolute;
-    left: 0;
-    top: .2rem;
-    display: inline-block;
-    background: rgba(0, 0, 0, .4);
-    font-size: .2rem;
-    border-top-right-radius: .5rem;
-    border-bottom-right-radius: .5rem;
-    padding: .05rem .14rem .06rem .17rem;
-    color: #fff;
-  }
-
-  .topVLive {
-    padding-left: .24rem;
-  }
-
-  .topVLive::before {
-    width: .08rem;
-    height: .08rem;
-    background: #f04640;
-    content: "";
-    border-radius: 100%;
-    left: .1rem;
-    top: 50%;
-    margin-top: -.04rem;
-  }
-
-  .topVBf {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -.6rem 0 0 -.6rem;
-    width: 1.2rem;
-    height: 1.2rem;
-    background: rgba(0, 0, 0, .4);
-    border-radius: 100%;
-    display: block;
-  }
-
-  .topVBf::after {
-    width: .44rem;
-    height: .5rem;
-    background-position: 0 -3.81rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -.25rem 0 0 -.2rem;
-  }
+.topVSub{position: absolute;left:0;top:.2rem;display:inline-block;background:rgba(0,0,0,.4);font-size:.2rem;border-top-right-radius: .5rem;border-bottom-right-radius: .5rem;padding:.05rem .14rem .06rem .24rem;color: #fff;z-index: 10;}
+.topVLive::before,.topVHf::before,.topVYgao::before{width:.08rem;height:.08rem;background:#f04640;content:"";border-radius:100%;left:.1rem;top:50%;margin-top:-.04rem;}
+.topVHf::before{background:#ff9600;}/*回放*/
+.topVYgao::before{background:#3282fa;}/*预告*/
+ .topVBf{position: absolute; top: 50%;left: 50%;margin:-.6rem 0 0 -.6rem;  width:1.2rem;height: 1.2rem;background:rgba(0,0,0,.4);border-radius:100%;display: block;}
+.topVBf::after{width:.4rem;height:.54rem;background-position:0 -3.8rem;position: absolute; top: 50%;left: 50%;margin:-.25rem 0 0 -.15rem;}
 
   /*连接失败*/
   .topVFail, .topVStatus {
@@ -388,7 +327,7 @@
   }
 
   .topMenuTabs .active {
-    border-bottom: 2px solid #f04640
+    border-bottom: 2px solid #f03c38
   }
 
   .topMenuTabs li::before {
@@ -519,13 +458,8 @@
     border: 1px solid #f8f8f8;
   }
 
-  .liveInfoTuig dd {
-    font-size: .28rem;
-    color: #646464;
-    line-height: .6rem;
-    margin-left: .3rem;
-  }
-
+  .liveInfoTuig dd{font-size: .28rem;color: #646464;line-height: .6rem;margin-left: .3rem;position: relative;}
+.liveInfoTuig dd:after{content:"";position: absolute;width: .14rem;height: .22rem;background-position:-.78rem -1.46rem;top:50%;right: 0;margin-top:-.11rem; }
   /*更多视频 */
   .moreList {
     padding: .3rem 0;
@@ -576,7 +510,7 @@
     position: absolute;
     top: .1rem;
     left: .1rem;
-    border-radius: 2px;
+    border-radius:4px;
   }
 
   .moreListCont dt .blue {
@@ -845,6 +779,7 @@
     position: absolute;
     width: 100%;
     height: 4.67rem;
+    left: 0;
     right: 0;
     top: .4rem;
   }

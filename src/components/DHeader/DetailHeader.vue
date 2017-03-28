@@ -1,7 +1,7 @@
 <template>
   <article class="topVideo">
     <span class="topVSub topVLive" v-show="(liveInfo.state & 1)==1">直播</span>
-    <span class="topVSub" v-show="(liveInfo.state & 4)==4">回放</span>
+    <span class="topVSub topVHf" v-show="(liveInfo.state & 4)==4">回放</span>
     <section class="topVFail" v-show="authStatus==-1">
       <div class="topVFailCont">
         <h3 class="tit">连接失败，点击重试</h3>
@@ -185,6 +185,9 @@
 </script>
 
 <style>
+/*
+DetailHeader.vue
+ */
   .topVideo {
     width: 100%;
     height: 4.22rem;
@@ -193,57 +196,12 @@
     z-index: 5
   }
 
-  .topVSub {
-    position: absolute;
-    left: 0;
-    top: .2rem;
-    display: inline-block;
-    background: rgba(0, 0, 0, .4);
-    font-size: .2rem;
-    border-top-right-radius: .5rem;
-    border-bottom-right-radius: .5rem;
-    padding: .05rem .14rem .06rem .17rem;
-    color: #fff;
-    z-index: 999;
-  }
-
-  .topVLive {
-    padding-left: .24rem;
-  }
-
-  .topVLive::before {
-    width: .08rem;
-    height: .08rem;
-    background: #f04640;
-    content: "";
-    border-radius: 100%;
-    left: .1rem;
-    top: 50%;
-    margin-top: -.04rem;
-  }
-
-  .topVBf {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -.6rem 0 0 -.6rem;
-    width: 1.2rem;
-    height: 1.2rem;
-    background: rgba(0, 0, 0, .4);
-    border-radius: 100%;
-    display: block;
-  }
-
-  .topVBf::after {
-    width: .44rem;
-    height: .5rem;
-    background-position: 0 -3.81rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -.25rem 0 0 -.2rem;
-  }
-
+  .topVSub{position: absolute;left:0;top:.2rem;display:inline-block;background:rgba(0,0,0,.4);font-size:.2rem;border-top-right-radius: .5rem;border-bottom-right-radius: .5rem;padding:.05rem .14rem .06rem .24rem;color: #fff;z-index: 10;}
+.topVLive::before,.topVHf::before,.topVYgao::before{width:.08rem;height:.08rem;background:#f04640;content:"";border-radius:100%;left:.1rem;top:50%;margin-top:-.04rem;}
+.topVHf::before{background:#ff9600;}/*回放*/
+.topVYgao::before{background:#3282fa;}/*预告*/
+ .topVBf{position: absolute; top: 50%;left: 50%;margin:-.6rem 0 0 -.6rem;  width:1.2rem;height: 1.2rem;background:rgba(0,0,0,.4);border-radius:100%;display: block;}
+.topVBf::after{width:.4rem;height:.54rem;background-position:0 -3.8rem;position: absolute; top: 50%;left: 50%;margin:-.25rem 0 0 -.15rem;}
   /*连接失败*/
   .topVFail, .topVStatus {
     position: absolute;
