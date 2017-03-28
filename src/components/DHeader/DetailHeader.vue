@@ -1,7 +1,7 @@
 <template>
   <article class="topVideo">
     <span class="topVSub topVLive" v-show="(liveInfo.state & 1)==1">直播</span>
-    <span class="topVSub" v-show="(liveInfo.state & 4)==4">回放</span>
+    <span class="topVSub topVHf" v-show="(liveInfo.state & 4)==4">回放</span>
     <section class="topVFail" v-show="authStatus==-1">
       <div class="topVFailCont">
         <h3 class="tit">连接失败，点击重试</h3>
@@ -11,9 +11,8 @@
     <section class="topVStatus" v-show="authStatus==8">
       <div class="topVStatusCont">
         <h3 class="tit">本直播为私密直播</h3>
-        <div class="topVStatusForm">
-          <input type="password" placeholder="请输入密码" class="tex" v-model="passValue"/>
-          <button class="ok" @click="passEvt">确定</button>
+        <div class="topVStatusForm a_center">
+        <p class="inpt"><input type="password" placeholder="请输入密码" class="tex" v-model="passValue"/></p><button class="ok" @click="passEvt">确定</button>
         </div>
       </div>
     </section>
@@ -185,6 +184,9 @@
 </script>
 
 <style>
+/*
+DetailHeader.vue
+ */
   .topVideo {
     width: 100%;
     height: 4.22rem;
@@ -193,57 +195,12 @@
     z-index: 5
   }
 
-  .topVSub {
-    position: absolute;
-    left: 0;
-    top: .2rem;
-    display: inline-block;
-    background: rgba(0, 0, 0, .4);
-    font-size: .2rem;
-    border-top-right-radius: .5rem;
-    border-bottom-right-radius: .5rem;
-    padding: .05rem .14rem .06rem .17rem;
-    color: #fff;
-    z-index: 999;
-  }
-
-  .topVLive {
-    padding-left: .24rem;
-  }
-
-  .topVLive::before {
-    width: .08rem;
-    height: .08rem;
-    background: #f04640;
-    content: "";
-    border-radius: 100%;
-    left: .1rem;
-    top: 50%;
-    margin-top: -.04rem;
-  }
-
-  .topVBf {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -.6rem 0 0 -.6rem;
-    width: 1.2rem;
-    height: 1.2rem;
-    background: rgba(0, 0, 0, .4);
-    border-radius: 100%;
-    display: block;
-  }
-
-  .topVBf::after {
-    width: .44rem;
-    height: .5rem;
-    background-position: 0 -3.81rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -.25rem 0 0 -.2rem;
-  }
-
+  .topVSub{position: absolute;left:0;top:.2rem;display:inline-block;background:rgba(0,0,0,.4);font-size:.2rem;border-top-right-radius: .5rem;border-bottom-right-radius: .5rem;padding:.05rem .14rem .06rem .24rem;color: #fff;z-index: 10;}
+.topVLive::before,.topVHf::before,.topVYgao::before{width:.08rem;height:.08rem;background:#f04640;content:"";border-radius:100%;left:.1rem;top:50%;margin-top:-.04rem;}
+.topVHf::before{background:#ff9600;}/*回放*/
+.topVYgao::before{background:#3282fa;}/*预告*/
+ .topVBf{position: absolute; top: 50%;left: 50%;margin:-.6rem 0 0 -.6rem;  width:1.2rem;height: 1.2rem;background:rgba(0,0,0,.4);border-radius:100%;display: block;}
+.topVBf::after{width:.4rem;height:.54rem;background-position:0 -3.8rem;position: absolute; top: 50%;left: 50%;margin:-.25rem 0 0 -.15rem;}
   /*连接失败*/
   .topVFail, .topVStatus {
     position: absolute;
@@ -259,10 +216,12 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+   /* -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
     text-align: center;
-    width: 90%
+    width: 90%;
+    height:1.6rem;
+    margin:-.6rem 0 0 -45%;
   }
 
   .topVFail .tit, .topVStatusCont .tit {
@@ -300,7 +259,7 @@
   }
 
   .topVStatusCont .tit {
-    font-size: .32rem;
+    font-size: .28rem;
     opacity: 1
   }
 
@@ -311,7 +270,7 @@
     height: .8rem;
     padding: 0 .55rem;
     border-radius: .5rem;
-    background: #db423d;
+    background:#f03c38;
     color: #fff;
     text-align: center;
   }
@@ -319,30 +278,9 @@
   .topVStatusForm {
     text-align: center;
   }
-
-  .topVStatusForm .tex {
-    height: .8rem;
-    width: 2rem;
-    padding: 0 .2rem;
-    font-size: .32rem;
-    line-height: .8rem;
-    background: #fff;
-    border-top-left-radius: .5rem;
-    border-bottom-left-radius: .5rem;
-  }
-
-  .topVStatusForm .ok {
-    height: .8rem;
-    width: 1.2rem;
-    font-size: .32rem;
-    line-height: .8rem;
-    background: #fff;
-    border-top-right-radius: .5rem;
-    border-bottom-right-radius: .5rem;
-    background: #db433e;
-    text-align: center;
-    color: #fff;
-  }
+.topVStatusForm .inpt{height:.8rem;width:2rem;padding:0 .2rem;background: #fff;border-top-left-radius: .5rem;border-bottom-left-radius: .5rem;}
+.topVStatusForm .tex{font-size:.28rem;width: 100%; margin-top:.25rem;}
+.topVStatusForm .ok{height:.8rem;width: 1.2rem;font-size:.28rem;line-height: .8rem;background: #fff;border-top-right-radius: .5rem;border-bottom-right-radius: .5rem;background: #db433e;text-align:center;color: #fff;}
 
   .vjs_video_3-dimensions {
     height: 4.22rem;

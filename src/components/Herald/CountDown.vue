@@ -13,6 +13,7 @@
 </template>
 
 <style>
+  /*CountDown.vue*/
   .noticeTimeTit {
     font: .28rem Microsoft YaHei;
     color: #a0a0a0;

@@ -175,12 +175,7 @@
   }
 
   .lt_img p.mode {
-    padding: 0.03rem 0.05rem;
-    font-size: 0.18rem;
-    color: #fff;
-    position: absolute;
-    top: 0.1rem;
-    left: 0.1rem;
+    display: inline-block;padding:.02rem .1rem;font-size:.2rem; color: #fff;position: absolute;top: .1rem;left:.1rem;border-radius:4px;
   }
 
   .lt_img p.red {

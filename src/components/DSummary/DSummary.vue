@@ -202,11 +202,7 @@
     border-radius: 100%;
     border: 1px solid #f8f8f8;
   }
+.liveInfoTuig dd{font-size: .28rem;color: #646464;line-height: .6rem;margin-left: .3rem;padding-right: .2rem; position: relative;}
+.liveInfoTuig dd:after{content:"";position: absolute;width: .14rem;height: .22rem;background-position:-.78rem -1.46rem;top:50%;right: 0;margin-top:-.11rem; }
 
-  .liveInfoTuig dd {
-    font-size: .28rem;
-    color: #646464;
-    line-height: .6rem;
-    margin-left: .3rem;
-  }
 </style>

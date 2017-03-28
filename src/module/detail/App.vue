@@ -275,10 +275,28 @@
 </script>
 
 <style>
+/*
+detail-app.vue
+*/
+/*点击按下效果*/
+  .topVFail .btn:active, .sharePopBtn:active, .noticeTimeBtn:active, .fixedFdRed:active, .yugaoSuccBtn:active {
+    opacity: .85
+  }
+
   /*伪类*/
-  .topMenuTabs li::before,.liveInfoSub li::before,.moreListSp::after,.topVLive::before,.topVFail .btn::before,.sharePopCent span::after,.noticeTimeBtn::before,.yugaoSuccTit::before,.topVBf::after,.yugaoSuccClose::after{display: block;content: "";position: absolute;left:0;}
+  .topMenuTabs li::before, .liveInfoSub li::before, .moreListSp::after, .topVLive::before, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after ,.topVLive::before,.topVHf::before,.topVYgao::before,.topVBf::after{
+    display: block;
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+
   /*社群公用背景*/
-  .topMenuTabs li::before,.topMenuTool li,.liveInfoSub li::before,.introArrow,.moreListSp::after,.topVBf::after,.topVFail .btn::before,.sharePopCent span::after,.noticeTimeBtn::before,.yugaoSuccTit::before,.yugaoSuccClose::after{background-image:url(/static/images/pubBack.png);background-repeat: no-repeat;background-size:1rem 5rem; }
+  .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after,.liveInfoTuig dd:after {
+    background-image: url(/static/images/pubBack.png);
+    background-repeat: no-repeat;
+    background-size: 1rem 5rem;
+  }
   /*菜单栏*/
   .topMenu {
     width: 100%;
@@ -310,7 +328,7 @@
     margin-right: 0
   }
   .topMenuTabs .active {
-    border-bottom: 2px solid #f04640
+    border-bottom: 2px solid #f03c38
   }
   .topMenuTabs li::before {
     width: .46rem;
