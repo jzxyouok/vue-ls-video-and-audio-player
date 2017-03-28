@@ -167,7 +167,7 @@
   }
 
   /*社群公用背景*/
-  .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after,.liveInfoTuig dd:after {
+  .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after,.liveInfoTuig dd:after,,.liveInfoTuig dd:after {
     background-image: url(/static/images/pubBack.png);
     background-repeat: no-repeat;
     background-size: 1rem 5rem;
