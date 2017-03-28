@@ -132,7 +132,7 @@
           var joinMsg = data.message;
           if (joinstate != 0) {
             this.jionAuth = false;
-            if (joinstate == 16053) {//加群资格
+            if (joinstate == 16051) {//加群资格
               var url = this.baseUrls.faildAuthUrl + '?';
               url += 'userId=' + this.userId;
               url += '&type=1&bizId=' + this.circleId;
