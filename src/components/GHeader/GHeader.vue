@@ -22,7 +22,7 @@
                     background:'url('+this.logo+') no-repeat center',
                     backgroundSize:'100% 4.2rem'
                 },
-                tHeight : 1.12,
+                tHeight : 0.86,
                 upHtBtn : false,
                 num : 1,
                 dnHtBtn : true
@@ -55,12 +55,12 @@
                 if(this.num){
                     this.upHtBtn = true;
                     this.dnHtBtn = false;
-                    this.tHeight = 2.8;
+                    this.tHeight = 2.4;
                     this.num--;
                 }else{
                     this.upHtBtn = false;
                     this.dnHtBtn = true;
-                    this.tHeight = 1.12;
+                    this.tHeight = 0.86;
                     this.num++;
                 }
             }
@@ -70,35 +70,12 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .home_bg {
-    position: fixed;
-    top:0;
-    width: 100%;
-    z-index: 33;
-  }
-
-  .home_top {
-    height: 4.2rem;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.55);
-    font-size: 0.24rem;
-    text-align: center;
-  }
+  .home_bg {position: fixed;top:0;width: 100%;z-index: 33;}
+  .home_top { height: 4.2rem; color: #fff; background: rgba(0, 0, 0, 0.55); font-size: 0.24rem; text-align: center;}
   .home_top_con{color: #fff; font-size: 0.24rem; text-align: center;}
   .logo{padding-top: 0.54rem; margin: 0 auto; height: 1.7rem;  width: 1.16rem;}
-  .home_top img {
-    height: 1.16rem;
-    width: 1.16rem;
-    border-radius: 100%;
-  }
-
-  .home_top h3 {
-    font-size: 0.36rem;
-    line-height: 0.4rem;
-    padding-top: 0.2rem;
-    text-align: center;
-  }
-
+  .home_top img {height: 1.16rem; width: 1.16rem; border-radius: 100%;}
+  .home_top h3 {font-size: 0.36rem; line-height: 0.4rem; padding-top: 0.2rem; text-align: center;}
   .home_top .ht_num {
     font-size: 0.24rem;
     text-align: center;
@@ -121,10 +98,6 @@
     line-height: 0.33rem;
     height: 0.86rem;
     overflow : hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
   }
 
   .home_top .ht_open_btn {
@@ -139,18 +112,18 @@
     margin-left: -0.15rem;
   }
   .up_ht_btn{
-    animation:a_up_hto_btn 0.5s forwards;
-    -webkit-animation:a_up_hto_btn 0.5s forwards;
-    -moz-animation:a_up_hto_btn 0.5s forwards;
-    -ms-animation:a_up_hto_btn 0.5s forwards;
-    -o-animation:a_up_hto_btn 0.5s forwards;
-  }
-  .dn_ht_btn{
     animation:a_dn_hto_btn 0.5s forwards;
     -webkit-animation:a_dn_hto_btn 0.5s forwards;
     -moz-animation:a_dn_hto_btn 0.5s forwards;
     -ms-animation:a_dn_hto_btn 0.5s forwards;
     -o-animation:a_dn_hto_btn 0.5s forwards;
+  }
+  .dn_ht_btn{
+    animation:a_up_hto_btn 0.5s forwards;
+    -webkit-animation:a_up_hto_btn 0.5s forwards;
+    -moz-animation:a_up_hto_btn 0.5s forwards;
+    -ms-animation:a_up_hto_btn 0.5s forwards;
+    -o-animation:a_up_hto_btn 0.5s forwards;
   }
   .up_con{
     animation:a_up_con 0.5s forwards;

@@ -175,12 +175,9 @@
   }
 
   .lt_img p.mode {
-    padding: 0 0.05rem;
-    height: 0.24rem;
-    line-height: 0.24rem;
+    padding: 0.03rem 0.05rem;
     font-size: 0.18rem;
     color: #fff;
-    text-align: center;
     position: absolute;
     top: 0.1rem;
     left: 0.1rem;
