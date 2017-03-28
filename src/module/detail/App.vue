@@ -405,4 +405,7 @@
     color: #007aff;
     text-align: center;
   }
+  .abc1{
+    color:#ffffff;
+  }
 </style>
