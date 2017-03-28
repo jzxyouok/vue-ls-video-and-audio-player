@@ -11,9 +11,8 @@
     <section class="topVStatus" v-show="authStatus==8">
       <div class="topVStatusCont">
         <h3 class="tit">本直播为私密直播</h3>
-        <div class="topVStatusForm">
-          <input type="password" placeholder="请输入密码" class="tex" v-model="passValue"/>
-          <button class="ok" @click="passEvt">确定</button>
+        <div class="topVStatusForm a_center">
+        <p class="inpt"><input type="password" placeholder="请输入密码" class="tex" v-model="passValue"/></p><button class="ok" @click="passEvt">确定</button>
         </div>
       </div>
     </section>
@@ -217,10 +216,12 @@ DetailHeader.vue
     position: absolute;
     left: 50%;
     top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+   /* -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
     text-align: center;
-    width: 90%
+    width: 90%;
+    height:1.6rem;
+    margin:-.6rem 0 0 -45%;
   }
 
   .topVFail .tit, .topVStatusCont .tit {
@@ -258,7 +259,7 @@ DetailHeader.vue
   }
 
   .topVStatusCont .tit {
-    font-size: .32rem;
+    font-size: .28rem;
     opacity: 1
   }
 
@@ -269,7 +270,7 @@ DetailHeader.vue
     height: .8rem;
     padding: 0 .55rem;
     border-radius: .5rem;
-    background: #db423d;
+    background:#f03c38;
     color: #fff;
     text-align: center;
   }
@@ -277,30 +278,9 @@ DetailHeader.vue
   .topVStatusForm {
     text-align: center;
   }
-
-  .topVStatusForm .tex {
-    height: .8rem;
-    width: 2rem;
-    padding: 0 .2rem;
-    font-size: .32rem;
-    line-height: .8rem;
-    background: #fff;
-    border-top-left-radius: .5rem;
-    border-bottom-left-radius: .5rem;
-  }
-
-  .topVStatusForm .ok {
-    height: .8rem;
-    width: 1.2rem;
-    font-size: .32rem;
-    line-height: .8rem;
-    background: #fff;
-    border-top-right-radius: .5rem;
-    border-bottom-right-radius: .5rem;
-    background: #db433e;
-    text-align: center;
-    color: #fff;
-  }
+.topVStatusForm .inpt{height:.8rem;width:2rem;padding:0 .2rem;background: #fff;border-top-left-radius: .5rem;border-bottom-left-radius: .5rem;}
+.topVStatusForm .tex{font-size:.28rem;width: 100%; margin-top:.25rem;}
+.topVStatusForm .ok{height:.8rem;width: 1.2rem;font-size:.28rem;line-height: .8rem;background: #fff;border-top-right-radius: .5rem;border-bottom-right-radius: .5rem;background: #db433e;text-align:center;color: #fff;}
 
   .vjs_video_3-dimensions {
     height: 4.22rem;
