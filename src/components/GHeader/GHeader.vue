@@ -7,7 +7,7 @@
         </div>
         <h3>{{name}}</h3>
         <p class="ht_num" v-if="memberNum"><em></em><span>{{memberNum}}</span></p>
-        <p class="ht_desc" v-if="desc != ''" :style="{height:tHeight+'rem'}" v-on:click="selectProp">{{desc}}</p>
+        <p class="ht_desc" :class="{simpleLineAlign:simpleLineAlign}" v-if="desc != ''" :style="{height:tHeight+'rem'}" v-on:click="selectProp">{{desc}}</p>
       </div>
       <a v-bind:class="{'up_ht_btn':upHtBtn,'dn_ht_btn':dnHtBtn}" v-on:click="selectProp" class="ht_open_btn" href="javascript:;" v-if="desc.length >50"></a>
     </div>
@@ -47,7 +47,17 @@
             }
         },
         computed:{
-
+          /**
+           * 单行显示是控制文本居中的属性计算方法
+           * @returns {boolean}
+           */
+          simpleLineAlign(){
+            var show = false;
+            var len = this.desc.length;
+            if (len <= 22)show = true;
+            else show = false;
+            return show;
+          }
         },
         methods: {
             //展开收起社群简介
@@ -98,6 +108,11 @@
     line-height: 0.33rem;
     height: 0.86rem;
     overflow : hidden;
+  }
+
+  .home_top .simpleLineAlign {
+    display: block;
+    text-align: center;
   }
 
   .home_top .ht_open_btn {

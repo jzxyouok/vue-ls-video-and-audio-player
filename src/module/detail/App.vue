@@ -14,7 +14,7 @@
     </article><!-- 菜单栏 -->
     <div  v-show="selected==0">
       <article class="mainCont">
-        <h3 class="moreListFree" v-if="descError == 0">数据获取失败，点击<a @click="descError = 0" href="javascript:;">重试</a></h3>
+        <h3 class="moreListFree" v-if="descError  == 0">数据获取失败，点击<a @click="" href="javascript:;">重试</a></h3>
         <d-summary :circleId="circleId" :followerId="followerId" :liveInfo="liveInfo" v-if="descError == -1"></d-summary>
       </article>
       <live-list v-if="descError == -1"></live-list>
@@ -212,7 +212,6 @@
             break;
         }
       },
-
       /**
        * 判断用户是否推客资格
        **/
@@ -274,7 +273,7 @@
   }
 </script>
 
-<style>
+<style type="text/css">
 /*
 detail-app.vue
 */
@@ -385,12 +384,11 @@ detail-app.vue
   .sharePopBox {
     position: absolute;
     left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    top: 50% ;
     width: 72%;
     background: #fff;
     border-radius: .3rem;
+    margin:-.75rem 0 0 -36%;
   }
 
   .sharePopCent {
