@@ -14,7 +14,7 @@
     </article><!-- 菜单栏 -->
     <div  v-show="selected==0">
       <article class="mainCont">
-        <h3 class="moreListFree" v-if="descError == 0">数据获取失败，点击<a @click="descError = 0" href="javascript:;">重试</a></h3>
+        <h3 class="moreListFree" v-if="descError  == 0">数据获取失败，点击<a @click="" href="javascript:;">重试</a></h3>
         <d-summary :circleId="circleId" :followerId="followerId" :liveInfo="liveInfo" v-if="descError == -1"></d-summary>
       </article>
       <live-list v-if="descError == -1"></live-list>
@@ -254,21 +254,6 @@
           .catch(function (response) {
             console.log(response);
           })
-      },
-      /**
-       * 直播上报统计
-       */
-      liveVisitCount() {
-        this.$http.post("/api/zm/w/live/statistics",{params:{"circleId": this.circleId,"userId": this.userId, "liveId": this.liveInfo.id}})
-          .then((res) => {
-          if (res.body.code == 0){
-        }else{
-          console.log(res);
-        }
-      })
-      .catch(function (response) {
-          console.log(response);
-        })
       }
     }
   }
@@ -385,7 +370,7 @@ detail-app.vue
   .sharePopBox {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 50% ;
     width: 72%;
     background: #fff;
     border-radius: .3rem;
