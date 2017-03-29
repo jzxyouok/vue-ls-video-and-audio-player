@@ -104,7 +104,7 @@
         }
       },
       getUserRole(){//获取用户角色
-        this.$http.get(requstUrl+'/api/v2/circle/member/role/', {params: {"circleId":this.circleId}})
+        this.$http.get(requstUrl+'/api/v2/circle/member/role/', {params: {"circleId":this.circleId,"userId": this.userId}})
           .then((res) => {
             var data = res.body;
             var code = data.code;
@@ -259,7 +259,7 @@
        * 直播上报统计
        */
       liveVisitCount() {
-        this.$http.post("/api/zm/w/live/statistics",{params:{"circleId": this.circleId,"userId": this.userId, "liveId": this.liveInfo.id}})
+        this.$http.post("/api/zm/w/live/statistics",{params:{"circleId": this.circleId,"userId": this.userId, "liveId": this.liveInfo.id}},{emulateJSON:true})
           .then((res) => {
           if (res.body.code == 0){
         }else{

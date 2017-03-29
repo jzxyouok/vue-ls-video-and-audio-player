@@ -32,10 +32,11 @@
     color: #fff;
     background: #fc4e52;
   }
-  
+
 </style>
 
 <script>
+  import zmOauth from 'common/js/wxShare/oauth.js';
   export default {
     name: 'operbutton',
     props: {
@@ -49,13 +50,17 @@
       },
       role: {
         type: Number,
-        default: 0
+        default: 3
       },
       userId: {
         type: String,
         default: ''
       },
       circleId: {
+        type: String,
+        default: ''
+      },
+      liveName: {
         type: String,
         default: ''
       },
@@ -74,11 +79,10 @@
     },
     created(){
       this.ajaxViewAuth();
-      this.dealButtonView();
     },
     data () {
       return {
-        text: '已预约，下载APP接收直播提醒',  //按钮的文案
+        text: '加入社群预约直播',  //按钮的文案
         popFlag: false,
         allow: false,
       }
@@ -88,20 +92,28 @@
        * 预约直播点击事件
        */
       operButtonEvent(){
-        switch (this.view) {
-          case 1:
-            this.popFlag = true;
-            utils.downloadApp();
-            break;
-          case 2:
-            this._EventJoin();
-            break;
-          case 4:
-            this._EventPay();
-            break;
-          case 16:
-            this._EventVip();
-            break;
+        if(this.userId == undefined || this.userId == ""){
+          var auth = new oauth();
+          auth.init("", 1);
+          return auth.auth();
+        }else {
+          switch (this.view) {
+            case 1:
+              this.popFlag = true;
+              break;
+            case 2:
+              this._EventJoin();
+              break;
+            case 8:
+              this._EventJoin();
+              break;
+            case 4:
+              this._EventPay();
+              break;
+            case 16:
+              this._EventVip();
+              break;
+          }
         }
       },
 
@@ -112,12 +124,18 @@
       dealButtonView(){
         var role = this.role;
         var view = this.view;
+        if(role == 3 || role == undefined){
+          this.text = "加入社群预约直播";
+          return false;
+        }
         if (role == 0 || role == 1) { //群主和管理员可观看任何类型
           this.text = "已预约，下载APP接收直播提醒";
+          this.allow = true;
         } else {
           switch (view) {
             case 1:
               this.text = "已预约，下载APP接收直播提醒";
+              this.allow = true;
               break;
             case 3:
               this.text = "加入社群预约直播";
@@ -126,11 +144,21 @@
               //成员、准成员、游客都需要鉴权
               if (!this.allow) {
                 this.text = "支付 " + this.price + " 预约直播";
+              }else{
+                this.text = "已预约，下载APP接收直播提醒";
+                this.allow = true;
               }
+              break;
+            case 8:
+              this.text = "已预约，下载APP接收直播提醒";
+              this.allow = true;
               break;
             case 16:
               if (!this.allow) {
                 this.text = "开通会员预约直播";
+              }else{
+                this.text = "已预约，下载APP接收直播提醒";
+                this.allow = true;
               }
               break;
           }
@@ -149,7 +177,10 @@
               this.allow = true;
             } else if (code == 16321 || code == 16323 || code == 16331) {//未付费，点击跳付费连接
               this.allow = false;
+            }else{
+              this.allow = false;
             }
+            this.dealButtonView();
           })
       },
       /**
@@ -188,14 +219,16 @@
        * */
       _EventPay(){
         if (this.allow == true) {
-          utils.downloadApp();
+          this.popFlag = true;
         } else {
-          var url = "/zhangmen/circle/circle-pay" + "?";
+          var url = "/zhangmen/live/view/charge" + "?";
           url += "circleId=" + this.circleId;
           url += "&userId=" + this.userId;
+          url += "&liveId=" + this.liveId;
+          url += "&liveName=" + this.liveName;
           url += "&bizType=joinCirclePay";
           url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-          url += "&followerId=" + this.followerId;
+          url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
           window.location.href = url;
         }
       },
@@ -205,13 +238,14 @@
        */
       _EventVip(){
         if (this.allow == true) {
-          utils.downloadApp();
+          this.popFlag = true;
         } else {
           var url = "/vip/" + this.circleId + "/product/list" + "?";
           url += "userId=" + this.userId;
+          url += "&liveId=" + this.liveId;
           url += "&noJoin=0";
           url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-          url += "&followerId=" + this.followerId;
+          url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
           window.location.href = url;
         }
       }

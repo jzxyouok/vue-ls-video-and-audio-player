@@ -1,5 +1,5 @@
 <template>
-  <a @click="joinEvent" class="join_circle" v-if="onOff">{{text||'加入社群'}}</a>
+  <a @click="joinEvent" class="join_circle" v-if="onOff">{{text}}</a>
 </template>
 
 <style>
@@ -37,7 +37,11 @@
         type: Number,
         default: 0
       },
-      text: {
+      role: {
+        type: Number,
+        default: 3
+      },
+      joinButtonText: {
         type: String,
         default: "加入社群"
       },
@@ -49,6 +53,7 @@
     data(){
       return {
         timer:0,
+        text:'',
         baseUrls: {
           joinOnPayUrl: requstUrl+'/zhangmen/circle/circle-pay',            //付费加群跳转页面URL
           joinOnVipUrl: requstUrl+'/vip/'+this.circleId+'/product/list',   //会员加群跳转页面URL
@@ -60,7 +65,24 @@
         validStatus: false      //校验加群资格改变的标记
       }
     },
+    created(){
+        this.text = this.joinButtonText;
+        this.initBtnText();
+    },
     methods: {
+      initBtnText(){
+        var role = this.role;
+        if (role < 3) {//已经入群，不显示按钮，顺便将文本置空
+          this.onOff = false;
+          this.text = "";
+        } else if (role == 4) {//当前用户正在进行入群审核中
+          this.onOff = true;
+          this.text = "审核中"
+        } else if (role == 3) {//游客，显示加群按钮
+          this.onOff = true;
+          this.text = "加入社群";
+        }
+      },
       /**
        * 加群事件函数
        */
@@ -176,11 +198,13 @@
           .then(function (res) {
             var data = res.body;
             if (data.code == 0) {
-              this.$parent.addGroup = 1
-              this.$parent.showJoin = false;
+              this.$parent.addGroup = 1;
               this.clearStatus();
+              console.log(this.join);
               if(this.join == 1 || this.join == 2){
                 this.text = "审核中";
+              }else{
+                this.$parent.showJoin = false;
               }
             } else if (data.code == "16021") {//提示文案： 已加入该社群
               this.$parent.addGroup = -1;

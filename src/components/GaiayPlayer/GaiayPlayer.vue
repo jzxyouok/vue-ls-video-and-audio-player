@@ -508,13 +508,20 @@
       console.log(this.liveSource);
     },
     methods:{
-        player(){
+        player(){//播放按钮事件
           var audio =document.querySelector('#video');
           if(this.play){
             audio.play();
             this.play = false;
           }
         },
+      addEventListenerEnded(){
+        var audio =document.querySelector('#video');
+        if(audio.ended){
+            this.$parent.addGroup = -1;
+            this.$parent.popuText = '直播已结束';
+        }
+      },
     }
   }
 </script>

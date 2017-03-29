@@ -13,7 +13,7 @@
       <live-list v-show="selected==0"></live-list>
       <members v-show="selected==1"></members>
     </div>
-    <join-circle :text="joinButtonText"
+    <join-circle :joinButtonText="joinButtonText"
                  :onOff="showJoin"
                  :circleId="circleInfo.id"
                  :userId="userId"
@@ -69,7 +69,7 @@
         popuText: '你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群',
         roleInfo: {},
         showJoin: true,
-        joinButtonText: "",
+        joinButtonText : '',
         howJoin: 0,
         token: utils.getCookie('zhangmen_token_cookie'),
       }
@@ -85,7 +85,7 @@
        * 根据用户身份判断底部按钮文案
        **/
       getRoleInfo(){
-        this.$http.get(this.userRoleUrl)
+        this.$http.get(this.userRoleUrl+"&userId="+ this.userId)
           .then((res) => {
             if (res.body.code == 0) {
               this.roleInfo = res.body;

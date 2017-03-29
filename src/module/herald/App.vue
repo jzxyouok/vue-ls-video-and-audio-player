@@ -2,7 +2,7 @@
   <div id="app">
     <article class="topVideo">
       <span class="topVSub topVYgao">预告</span>
-      <img :src="liveInfo.pic" style="display:block;width:100%;height:100%">
+      <img v-lazy="liveInfo.pic" style="display:block;width:100%;height:100%">
     </article>
     <article class="mainCont mainCont-yg">
       <section class="noticeTime" v-if="timer != 0">
@@ -16,7 +16,7 @@
     <section class="sharePop sharePic" v-show="shareFlag" @click="shareFlag=false">
       <img src="/static/images/herald/sharePic.png"/>
     </section><!-- 分享弹出层 -->
-    <oper-button :utils="utils" :circleId="circleId" :role="role" :view="liveInfo.view" :liveId="liveInfo.id"
+    <oper-button :utils="utils" :liveName="liveName" :circleId="circleId" :role="role" :view="liveInfo.view" :liveId="liveInfo.id"
                  :price="price" :userId="userId" :followerId="followerId" :join="join"></oper-button>
     <mark-layer :addGroup="addGroup" :popuText="popuText"></mark-layer>
   </div>
@@ -51,11 +51,12 @@
         addGroup: 2,//0:失败 1:成功 -1：异常
         userId: '',
         utils: window.utils,
-        role: 0,
+        role: 3,
         join: 0,
         price: 0,
         followerId: '',
         timer:1,
+        liveName:'',
         circleId: utils._getQueryString('circleId'),
         liveInfo: {},   //预告信息
         shareFlag: false,
@@ -75,15 +76,17 @@
           this.liveInfo = JSON.parse(sessionStorage.getItem("list"));
         }
         this.circleId = utils._getQueryString('circleId');
+        this.followerId = utils._getQueryString('followerId');
         sessionStorage.setItem('circleId', this.circleId);
         window.circleInfo.id = this.circleId;
         this.userId = window.userId;
+        this.liveName = this.liveInfo.title;
         if (this.liveInfo.price != undefined) {
           this.price = this.liveInfo.price;
         }
       },
       getUserRole(){//获取用户角色
-        this.$http.get(requstUrl + '/api/v2/circle/member/role/', {params: {"circleId": this.circleId}})
+        this.$http.get(requstUrl + '/api/v2/circle/member/role/', {params: {"circleId": this.circleId,"userId": this.userId}})
           .then((res) => {
           var data = res.body;
         var code = data.code;
@@ -93,7 +96,7 @@
           this.role = role;
           console.log(role);
         } else {
-          alert(msg);
+          console.log(msg);
         }
       })
       },
@@ -142,7 +145,7 @@
        * 直播上报统计
        */
       liveVisitCount() {
-        this.$http.post("/api/zm/w/live/statistics",{params:{"circleId": this.circleId,"userId": this.userId, "liveId": this.liveInfo.id}})
+        this.$http.post("/api/zm/w/live/statistics",{params:{"circleId": this.circleId,"userId": this.userId, "liveId": this.liveInfo.id}},{emulateJSON:true})
           .then((res) => {
           if (res.body.code == 0){
           }else{
