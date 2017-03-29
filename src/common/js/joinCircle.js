@@ -116,7 +116,7 @@ export function joinEvent(userId,followerId,circleId,join,cb){
         joinOnPay('/zhangmen/circle/circle-pay',userId,followerId,circleId);
         break;
       default://其它入群方式
-        hasJoinAuth('/api/v2/circle/member/validation',userId,circleId,followerId,cb);
+        hasJoinAuth('/api/v2/circle/member/validation',userId,circleId,followerId,join,cb);
         break;
     }
   }
@@ -124,12 +124,17 @@ export function joinEvent(userId,followerId,circleId,join,cb){
 /**
  * 执行加群操作
  */
-function doJoin(url,circleId,userId,followerId,cb){
+function doJoin(url,circleId,userId,followerId,join,cb){
   var addGroup,popuText,authStatus
-  var fn = new invoker(cb, arguments, 5);
+  var fn = new invoker(cb, arguments, 6);
+  var type = 109;
+  if(join == 1 || join == 2){
+    type = 101;
+  }
   if (validStatus) {
     utils.ajax({
-      url:url+"?circleId="+circleId+"&followerId="+followerId+"&type=109",
+      url:url,
+      data:{'circleId':circleId,'followerId':followerId,'type':type},
       type:"put",
       success:function (data) {
         if (data.code == 0) {
@@ -161,7 +166,7 @@ function doJoin(url,circleId,userId,followerId,cb){
 /**
  * 判断用户是否有入群资格
  */
-function hasJoinAuth(joinAuthUrl,userId,circleId,followerId,cb){
+function hasJoinAuth(joinAuthUrl,userId,circleId,followerId,join,cb){
   var addGroup, popuText;
   var fn = new invoker(cb, arguments, 5);
   utils.ajax({
@@ -171,7 +176,7 @@ function hasJoinAuth(joinAuthUrl,userId,circleId,followerId,cb){
         var joinstate = data.code;
         var joinMsg = data.message;
         if (joinstate != 0) {
-          if (joinstate == 16053) {//加群资格
+          if (joinstate == 16051) {//加群资格
             var url = '/zhangmen/community/qualified/list' + '?';
             url += 'userId=' + userId;
             url += '&type=1&bizId=' + circleId;
@@ -188,7 +193,7 @@ function hasJoinAuth(joinAuthUrl,userId,circleId,followerId,cb){
           fn.invoke(addGroup, popuText, 0);
         } else {//通过加群资格验证：
           validStatus = true;
-          doJoin('/api/v2/w/circle/member/',circleId,userId,followerId,cb);
+          doJoin('/api/v2/w/circle/member/',circleId,userId,followerId,join,cb);
         }
     },
     error:function (e) {

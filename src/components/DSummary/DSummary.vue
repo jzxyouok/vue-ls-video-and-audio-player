@@ -1,13 +1,13 @@
 <template>
   <section class="liveInfo clearfix">
-    <h1 class="liveInfoTit twoline_text">{{liveInfo.title}}</h1>
+    <h1 class="liveInfoTit">{{liveInfo.title}}</h1>
     <ul class="liveInfoSub clearfix">
       <li class="date fl">{{ new Date(liveInfo.startTime).Format("yyyy-MM-dd hh:mm:ss")}}</li>
       <!--<li class="num fl">128</li>-->
     </ul>
     <div class="introduction" v-if="desc">
-      <div class="introCont" v-bind:class="{'showHeight':showHeight}">{{desc}}</div>
-      <p class="introArrow" v-if="desc.length>=50" v-bind:class="{'down':showHeight}" @click="changeAbstract">箭头</p>
+      <div class="introCont" v-bind:class="{'showHeight':showHeight,'three':desc.length>=97}">{{desc}}</div>
+      <p class="introArrow" v-if="desc.length>=97" v-bind:class="{'down':showHeight}" @click="changeAbstract">箭头</p>
       <!--<p class="introArrow down">箭头</p>向下-->
     </div>
     <dl class="liveInfoTuig pubFlex" @click="hrefCircle">
@@ -47,9 +47,9 @@
       }
     },
     created: function () {
+      this.liveId = this.liveInfo.id;
       this.getDescByLiveId();
       this.getCircleInfo();
-      this.liveId = this.liveInfo.id;
     },
     methods: {
       hrefCircle(){
@@ -74,8 +74,13 @@
           .then((response) => {
             var data = response.body;
         if (data.code == 0) {
-            this.desc = data.descs[liveId];
-            window.circleInfo.desc = data.descs[liveId];
+            if(data.descs[liveId] == '' || data.descs[liveId] == null || data.descs[liveId] == undefined){
+                this.desc = '这个群主很懒，还没有编写直播简介';
+                window.circleInfo.desc = '这个群主很懒，还没有编写直播简介';
+            }else{
+              this.desc = data.descs[liveId];
+              window.circleInfo.desc = data.descs[liveId];
+            }
             this.$parent.descError = -1;
         } else {
           this.$parent.descError = 0;
@@ -93,9 +98,9 @@
             if (body.code == 0) {
               this.circleInfo = body.result;
               window.circleInfo = body.result;
-              secondShare.circle_share(this.desc,this.circleInfo.logo,this.circleInfo.name,this.followerId);
               this.$parent.join = body.result.join;
               this.$parent.descError = -1;
+              secondShare.circle_share(this.desc | '',this.circleInfo.logo,this.circleInfo.name,this.followerId);
             } else {
               this.$parent.descError = 0;
             }
@@ -167,21 +172,23 @@
     transition: all 1s;
     -webkit-transition: all 1s;
   }
-
+  .three {
+    height: 1.2rem;
+  }
   .showHeight {
-    height: 0.85rem;
+    height: auto;
   }
 
   .introArrow {
     width: .4rem;
     height: .4rem;
-    background-position: -.67rem -1.75rem;
+    background-position: -.67rem -2.08rem;
     margin: 0 auto;
     text-indent: -9999px;
   }
 
   .introArrow.down {
-    background-position: -.67rem -2.08rem;
+    background-position: -.67rem -1.75rem;
   }
 
   .liveInfoTuig dt {
@@ -195,11 +202,7 @@
     border-radius: 100%;
     border: 1px solid #f8f8f8;
   }
+.liveInfoTuig dd{font-size: .28rem;color: #646464;line-height: .6rem;margin-left: .3rem;padding-right: .2rem; position: relative;}
+.liveInfoTuig dd:after{content:"";position: absolute;width: .14rem;height: .22rem;background-position:-.78rem -1.46rem;top:50%;right: 0;margin-top:-.11rem; }
 
-  .liveInfoTuig dd {
-    font-size: .28rem;
-    color: #646464;
-    line-height: .6rem;
-    margin-left: .3rem;
-  }
 </style>

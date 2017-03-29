@@ -159,7 +159,6 @@
           });*/
         })
       },
-
       /**
        * 执行加群操作
        */
@@ -180,6 +179,9 @@
               this.$parent.addGroup = 1
               this.$parent.showJoin = false;
               this.clearStatus();
+              if(this.join == 1 || this.join == 2){
+                this.text = "审核中";
+              }
             } else if (data.code == "16021") {//提示文案： 已加入该社群
               this.$parent.addGroup = -1;
               this.$parent.popuText = '已加入该社群';
