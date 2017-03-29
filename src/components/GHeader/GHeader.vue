@@ -7,7 +7,7 @@
         </div>
         <h3>{{name}}</h3>
         <p class="ht_num" v-if="memberNum"><em></em><span>{{memberNum}}</span></p>
-        <p class="ht_desc" v-if="desc != ''" :style="{height:tHeight+'rem'}" v-on:click="selectProp">{{desc}}</p>
+        <p class="ht_desc" :class="{simpleLineAlign:simpleLineAlign}" v-if="desc != ''" :style="{height:tHeight+'rem'}" v-on:click="selectProp">{{desc}}</p>
       </div>
       <a v-bind:class="{'up_ht_btn':upHtBtn,'dn_ht_btn':dnHtBtn}" v-on:click="selectProp" class="ht_open_btn" href="javascript:;" v-if="desc.length >50"></a>
     </div>
@@ -47,7 +47,14 @@
             }
         },
         computed:{
-
+          simpleLineAlign(){
+            var show = false;
+            var len = this.desc.length;
+            console.log("社群介绍文本长度：" + len);
+            if (len <= 22)show = true;
+            else show = false;
+            return show;
+          }
         },
         methods: {
             //展开收起社群简介
@@ -125,6 +132,11 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+
+  .home_top .simpleLineAlign {
+    display: block;
+    text-align: center;
   }
 
   .home_top .ht_open_btn {
