@@ -259,7 +259,7 @@
   }
 </script>
 
-<style>
+<style type="text/css">
 /*
 detail-app.vue
 */
@@ -371,11 +371,12 @@ detail-app.vue
     position: absolute;
     left: 50%;
     top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+    /*-webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);*/
     width: 72%;
     background: #fff;
     border-radius: .3rem;
+    margin:-.75rem 0 0 -36%;
   }
 
   .sharePopCent {
