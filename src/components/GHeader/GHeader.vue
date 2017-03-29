@@ -47,10 +47,13 @@
             }
         },
         computed:{
+          /**
+           * 单行显示是控制文本居中的属性计算方法
+           * @returns {boolean}
+           */
           simpleLineAlign(){
             var show = false;
             var len = this.desc.length;
-            console.log("社群介绍文本长度：" + len);
             if (len <= 22)show = true;
             else show = false;
             return show;
