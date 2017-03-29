@@ -201,7 +201,7 @@
   }
 
   .nav_com {
-    padding-top: 4.99rem;
+    padding: 4.99rem 0 0.9rem;
   }
 
   .join_circle {

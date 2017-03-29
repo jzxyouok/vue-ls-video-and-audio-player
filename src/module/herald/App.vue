@@ -5,18 +5,19 @@
       <img :src="liveInfo.pic" style="display:block;width:100%;height:100%">
     </article>
     <article class="mainCont mainCont-yg">
-      <section class="noticeTime">
+      <section class="noticeTime" v-if="timer != 0">
         <count-down :targetTime="liveInfo.startTime" :callBack="countDownEvent"></count-down>
-        <button class="noticeTimeBtn" @click="shareFlag=true">呼叫小伙伴一起看直播</button>
+        <button class="noticeTimeBtn" @click="shareFlag = true">呼叫小伙伴一起看直播</button>
       </section>
-      <h3 class="moreListFree" v-if="descError  == 0">数据获取失败，点击<a @click="" href="javascript:;">重试</a></h3>
+      <h3 class="moreListFree" v-if="descError == 0">数据获取失败，点击<a @click="descError = -1" href="javascript:;">重试</a></h3>
       <d-summary :circleId="circleId" :followerId="followerId" :liveInfo="liveInfo" v-if="descError == -1"></d-summary>
       <live-list></live-list>
     </article><!-- 内容 -->
     <section class="sharePop sharePic" v-show="shareFlag" @click="shareFlag=false">
       <img src="/static/images/herald/sharePic.png"/>
     </section><!-- 分享弹出层 -->
-    <oper-button :utils="utils" :circleId="circleId" :role="role" :view="liveInfo.view" :liveId="liveInfo.id" :price="price" :userId="userId" :followerId="followerId" :join="join"></oper-button>
+    <oper-button :utils="utils" :circleId="circleId" :role="role" :view="liveInfo.view" :liveId="liveInfo.id"
+                 :price="price" :userId="userId" :followerId="followerId" :join="join"></oper-button>
     <mark-layer :addGroup="addGroup" :popuText="popuText"></mark-layer>
   </div>
 </template>
@@ -35,29 +36,32 @@
   export default {
     name: 'app',
     components: {
-      CountDown, OperButton, LiveList,DSummary,MarkLayer
+      CountDown, OperButton, LiveList, DSummary, MarkLayer
     },
     created(){
       this.loadStaticData();
-      if(this.userId){
+      if (this.userId) {
+        this.getUserRole();
         this.getFollowerId();
+        this.liveVisitCount();//直播上报统计
       }
     },
     data () {
       return {
-        addGroup:2,//0:失败 1:成功 -1：异常
+        addGroup: 2,//0:失败 1:成功 -1：异常
         userId: '',
-        utils:window.utils,
+        utils: window.utils,
         role: 0,
-        join:0,
-        price:0,
-        followerId:'',
+        join: 0,
+        price: 0,
+        followerId: '',
+        timer:1,
         circleId: utils._getQueryString('circleId'),
         liveInfo: {},   //预告信息
-        shareFlag:false,
-        liveDetail:{},
-        descError:-1,
-        liveBa:1,
+        shareFlag: false,
+        liveDetail: {},
+        descError: -1,
+        liveBa: 1,
       }
     },
     methods: {
@@ -65,32 +69,33 @@
        * 转存静态化数据
        */
       loadStaticData(){
-        if(window.liveInfo){
+        if (window.liveInfo) {
           this.liveInfo = window.liveInfo;
         } else {
           this.liveInfo = JSON.parse(sessionStorage.getItem("list"));
         }
         this.circleId = utils._getQueryString('circleId');
-        sessionStorage.setItem('circleId',this.circleId);
+        sessionStorage.setItem('circleId', this.circleId);
         window.circleInfo.id = this.circleId;
         this.userId = window.userId;
-        if(this.liveInfo.price != undefined){
+        if (this.liveInfo.price != undefined) {
           this.price = this.liveInfo.price;
         }
       },
       getUserRole(){//获取用户角色
-        this.$http.get(requstUrl+'/api/v2/circle/member/role/', {params: {"circleId":this.circleId}})
+        this.$http.get(requstUrl + '/api/v2/circle/member/role/', {params: {"circleId": this.circleId}})
           .then((res) => {
           var data = res.body;
-          var code = data.code;
-          var role = data.role;
-          var msg = data.message;
-          if (code == 0) {
-            this.role = role;
-          } else {
-            alert(msg);
-          }
-        })
+        var code = data.code;
+        var role = data.role;
+        var msg = data.message;
+        if (code == 0) {
+          this.role = role;
+          console.log(role);
+        } else {
+          alert(msg);
+        }
+      })
       },
       /**
        * 判断用户是否推客资格
@@ -98,18 +103,18 @@
       getFollowerId(){
         this.$http.get("/api/sf/" + this.circleId + "/belong?userId=" + this.userId + "&circleIds=" + this.circleId + "&sfType=1")
           .then((res) => {
-          if (res.body.code == 0) {
-            let data = res.body;
-            if (data.result) {
-              if (data.result.length >= 1) {
-                this.followerId = this.userId;
-                sessionStorage.setItem("followerId", this.userId);
-              }
+          if (res.body.code == 0){
+          let data = res.body;
+          if (data.result) {
+            if (data.result.length >= 1) {
+              this.followerId = this.userId;
+              sessionStorage.setItem("followerId", this.userId);
             }
-          } else {
-            console.log(res);
           }
-        })
+        }else{
+          console.log(res);
+        }
+      })
       .catch(function (response) {
           this.getCricleFollower();
           console.log(response);
@@ -117,30 +122,37 @@
       },
       /**
        * 获取社群是否开启推客资格
-       */
+       **/
       getCricleFollower(){
         this.$http.get("/api/sf/" + this.circleId + "/condition")
           .then((res) => {
-          if (res.body.code == 0) {
+          if (res.body.code == 0){
             let data = res.body;
             if (data.joinState == 1) {
-
             }
-          } else {
+          }else{
             console.log(res);
           }
-        })
+      })
       .catch(function (response) {
           console.log(response);
         })
       },
       /**
-       * 倒计时结束执行动作
+       * 直播上报统计
        */
-      countDownEvent(){
-        console.log("倒计时结束");
+      liveVisitCount() {
+        this.$http.post("/api/zm/w/live/statistics",{params:{"circleId": this.circleId,"userId": this.userId, "liveId": this.liveInfo.id}})
+          .then((res) => {
+          if (res.body.code == 0){
+          }else{
+          console.log(res);
+          }
+        })
+        .catch(function (response) {
+          console.log(response);
+        })
       }
-
     }
   }
 </script>
@@ -417,7 +429,7 @@
 
   .liveInfoSub .date::before {
     background-position: -.76rem 0rem;
-    left:0;
+    left: 0;
   }
 
   .liveInfoSub .num::before {

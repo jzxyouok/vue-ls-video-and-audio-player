@@ -1,6 +1,6 @@
 /*reset.css*/
 @charset "utf-8";
-html,body{height:100%; width: 100%; margin: 0; padding: 0;}
+html,body{width: 100%; margin: 0; padding: 0;}
 a,em,u{ text-decoration: none;font-style: normal;font-weight: normal;}
 a:active,a:visited,a:link,a:hover{text-decoration: none;}
 table { border-spacing:0; border-collapse:collapse;}

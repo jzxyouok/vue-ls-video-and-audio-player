@@ -80,7 +80,7 @@
       return {
         text: '已预约，下载APP接收直播提醒',  //按钮的文案
         popFlag: false,
-        allow:false,
+        allow: false,
       }
     },
     methods: {
@@ -91,6 +91,7 @@
         switch (this.view) {
           case 1:
             this.popFlag = true;
+            utils.downloadApp();
             break;
           case 2:
             this._EventJoin();
@@ -118,17 +119,17 @@
             case 1:
               this.text = "已预约，下载APP接收直播提醒";
               break;
-            case 2:
-                this.text = "加入社群预约直播";
+            case 3:
+              this.text = "加入社群预约直播";
               break;
             case 4:
-                //成员、准成员、游客都需要鉴权
-              if(!this.allow){
-                this.text = "支付 "+this.price+" 预约直播";
+              //成员、准成员、游客都需要鉴权
+              if (!this.allow) {
+                this.text = "支付 " + this.price + " 预约直播";
               }
               break;
             case 16:
-              if(!this.allow) {
+              if (!this.allow) {
                 this.text = "开通会员预约直播";
               }
               break;
@@ -139,9 +140,9 @@
        * 鉴权请求 成功返回true,失败返回false
        */
       ajaxViewAuth(){
-        var url = requstUrl+"/api/v2/circle/member/validation";
-        this.$http.get(url,{params:{ "circleId":this.circleId}})
-          .then((res)=> {
+        var url = requstUrl + "/api/v2/circle/member/validation";
+        this.$http.get(url, {params: {"circleId": this.circleId}})
+          .then((res) => {
             var data = res.body;
             var code = data.code;
             if (code == 16301 || code == 16303) {//已付费
@@ -155,24 +156,28 @@
        * 加入社群预约直播
        * */
       _EventJoin(){
-        var url=requstUrl+"/api/v2/w/circle/member/";
+        var url = requstUrl + "/api/v2/w/circle/member/";
         var type = 109;
-        if(this.join == 1 || this.join == 2){
+        if (this.join == 1 || this.join == 2) {
           type = 101;
         }
-        this.$http.put(url,{"circleId":this.circleId,"followerId":this.followerId,"type":type},{emulateJSON:true})
-          .then((res)=>{
-            var data=data.body;
+        this.$http.put(url, {
+          "circleId": this.circleId,
+          "followerId": this.followerId,
+          "type": type
+        }, {emulateJSON: true})
+          .then((res) => {
+            var data = res.body;
             if (data.code == 0) { //入群成功
               this.text = "已预约，下载APP接收直播提醒";
             } else if (data.code == "16021") {// 已加入该社群
               //this.$parent.addGroup = 0;
-               alert("已加入该社群");
+              alert("已加入该社群");
             } else if (data.code == "16022") {//群成员已满
               //this.$parent.addGroup = 0;
               alert("群成员已满");
             } else if (data.code == "16062") {//您已被社群加入黑名单,不能加入该社群
-             alert("您已被社群加入黑名单,不能加入该社群");
+              alert("您已被社群加入黑名单,不能加入该社群");
             } else if (data.code == "16061") {//审核中
               alert("您的入群申请正在被审核中");
             }
@@ -182,25 +187,33 @@
        * 支付金额预约直播
        * */
       _EventPay(){
-        var url = "/zhangmen/circle/circle-pay" + "?";
-        url += "circleId=" + this.circleId;
-        url += "&userId=" + this.userId;
-        url += "&bizType=joinCirclePay";
-        url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-        url += "&followerId=" + this.followerId;
-        window.location.href = url;
+        if (this.allow == true) {
+          utils.downloadApp();
+        } else {
+          var url = "/zhangmen/circle/circle-pay" + "?";
+          url += "circleId=" + this.circleId;
+          url += "&userId=" + this.userId;
+          url += "&bizType=joinCirclePay";
+          url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
+          url += "&followerId=" + this.followerId;
+          window.location.href = url;
+        }
       },
       /**
        * 购买会员预约直播
        * @private
        */
       _EventVip(){
-        var url = "/vip/"+this.circleId+"/product/list" + "?";
-        url += "userId=" + this.userId;
-        url += "&noJoin=0";
-        url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-        url += "&followerId=" + this.followerId;
-        window.location.href = url;
+        if (this.allow == true) {
+          utils.downloadApp();
+        } else {
+          var url = "/vip/" + this.circleId + "/product/list" + "?";
+          url += "userId=" + this.userId;
+          url += "&noJoin=0";
+          url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
+          url += "&followerId=" + this.followerId;
+          window.location.href = url;
+        }
       }
     }
   }
