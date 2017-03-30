@@ -182,7 +182,7 @@
   .introArrow {
     width: .4rem;
     height: .4rem;
-    background-position: -.67rem -2.08rem;
+    background-position: -.65rem -2.08rem;
     margin: 0 auto;
     text-indent: -9999px;
   }

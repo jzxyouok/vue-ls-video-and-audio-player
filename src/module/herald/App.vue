@@ -16,8 +16,8 @@
     <section class="sharePop sharePic" v-show="shareFlag" @click="shareFlag=false">
       <img src="/static/images/herald/sharePic.png"/>
     </section><!-- 分享弹出层 -->
-    <oper-button :utils="utils" :liveName="liveName" :circleId="circleId" :role="role" :view="liveInfo.view" :liveId="liveInfo.id"
-                 :price="price" :userId="userId" :followerId="followerId" :join="join"></oper-button>
+    <oper-button :utils="utils" :liveName="liveName" :circleId="circleId" :view="liveInfo.view" :liveId="liveInfo.id" :token="token"
+                 :price="price" :userId="userId" :followerId="followerId"></oper-button>
     <mark-layer :addGroup="addGroup" :popuText="popuText"></mark-layer>
   </div>
 </template>
@@ -41,7 +41,6 @@
     created(){
       this.loadStaticData();
       if (this.userId) {
-        this.getUserRole();
         this.getFollowerId();
         this.liveVisitCount();//直播上报统计
       }
@@ -49,8 +48,10 @@
     data () {
       return {
         addGroup: 2,//0:失败 1:成功 -1：异常
+        popuText:'',
         userId: '',
         utils: window.utils,
+        token:'',
         role: 3,
         join: 0,
         price: 0,
@@ -70,6 +71,7 @@
        * 转存静态化数据
        */
       loadStaticData(){
+        this.token = utils.getCookie('token');
         if (window.liveInfo) {
           this.liveInfo = window.liveInfo;
         } else {
@@ -84,21 +86,6 @@
         if (this.liveInfo.price != undefined) {
           this.price = this.liveInfo.price;
         }
-      },
-      getUserRole(){//获取用户角色
-        this.$http.get(requstUrl + '/api/v2/circle/member/role/', {params: {"circleId": this.circleId,"userId": this.userId}})
-          .then((res) => {
-          var data = res.body;
-        var code = data.code;
-        var role = data.role;
-        var msg = data.message;
-        if (code == 0) {
-          this.role = role;
-          console.log(role);
-        } else {
-          console.log(msg);
-        }
-      })
       },
       /**
        * 判断用户是否推客资格

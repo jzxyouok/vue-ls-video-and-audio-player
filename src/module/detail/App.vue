@@ -75,7 +75,7 @@
       }
     },
     created: function () {
-        this.followerId = utils._getQueryString('followerId');
+      this.followerId = utils._getQueryString('followerId');
       this.loadStaticData();
       if(this.userId){
         this.getFollowerId();
@@ -84,8 +84,18 @@
       if (this.liveInfo.view == 4 || this.liveInfo.view == 16) {
         this.getViewAuth();
       }
+      this.addEventListenerEnded();
     },
     methods: {
+      addEventListenerEnded(){
+        var timer = window.setInterval(function () {
+          var audio =document.querySelector('#video');
+          if(audio.ended){
+            alert('直播已结束');
+            window.clearInterval(timer);
+          }
+        });
+      },
       tabChange(num){
         this.selected = num;
       },
@@ -126,7 +136,7 @@
           token: this.token
         }
         if (password) params.body = password;
-        this.$http.get('//zm.gaiay.net.cn/api/live/view/', {params: params})
+        this.$http.get('/api/live/view/', {params: params})
           .then((res) => {
             var data = res.body;
             var code = data.code;

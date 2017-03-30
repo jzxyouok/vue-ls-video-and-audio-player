@@ -76,30 +76,34 @@ function clearStatus(addGroup){
 /**
  * 处理付费类型的入群操作
  */
-function joinOnPay(joinOnPayUrl,userId,followerId,circleId){
-  var url = joinOnPayUrl + '?';
+function joinOnPay(joinOnPayUrl,userId,followerId,circleId,liveId,liveName){
+  var url = joinOnPayUrl + "?";
   url += "circleId=" + circleId;
   url += "&userId=" + userId;
+  url += "&liveId=" + liveId;
+  url += "&liveName=" + liveName;
   url += "&bizType=joinCirclePay";
   url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-  url += "&followerId=" + followerId;
+  url += "&followerId=" + followerId == undefined ? '' : followerId;
   window.location.href = url;
 }
 /**
  * 处理会员类型的入群操作
  */
-function joinOnVip(joinOnVipUrl,userId,followerId){
-  var url = joinOnVipUrl + '?';
+function joinOnVip(joinOnVipUrl,userId,followerId,circleId,liveId){
+  var url = joinOnVipUrl + "?";
   url += "userId=" + userId;
+  url += "&circleId=" + circleId;
+  url += "&liveId=" + liveId;
   url += "&noJoin=0";
   url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-  url += "&followerId=" + followerId;
+  url += "&followerId=" + followerId == undefined ? '' : followerId;
   window.location.href = url;
 }
 /**
  * 加群事件函数
  */
-export function joinEvent(userId,followerId,circleId,join,cb){
+export function joinEvent(userId,followerId,circleId,join,liveId,liveName,cb){
   if(timer!=0){
     return;
   }
@@ -110,10 +114,10 @@ export function joinEvent(userId,followerId,circleId,join,cb){
   }else{
     switch (join) {
       case 8:// 入群类型为 会员入群
-        joinOnVip('/vip/'+circleId+'/product/list',userId,followerId);
+        joinOnVip('/vip/'+circleId+'/product/list',userId,followerId,circleId,liveId);
         break;
       case 4:// 入群类型为 付费入群
-        joinOnPay('/zhangmen/circle/circle-pay',userId,followerId,circleId);
+        joinOnPay('/zhangmen/live/view/charge',userId,followerId,circleId,liveId,liveName);
         break;
       default://其它入群方式
         hasJoinAuth('/api/v2/circle/member/validation',userId,circleId,followerId,join,cb);

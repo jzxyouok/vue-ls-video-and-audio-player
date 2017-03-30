@@ -4,18 +4,6 @@ window.utils = {
     version = (typeof version == "undefined" || version == "") ? "rc" : version;
     window.location.href = "http://m.zm518.cn/zhangmen/download/app-download?preview=" + version + "&version=" + version;
   },
-  zmServerCfg: function () {
-    var url = window.location.href;
-    if (/^t\.\./.test(url)) {
-      return 'http://t.zm.gaiay.cn';
-    }
-    if (/^zm\./.test(url)) {
-      return 'http://zm.gaiay.net.cn';
-    }
-    if (/^m\./.test(url)) {
-      return 'http://m.zm518.cn';
-    }
-  },
   /* 封装ajax函数
    * @param {string}opt.type http连接的方式，包括POST和GET两种方式
    * @param {string}opt.url 发送请求的url

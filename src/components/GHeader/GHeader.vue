@@ -62,16 +62,18 @@
         methods: {
             //展开收起社群简介
             selectProp: function () {
-                if(this.num){
+                if(this.desc.length >50) {
+                  if (this.num) {
                     this.upHtBtn = true;
                     this.dnHtBtn = false;
                     this.tHeight = 2.4;
                     this.num--;
-                }else{
+                  } else {
                     this.upHtBtn = false;
                     this.dnHtBtn = true;
                     this.tHeight = 0.86;
                     this.num++;
+                  }
                 }
             }
         }
@@ -86,46 +88,11 @@
   .logo{padding-top: 0.54rem; margin: 0 auto; height: 1.7rem;  width: 1.16rem;}
   .home_top img {height: 1.16rem; width: 1.16rem; border-radius: 100%;}
   .home_top h3 {font-size: 0.36rem; line-height: 0.4rem; padding-top: 0.2rem; text-align: center;}
-  .home_top .ht_num {
-    font-size: 0.24rem;
-    text-align: center;
-    line-height: 0.24rem;
-    padding-top: 0.1rem;
-  }
-
-  .home_top .ht_num em {
-    display: inline-block;
-    width: 0.2rem;
-    height: 0.2rem;
-    background: url("../../module/home/images/g_ioc_1.png") no-repeat;
-    background-size: 0.2rem;
-    vertical-align: middle;
-    margin-right: 0.08rem;
-  }
-
-  .home_top .ht_desc {
-    padding: 0.2rem 1.23rem 0;
-    line-height: 0.33rem;
-    height: 0.86rem;
-    overflow : hidden;
-  }
-
-  .home_top .simpleLineAlign {
-    display: block;
-    text-align: center;
-  }
-
-  .home_top .ht_open_btn {
-    display: block;
-    width: 0.4rem;
-    height: 0.3rem;
-    background: url("../../module/home/images/g_ioc_2.png") no-repeat center bottom;
-    background-size: 0.24rem 0.14rem;
-    position: absolute;
-    left: 50%;
-    top:3.7rem;
-    margin-left: -0.15rem;
-  }
+  .home_top .ht_num {font-size: 0.24rem; text-align: center; line-height: 0.24rem; padding-top: 0.1rem;}
+  .home_top .ht_num em {display: inline-block; width: 0.2rem; height: 0.2rem; background: url("../../module/home/images/g_ioc_1.png") no-repeat; background-size: 0.2rem; vertical-align: middle; margin-right: 0.08rem;}
+  .home_top .ht_desc {padding: 0.2rem 1.23rem 0; line-height: 0.33rem; height: 0.86rem; overflow : hidden;}
+  .home_top .simpleLineAlign {display: block; text-align: center;}
+  .home_top .ht_open_btn {display: block; width: 0.4rem; height: 0.3rem; background: url("../../module/home/images/g_ioc_2.png") no-repeat center bottom; background-size: 0.24rem 0.14rem; position: absolute; left: 50%; top:3.7rem; margin-left: -0.15rem;}
   .up_ht_btn{
     animation:a_dn_hto_btn 0.5s forwards;
     -webkit-animation:a_dn_hto_btn 0.5s forwards;

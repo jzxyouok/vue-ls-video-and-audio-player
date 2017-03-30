@@ -9,8 +9,8 @@ window.oauth = function () {
     "wx_app_id": "wx1e3831e84f2d20aa",
     "wx_oauth_url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=",
     "wx_oauth_params": "&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect",
-    "domain": window.location.protocol + "//zm.gaiay.net.cn",
-    "redirect": window.location.protocol + "//zm.gaiay.net.cn/zhangmen/weixin/auth/index"
+    "domain": window.location.protocol,
+    "redirect": window.location.protocol + "/zhangmen/weixin/auth/index"
   };
   /**
    *  innerRedirectUrl：跳转的业务url，
@@ -47,7 +47,7 @@ window.oauth = function () {
   };
   this.zmOauth = function () {
     //统一到注册界面
-    window.location.href = this.getOption("domain") + "/zhangmen/cards/create/commmunity?circleId=" + encodeURIComponent(window.circleInfo.id) + "&source=BY_COMMUNITY&redirectUrl=" + encodeURIComponent(this.innerRedirectUrl);
+    window.location.href = "/zhangmen/cards/create/commmunity?circleId=" + encodeURIComponent(window.circleInfo.id) + "&source=BY_COMMUNITY&redirectUrl=" + encodeURIComponent(this.innerRedirectUrl);
   };
   this.auth = function () {
     if (navigator.userAgent.indexOf("MicroMessenger") > 0) {

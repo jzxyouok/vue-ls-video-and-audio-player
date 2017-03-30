@@ -1,12 +1,10 @@
 <template>
   <section class="familyNumVideo">
-    <img v-bind:data-src="livePoster" v-show="play" v-lazy="livePoster" style="width:100%;height:100%">
+    <img v-bind:data-src="livePoster" :src="livePoster" v-show="play" v-lazy="livePoster" style="width:100%;height:100%;">
     <div class="topVBf" style="display:block" v-show="play" @click="player"></div>
     <div class="videoPlayControl" style="display:block;">
-      <video id="video" style="z-index:-1; object-fit: fill;" preload="" controls=""
-             webkit-playsinline="" playsinline="" x-webkit-airplay="" width="100%"
-             :data-src="liveSource" :src="liveSource"
-      >
+      <video id="video" style="z-index:-1; object-fit: fill;" :poster="livePoster" preload="" controls="" webkit-playsinline="" playsinline="" x-webkit-airplay="" width="100%"
+             :data-src="liveSource" :src="liveSource">
       </video>
     </div>
     <div class="audioPlayControl" style="display: none;">
@@ -48,6 +46,7 @@
     background: rgba(0, 0, 0, .4);
     border-radius: 100%;
     display: block;
+    z-index: 999;
   }
 
   .topVBf::after {
@@ -514,14 +513,7 @@
             audio.play();
             this.play = false;
           }
-        },
-      addEventListenerEnded(){
-        var audio =document.querySelector('#video');
-        if(audio.ended){
-            this.$parent.addGroup = -1;
-            this.$parent.popuText = '直播已结束';
         }
-      },
     }
   }
 </script>

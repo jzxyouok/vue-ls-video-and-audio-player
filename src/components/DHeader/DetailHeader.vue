@@ -41,7 +41,7 @@
       </div>
     </section>
     <!--<video-player :options="videoOptions" style="display:block;width:100%;height:100%"></video-player>-->
-    <gaiay-player :liveSource="dealLiveSrc" :livePoster="liveInfo.pic"></gaiay-player>
+    <gaiay-player :addGroup="addGroup" :liveSource="dealLiveSrc" :livePoster="liveInfo.pic"></gaiay-player>
   </article>
 </template>
 <script>
@@ -67,6 +67,10 @@
         type: String,
         default: ''
       },
+      addGroup: {
+        type: Number,
+        default: 2
+      },
       userRole: {
         type: Number,
         default: 4
@@ -90,7 +94,7 @@
         videoOptions: {//     vue-video-player使用的配置，备用勿删
           source: {
             type: "application/x-mpegURL",
-            src: "http://pili-live-hls.live.zm.gaiay.cn/gaiay-pro/58d1de1da3d5ec03e9001a24.m3u8",
+            src: "",
             withCredentials: false
           },
           poster: "",
@@ -120,7 +124,7 @@
       },
       joinEvt(){
           let _this = this;
-          joinEvent(this.userId,this.followerId,this.circleId,this.$parent.join, function(addGroup, popuText, authStatus){
+          joinEvent(this.userId,this.followerId,this.circleId,this.$parent.join,this.liveInfo.id,this.liveInfo.name, function(addGroup, popuText, authStatus){
             _this.$parent.addGroup = addGroup;
             _this.$parent.popuText = popuText;
             _this.$parent.authStatus = authStatus;
