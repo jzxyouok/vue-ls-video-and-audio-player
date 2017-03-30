@@ -43,8 +43,8 @@ var webpackConfig = merge(baseWebpackConfig, {
     // extract css into its own file
     // new ExtractTextPlugin(utils.assetsPath('css/[name].[contenthash].css')),
     new ExtractTextPlugin(utils.assetsPath('css/[name].css')),
-    // generate dist index.html with correct asset hash for caching.
-    // you can customize output by editing /index.html
+    // generate dist video.html with correct asset hash for caching.
+    // you can customize output by editing /video.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
