@@ -20,7 +20,7 @@ export var secondShare = {
     }
     return shareUrl;
   },
-  circle_share: function (desc, logo, name, followerId) {
+  circle_share: function (desc, logo, name, followerId,liveFlag) {//liveFlag:如果传值 表示是直播的二次分享
     var shareContent = desc;
     if (shareContent == "") {
       shareContent = "商业玩的就是社群，快速加入，扩展资源。";
@@ -36,7 +36,7 @@ export var secondShare = {
     if (window.wxHelper6) {
       //把logo赋值给分享图片地址
       wxHelper6.img = logo;
-      wxHelper6.title = name;
+      wxHelper6.title = liveFlag?name:"邀请你加入掌门社群【"+name+"】,人脉资源立刻对接";
       wxHelper6.desc = shareContent;
       wxHelper6.link = shareUrl;
       wxHelper6.init();
