@@ -50,7 +50,7 @@ wxHelper6.init = function init() {
     var json = htmlobj.result;
     console.log(json.appId);
     wx.config({
-      debug : true,
+      debug : false,
       appId : json.appId,
       timestamp : json.timestamp,
       nonceStr : json.nonceStr,

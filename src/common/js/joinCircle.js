@@ -142,8 +142,13 @@ function doJoin(url,circleId,userId,followerId,join,cb){
       type:"put",
       success:function (data) {
         if (data.code == 0) {
-          addGroup = 1
-          clearStatus(addGroup);
+          if(join == 2){
+            authStatus = 2;
+          }else{
+            authStatus = 0;
+            addGroup = 1
+            clearStatus(addGroup);
+          }
         } else if (data.code == "16021") {//提示文案： 已加入该社群
           addGroup = -1;
           popuText = '已加入该社群';
@@ -157,7 +162,6 @@ function doJoin(url,circleId,userId,followerId,join,cb){
           addGroup = 0;
           clearStatus(addGroup);
         }
-        authStatus = 0;
         fn.invoke(addGroup, popuText, authStatus);
       },
       error: function (err) {

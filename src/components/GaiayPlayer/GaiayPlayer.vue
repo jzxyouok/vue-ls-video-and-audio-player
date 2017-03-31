@@ -8,7 +8,7 @@
       </video>
     </div>
     <div class="audioPlayControl" style="display: none;">
-      <video id="myVideo" preload="auto"
+      <video id="myVideo" preload="auto" :poster="livePoster"
              style="z-index: -1; object-fit: fill;"
              webkit-playsinline="" playsinline=""
              x-webkit-airplay="" width="100%">

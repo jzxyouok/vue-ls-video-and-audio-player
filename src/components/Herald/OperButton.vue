@@ -212,18 +212,8 @@
             }
             break;
           case 4:
-            if(role == 3){
-              this.text = "支付 " + this.price + " 预约直播";
-            }else{
-              this.getViewAuth();
-            }
-            break;
           case 16:
-            if(role == 3){
-              this.text = "开通会员预约直播";
-            }else{
               this.getViewAuth();
-            }
             break;
         }
       },
@@ -380,10 +370,10 @@
       joinOnPay(){
         var url = "/zhangmen/circle/circle-pay" + "?";
         url += "circleId=" + this.circleId;
-        url += "&userId=" + userId;
+        url += "&userId=" + this.userId;
         url += "&bizType=joinCirclePay";
         url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-        url += "&followerId=" + this.followerId;
+        url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
         window.location.href = url;
       },
       /**
@@ -394,7 +384,7 @@
         url += "userId=" + this.userId;
         url += "&noJoin=0";
         url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-        url += "&followerId=" + this.followerId;
+        url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
         window.location.href = url;
       },
     }

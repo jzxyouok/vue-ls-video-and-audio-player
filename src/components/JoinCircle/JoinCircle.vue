@@ -71,7 +71,7 @@
               return;
           }
           console.log(this.userId);
-        if (this.$parent.joinButtonText == "审核中")return;
+        if (this.$parent.joinButtonText == "加群审核中")return;
         if(this.userId == undefined || this.userId == ""){
           var auth = new oauth();
           auth.init("", 1);
@@ -178,12 +178,12 @@
           .then(function (res) {
             var data = res.body;
             if (data.code == 0) {
-              this.$parent.addGroup = 1;
-              this.clearStatus();
               console.log(this.join);
               if(this.join == 1 || this.join == 2){
-                this.$parent.joinButtonText = "审核中";
+                this.$parent.joinButtonText = "加群审核中";
               }else{
+                this.$parent.addGroup = 1;
+                this.clearStatus();
                 this.$parent.showJoin = false;
               }
             } else if (data.code == "16021") {//提示文案： 已加入该社群

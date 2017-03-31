@@ -43,11 +43,12 @@
     created(){//相当于init
       window.circleInfo.circleId = window.circleInfo.id
       sessionStorage.setItem('circleId', window.circleInfo.id);
+      this.followerId = utils._getQueryString("followerId") || '';
+      console.log(this.followerId);
       if(userId){
         this.getRoleInfo();
         this.getFollowerId();
       }
-      secondShare.circle_share(this.circleInfo.desc,this.circleInfo.logo,this.circleInfo.name,this.followerId);
     },
     data () {
       return {
@@ -55,7 +56,7 @@
         lives: [],
         circleInfo: window.circleInfo,
         userId:userId,
-        followerId: utils._getQueryString("followerId"),
+        followerId: '',
         userRoleUrl: requstUrl + "/api/v2/circle/member/role?circleId="+window.circleInfo.id,//社群身份信息
         followerIdUrl: requstUrl + "/api/sf/" + window.circleInfo.id + "/belong?userId=" + userId + "&circleIds=" + window.circleInfo.id + "&sfType=1",//查询当前用户是否分销商
         conditionUrl: requstUrl + "/api/sf/" + window.circleInfo.id + "/condition",//查询当前社群是否开启加群资格
@@ -121,21 +122,33 @@
       getFollowerId(){
         this.$http.get(this.followerIdUrl)
           .then((res) => {
-            if (res.body.code == 0) {
+            if(res.body.code == 0) {
               let data = res.body;
               if (data.result) {
                 if (data.result.length >= 1) {
-                  sessionStorage.setItem("followerId", userId);
+                  this.followerId = this.userId || '';
+                  sessionStorage.setItem("followerId", this.userId);
                 }
               }
-            } else {
+            }else {
               console.log(res);
             }
+            var desc = this.circleInfo.desc;
+            var logo = this.circleInfo.logo;
+            var name = this.circleInfo.name;
+            var followerId = this.followerId;
+            console.log(followerId);
+            secondShare.circle_share(desc,logo,name,followerId);
           })
           .catch(function (response) {
+            var desc = this.circleInfo.desc;
+            var logo = this.circleInfo.logo;
+            var name = this.circleInfo.name;
+            var followerId = this.followerId;
+            console.log(followerId);
+            secondShare.circle_share(desc,logo,name,followerId);
             this.getCricleFollower();
-            console.log(response);
-          })
+        })
       },
       /**
        * 获取社群是否开启推客资格

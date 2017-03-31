@@ -26,6 +26,7 @@
     background: rgba(0, 0, 0, 0.8);
     border-radius: 0.1rem;
     margin: -1rem;
+    z-index: 999;
   }
 
   .popups img {

@@ -3,7 +3,7 @@
     <div class="home_top">
       <div v-bind:class="{'up_con':upHtBtn,'dn_con':dnHtBtn}" class="home_top_con">
         <div class="logo">
-          <img v-lazy="logo" v-show="dnHtBtn" v-bind:class="{'up_ht_btn':upHtBtn,'dn_ht_btn':dnHtBtn}">
+          <img v-lazy="logo" v-show="dnHtBtn" v-bind:class="{'up_ht_btn':dnHtBtn,'dn_ht_btn':upHtBtn}">
         </div>
         <h3>{{name}}</h3>
         <p class="ht_num" v-if="memberNum"><em></em><span>{{memberNum}}</span></p>
@@ -19,7 +19,7 @@
         data () {
             return {
                 bgStyle: {
-                    background:'url('+this.logo+') no-repeat center',
+                    background:"url("+this.logo+"_r750x500) no-repeat center",
                     backgroundSize:'100% 4.2rem'
                 },
                 tHeight : 0.86,

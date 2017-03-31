@@ -16,10 +16,16 @@
         </div>
       </div>
     </section>
-    <section class="topVStatus" v-show="authStatus==2">
+    <section class="topVStatus" v-show="authStatus==1">
       <div class="topVStatusCont">
         <h3 class="tit">本直播仅限群成员观看</h3>
         <button class="btn" @click="joinEvt">加入社群</button>
+      </div>
+    </section>
+    <section class="topVStatus" v-show="authStatus==2">
+      <div class="topVStatusCont">
+        <h3 class="tit">本直播仅限群成员观看</h3>
+        <button class="btn" @click="joinEvt">加群审核中</button>
       </div>
     </section>
     <section class="topVStatus" v-show="authStatus==4">
@@ -106,6 +112,7 @@
     created: function () {
       console.log("详情头部组件的详情信息：");
       console.log(this.liveInfo);
+      console.log("权限弹层码："+this.authStatus);
     },
     methods: {
       passEvt(){ //密码框按钮点击事件
@@ -133,11 +140,23 @@
       },
       payEvt(){
 //        alert("进入支付流程");
-        this.viewAuth_charge();
+        if(this.userId == undefined || this.userId == ""){
+          var auth = new oauth();
+          auth.init("", 1);
+          return auth.auth();
+        }else{
+          this.viewAuth_charge();
+        }
       },
       payVipEvt(){
 //        alert("购买会员、其它会员流程");
-        this.viewVipList_change();
+        if(this.userId == undefined || this.userId == ""){
+          var auth = new oauth();
+          auth.init("", 1);
+          return auth.auth();
+        }else {
+          this.viewVipList_change();
+        }
       },
       //跳转交费
       viewAuth_charge: function () {

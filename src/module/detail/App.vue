@@ -65,7 +65,7 @@
         price:0,
         addGroup: 2,//0:失败 1:成功 -1：异常
         popuText: '你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群',
-        authStatus: 1,//1免费,2成员,4付费,8密码,16会员类型，预告不需要这个属性
+        authStatus: 0,//0,免费1成员,2审核,4付费,8密码,16会员类型，预告不需要这个属性
         liveDetail: {},
         liveBa: 1,
         shareStatus: -1,//分享的弹窗状态 0:显示 -1:不显示
@@ -158,32 +158,32 @@
         console.log("进入viewByRole:" + role);
         switch (view) {
           case 1://免费视频，不显示任何遮罩 可看
-            this.authStatus = 1;
+            this.authStatus = 0;
             break;
           case 2:
             if (role == 0 || role == 1 || role == 2) { //已入群
-              this.authStatus = 1;
+              this.authStatus = 0;
             } else {
-              this.authStatus = 2;
+              this.authStatus = 1;
             }
             break;
           case 4: //
             if (role == 0 || role == 1) {//群主和管理员可看
-              this.authStatus = 1;
+              this.authStatus = 0;
             } else {
               this.authStatus = 4;
             }
             break;
           case 8:
             if (role == 0 || role == 1) {//群主和管理员可看
-              this.authStatus = 1;
+              this.authStatus = 0;
             } else {
               this.authStatus = 8;
             }
             break;
           case 16:
             if (role == 0 || role == 1) {//群主和管理员可看
-              this.authStatus = 1;
+              this.authStatus = 0;
             } else {
               this.authStatus = 16;
             }
@@ -196,14 +196,14 @@
         switch (view) {
           case 4:
             if (authCode == "16301") {//已付费
-              this.authStatus = 1;
+              this.authStatus = 0;
             } else if (authCode == "16321") {//未付费
               this.authStatus = 4;
             }
             break;
           case 8:
             if (authCode == "16302") {//密码正确
-              this.authStatus = 1;
+              this.authStatus = 0;
             } else if (authCode == "16322") {//密码错误
               this.authStatus = 8;
               alert("密码错误");
@@ -211,10 +211,12 @@
             break;
           case 16:
             if (authCode == "16303") {//会员类型正确
-              this.authStatus = 1;
+              this.authStatus = 0;
             } else if (authCode == "16323") {//需要购买会员类型
               this.authStatus = 16;
             } else if (authCode == "16331") {//该用户的会员类型没有获取到，可以重试
+              this.authStatus = 16;
+            }else if(authCode == "16324"){// 购买其他会员
               this.authStatus = -2;
             }
             break;

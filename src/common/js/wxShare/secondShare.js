@@ -1,5 +1,11 @@
 export var secondShare = {
-  //检测分销商id
+  _getQueryString: function (name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]);
+    return "";
+  },
+//检测分销商id
   checkFollowerId : function(shareUrl, followerId){
     //分享的url上没有推客id
     if(shareUrl.indexOf('followerId=') == -1){
@@ -9,9 +15,8 @@ export var secondShare = {
         shareUrl += "?followerId="+followerId;
       }
     }else{//url中有推客id
-      var reg = /followerId=(\w+)&?/;
-      var urls = reg.exec(shareUrl);
-      shareUrl = shareUrl.replace(urls[1], followerId);
+      var old = "followerId="+this._getQueryString("followerId");
+      shareUrl = shareUrl.replace(old, "followerId="+followerId);
     }
     return shareUrl;
   },
@@ -25,7 +30,7 @@ export var secondShare = {
     var shareUrl = window.location.href;
     //当登陆者用户是推客的时候才需要替换
     if (followerId != undefined && followerId != "") {
-      shareUrl = this.checkFollowerId(shareUrl);//检测分销商id
+      shareUrl = this.checkFollowerId(shareUrl,followerId);//检测分销商id
     }
 
     if(window.wxHelper6){

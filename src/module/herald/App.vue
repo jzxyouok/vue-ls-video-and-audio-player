@@ -10,7 +10,9 @@
         <button class="noticeTimeBtn" @click="shareFlag = true">呼叫小伙伴一起看直播</button>
       </section>
       <h3 class="moreListFree" v-if="descError == 0">数据获取失败，点击<a @click="descError = -1" href="javascript:;">重试</a></h3>
-      <d-summary :circleId="circleId" :followerId="followerId" :liveInfo="liveInfo" v-if="descError == -1"></d-summary>
+      <div class="liveInfo">
+        <d-summary :circleId="circleId" :followerId="followerId" :liveInfo="liveInfo" v-if="descError == -1"></d-summary>
+      </div>
       <live-list></live-list>
     </article><!-- 内容 -->
     <section class="sharePop sharePic" v-show="shareFlag" @click="shareFlag=false">
@@ -39,6 +41,8 @@
       CountDown, OperButton, LiveList, DSummary, MarkLayer
     },
     created(){
+      this.token = utils.getCookie('zhangmen_token_cookie');
+      console.log(this.token);
       this.loadStaticData();
       if (this.userId) {
         this.getFollowerId();
@@ -71,7 +75,6 @@
        * 转存静态化数据
        */
       loadStaticData(){
-        this.token = utils.getCookie('token');
         if (window.liveInfo) {
           this.liveInfo = window.liveInfo;
         } else {
@@ -376,14 +379,14 @@
   /*============头部============end*/
   /*============详情============start*/
   .mainCont {
-    padding: 0 .3rem 0.9rem;
+    padding: 0 0 0.9rem;
     position: relative;
     z-index: 0
   }
 
   /*视频信息*/
   .liveInfo {
-    padding: .3rem 0;
+    padding: .3rem;
   }
 
   .liveInfoTit {
