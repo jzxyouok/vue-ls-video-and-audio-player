@@ -100,7 +100,7 @@
               window.circleInfo = body.result;
               this.$parent.join = body.result.join;
               this.$parent.descError = -1;
-              secondShare.circle_share(this.desc | '',this.circleInfo.logo,this.circleInfo.name,this.followerId);
+              secondShare.circle_share('来自['+this.circleInfo.name+']社群' | '',this.circleInfo.logo,this.liveInfo.title,this.followerId);
             } else {
               this.$parent.descError = 0;
             }
