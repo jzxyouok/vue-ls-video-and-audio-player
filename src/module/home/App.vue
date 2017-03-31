@@ -56,7 +56,7 @@
         userId:userId,
         followerId: '',
         userRoleUrl: requstUrl + "/api/v2/circle/member/role?circleId="+window.circleInfo.id,//社群身份信息
-        followerIdUrl: requstUrl + "/api/sf/" + window.circleInfo.id + "/belong?userId=" + userId + "&circleIds=" + window.circleInfo.id + "&sfType=1",//查询当前用户是否分销商
+        followerIdUrl: requstUrl + "/api/sf/" + userId + "/belong?userId=" + userId + "&circleIds=" + window.circleInfo.id + "&sfType=1",//查询当前用户是否分销商
         conditionUrl: requstUrl + "/api/sf/" + window.circleInfo.id + "/condition",//查询当前社群是否开启加群资格
         tabs: [
           {tabName: "直播"},
@@ -122,8 +122,8 @@
           .then((res) => {
             if(res.body.code == 0) {
               let data = res.body;
-              if (data.result) {
-                if (data.result.length >= 1) {
+              if (data.results) {
+                if (data.results.length >= 1) {
                   this.followerId = this.userId || '';
                   sessionStorage.setItem("followerId", this.userId);
                 }

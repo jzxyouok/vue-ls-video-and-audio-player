@@ -228,12 +228,12 @@
        * 判断用户是否推客资格
        **/
       getFollowerId(){
-        this.$http.get("/api/sf/" + this.circleId + "/belong?userId=" + this.userId + "&circleIds=" + this.circleId + "&sfType=1")
+        this.$http.get("/api/sf/" + this.userId + "/belong?userId=" + this.userId + "&circleIds=" + this.circleId + "&sfType=1")
           .then((res) => {
             if (res.body.code == 0) {
               let data = res.body;
-              if (data.result) {
-                if (data.result.length >= 1) {
+              if (data.results) {
+                if (data.results.length >= 1) {
                   this.followerId = this.userId;
                   sessionStorage.setItem("followerId", this.userId);
                 }
