@@ -39,21 +39,31 @@
       return {
         liveDetail: this.$parent.liveDetail,//获取父组件的这个对象
         circleInfo: '',//社群信息
-        liveId:'',//直播id
+        liveId: '',//直播id
         descUrl: requstUrl + "/api/live/desc?liveId=",//获取直播详情简介
         showHeight: false,//控制简介高度
-        desc:'',
-        circleInfoUrl:requstUrl +"/api/v2/circle/info",
+        desc: '',
+        circleInfoUrl: requstUrl + "/api/v2/circle/info",
       }
     },
     created: function () {
       this.liveId = this.liveInfo.id;
       this.getDescByLiveId();
       this.getCircleInfo();
+
+      console.log("--组件创建完成的参数状态：");
+      console.log("--社群名称：" + this.circleInfo.name);
+      console.log("--分享logo：" + this.circleInfo.logo);
+      console.log("--直播标题：" + this.liveInfo.title);
+      console.log("--followerId：" + this.followerId);
+      console.log("--备用信息：");
+      console.log(this.circleInfo);
+      console.log(this.liveInfo);
+      console.log("--组件创建完成的参数状态：结束。。。。。");
     },
     methods: {
       hrefCircle(){
-          window.location.href = this.circleInfo.shareUrl;
+        window.location.href = this.circleInfo.shareUrl;
       },
       /**
        * 简介展开收起
@@ -70,45 +80,77 @@
        **/
       getDescByLiveId(){
         var liveId = this.liveInfo.id;
-        this.$http.get(this.descUrl+liveId)
-          .then((response) => {
-            var data = response.body;
-        if (data.code == 0) {
-            if(data.descs[liveId] == '' || data.descs[liveId] == null || data.descs[liveId] == undefined){
-                this.desc = '这个群主很懒，还没有编写直播简介';
-                window.circleInfo.desc = '这个群主很懒，还没有编写直播简介';
-            }else{
+        this.$http.get(this.descUrl + liveId)
+        .then((response) => {
+          var data = response.body;
+          if (data.code == 0) {
+            if (data.descs[liveId] == '' || data.descs[liveId] == null || data.descs[liveId] == undefined) {
+              this.desc = '这个群主很懒，还没有编写直播简介';
+              window.circleInfo.desc = '这个群主很懒，还没有编写直播简介';
+            } else {
               this.desc = data.descs[liveId];
               window.circleInfo.desc = data.descs[liveId];
             }
             this.$parent.descError = -1;
-        } else {
-          this.$parent.descError = 0;
-        }
-      })
-      .catch(function (response) {
+          } else {
+            this.$parent.descError = 0;
+          }
+        })
+        .catch(function (response) {
           this.$parent.descError = 0;
           console.log(response);
         })
       },
       getCircleInfo(){
-        this.$http.get(this.circleInfoUrl, {params:{'circleId': this.circleId}})
-          .then((response) => {
-            var body = response.body;
-            if (body.code == 0) {
-              this.circleInfo = body.result;
-              window.circleInfo = body.result;
-              this.$parent.join = body.result.join;
-              this.$parent.descError = -1;
-              secondShare.circle_share('来自['+this.circleInfo.name+']社群' | '',this.circleInfo.logo,this.liveInfo.title,this.followerId);
-            } else {
-              this.$parent.descError = 0;
+        console.log("初始化分享时能获取到的参数：");
+        console.log("社群名称：" + this.circleInfo.name);
+        console.log("分享logo：" + this.circleInfo.logo);
+        console.log("直播标题：" + this.liveInfo.title);
+        console.log("followerId：" + this.followerId);
+        console.log("备用信息：");
+        console.log(this.circleInfo);
+        console.log(this.liveInfo);
+        console.log("备用信息：结束。。。。。")
+
+
+        this.$http.get(this.circleInfoUrl, {params: {'circleId': this.circleId}})
+        .then((response) => {
+          var body = response.body;
+          if (body.code == 0) {
+            this.circleInfo = body.result;
+            window.circleInfo = body.result;
+            this.$parent.join = body.result.join;
+            this.$parent.descError = -1;
+
+            var circleName = this.circleInfo.name;
+            var logo = this.circleInfo.logo;
+            var title = this.liveInfo.title;
+            var state = this.liveInfo.state;
+            var followerId = this.followerId;
+            var prefix = "未知类型";
+            if ((liveInfo.state & 1) == 1) state = 1 //直播
+            else if ((liveInfo.state & 2) == 2)state = 2 //预告
+            else if ((liveInfo.state & 4) == 4) state = 4//回放
+            switch (state) {
+              case 1:
+                prefix = "正在直播"
+                break;
+              case 2:
+                prefix = "直播预告"
+                break;
+              case 4:
+                prefix = "直播回放"
+                break;
             }
-          })
-          .catch(function (response) {
+            secondShare.circle_share('来自[' + circleName + ']社群', logo, title, followerId);
+          } else {
             this.$parent.descError = 0;
-            console.log(this.$parent.descError);
-          })
+          }
+        })
+        .catch(function (response) {
+          this.$parent.descError = 0;
+          console.log(this.$parent.descError);
+        })
       },
     }
   }
@@ -172,9 +214,11 @@
     transition: all 1s;
     -webkit-transition: all 1s;
   }
+
   .three {
     height: 1.2rem;
   }
+
   .showHeight {
     height: auto;
   }
@@ -202,7 +246,25 @@
     border-radius: 100%;
     border: 1px solid #f8f8f8;
   }
-.liveInfoTuig dd{font-size: .28rem;color: #646464;line-height: .6rem;margin-left: .3rem;padding-right: .2rem; position: relative;}
-.liveInfoTuig dd:after{content:"";position: absolute;width: .14rem;height: .22rem;background-position:-.78rem -1.46rem;top:50%;right: 0;margin-top:-.11rem; }
+
+  .liveInfoTuig dd {
+    font-size: .28rem;
+    color: #646464;
+    line-height: .6rem;
+    margin-left: .3rem;
+    padding-right: .2rem;
+    position: relative;
+  }
+
+  .liveInfoTuig dd:after {
+    content: "";
+    position: absolute;
+    width: .14rem;
+    height: .22rem;
+    background-position: -.78rem -1.46rem;
+    top: 50%;
+    right: 0;
+    margin-top: -.11rem;
+  }
 
 </style>
