@@ -142,7 +142,7 @@
                 prefix = "直播回放"
                 break;
             }
-            secondShare.circle_share('来自[' + circleName + ']社群', logo, title, followerId);
+            secondShare.circle_share('来自[' + circleName + ']社群', logo, prefix+'['+title+']', followerId);
           } else {
             this.$parent.descError = 0;
           }
