@@ -132,14 +132,15 @@
       },
       joinEvt(){
         var join = this.$parent.join;
-        if (join == 1) {
-          authStatus = 2;
-        }
         let _this = this;
         joinEvent(this.userId, this.followerId, this.circleId, join, this.liveInfo.id, this.liveInfo.name, function (addGroup, popuText, authStatus) {
-          _this.$parent.addGroup = addGroup;
-          _this.$parent.popuText = popuText;
-          _this.$parent.authStatus = authStatus;
+          if (join == 1) {
+            _this.$parent.authStatus = 2;
+          } else {
+            _this.$parent.addGroup = addGroup;
+            _this.$parent.popuText = popuText;
+            _this.$parent.authStatus = authStatus;
+          }
         });
         //      console.log(obj);
       },
