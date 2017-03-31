@@ -28,10 +28,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  /*============群聊============start*/
   /*状态*/
   .gChatSub{text-align: center;padding-top: 2.5rem;}
   .gChatSubTit{font-size:.28rem;color:#a0a0a0;text-align: center;margin-bottom: .55rem;}
   .gChatSub_join{font-size:.32rem; line-height: .8rem;min-width: 3rem; height: .8rem;width: 3.6rem; border-radius: .1rem;background: #ff4c4d;color: #fff;text-align: center;}
-  /*============群聊============end*/
+ 
 </style>
