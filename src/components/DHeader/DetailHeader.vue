@@ -51,13 +51,13 @@
   </article>
 </template>
 <script>
-  import {videoPlayer} from 'vue-video-player'
+//  import {videoPlayer} from 'vue-video-player'
   import GaiayPlayer from 'components/GaiayPlayer/GaiayPlayer';
   import {joinEvent} from 'common/js/joinCircle.js';
   export default {
     name: 'detailheader',
     components: {
-      videoPlayer,
+//      videoPlayer,
       GaiayPlayer
     },
     props: {
