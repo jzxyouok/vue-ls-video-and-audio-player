@@ -123,7 +123,7 @@
     overflow: hidden;
     overflow-y: auto;
   }
-  .moreListTit{font-size: .32rem; padding: 0.3rem; padding-bottom: 0;}
+  .moreListTit{font-size: .32rem; padding:.3rem 0 0 0;margin:0 .3rem;border-top:1px solid #e6e6e6;}
   .no_data {
     width: 100%;
     background: url("../../module/home/images/no_data_ioc.png") no-repeat center 1.12rem;
@@ -238,13 +238,13 @@
     width: 2.7rem;
     float: left;
     background: url("../../module/home/images/g_ioc_5.png") no-repeat left center;
-    background-size: 0.28rem 0.28rem;
+    background-size:auto .22rem;
   }
 
   .lt_time p:nth-child(2) {
     float: right;
     background: url("../../module/home/images/g_ioc_6.png") no-repeat left center;
-    background-size: 0.28rem 0.28rem;
+    background-size:auto .22rem;
   }
   .more {
     display: -webkit-box;

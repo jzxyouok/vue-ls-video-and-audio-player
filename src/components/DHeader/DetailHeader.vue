@@ -215,7 +215,8 @@ DetailHeader.vue
     height: 4.22rem;
     position: fixed;
     top: 0;
-    z-index: 5
+    z-index: 5;
+    background:#fff;
   }
 
   .topVSub{position: absolute;left:0;top:.2rem;display:inline-block;background:rgba(0,0,0,.4);font-size:.2rem;border-top-right-radius: .5rem;border-bottom-right-radius: .5rem;padding:.05rem .14rem .06rem .24rem;color: #fff;z-index: 10;}
