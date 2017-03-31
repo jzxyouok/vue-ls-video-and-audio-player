@@ -88,7 +88,7 @@
   .home_top_con{color: #fff; font-size: 0.24rem; text-align: center;}
   .logo{padding-top: 0.54rem; margin: 0 auto; height: 1.7rem;  width: 1.16rem;}
   .home_top img {height: 1.16rem; width: 1.16rem; border-radius: 100%;}
-  .home_top h3 {font-size: 0.36rem; line-height: 0.4rem; padding-top: 0.2rem; text-align: center;}
+  .home_top h3 {font-size: 0.36rem; line-height: 0.4rem; padding:0.2rem .2rem 0 .2rem; text-align: center;}
   .home_top .ht_num {font-size: 0.24rem; text-align: center; line-height: 0.24rem; padding-top: 0.1rem;}
   .home_top .ht_num em {display: inline-block; width: 0.2rem; height: 0.2rem; background: url("../../module/home/images/g_ioc_1.png") no-repeat; background-size: 0.2rem; vertical-align: middle; margin-right: 0.08rem;}
   .home_top .ht_desc {padding: 0.2rem 1.23rem 0; line-height: 0.33rem; height: 0.86rem; overflow : hidden;}

@@ -193,8 +193,6 @@
   .home_nav li {
     width: 33.333%;
     text-align: center;
-    height: 0.79rem;
-    line-height: .79rem;
     font-size: 0.3rem;
   }
 
@@ -203,7 +201,7 @@
     font-size: 0.3rem;
     padding: 0 0.06rem;
     display: inline-block;
-    height:100%;
+    line-height:.76rem;
   }
   .home_nav li.selected span {
     color: #fd2a2a;
