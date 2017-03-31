@@ -37,7 +37,7 @@
     <section class="topVStatus" v-show="authStatus==16">
       <div class="topVStatusCont">
         <h3 class="tit">本直播仅限群会员观看</h3>
-        <button class="btn" @click="payVipEvt">本直播仅限群会员观看</button>
+        <button class="btn" @click="payVipEvt">购买会员</button>
       </div>
     </section>
     <section class="topVStatus" v-show="authStatus==-2">
