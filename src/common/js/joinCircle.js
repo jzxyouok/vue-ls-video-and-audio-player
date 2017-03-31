@@ -142,8 +142,9 @@ function doJoin(url,circleId,userId,followerId,join,cb){
       type:"put",
       success:function (data) {
         if (data.code == 0) {
-          if(join == 2){
+          if(join == 2 || join==1){
             authStatus = 2;
+            console.log("加群成功 ，join="+join);
           }else{
             authStatus = 0;
             addGroup = 1
@@ -175,6 +176,7 @@ function doJoin(url,circleId,userId,followerId,join,cb){
  * 判断用户是否有入群资格
  */
 function hasJoinAuth(joinAuthUrl,userId,circleId,followerId,join,cb){
+  console.log("hasJoinAuth方法：join="+join);
   var addGroup, popuText;
   var fn = new invoker(cb, arguments, 5);
   utils.ajax({
@@ -185,21 +187,25 @@ function hasJoinAuth(joinAuthUrl,userId,circleId,followerId,join,cb){
         var joinMsg = data.message;
         if (joinstate != 0) {
           if (joinstate == 16051) {//加群资格
+            console.log("joinstate="+joinstate);
             var url = '/zhangmen/community/qualified/list' + '?';
             url += 'userId=' + userId;
             url += '&type=1&bizId=' + circleId;
             url += '&fromUrl=' + encodeURIComponent(window.location.href);
             window.location.href = url;
           }else if(joinstate == 16022){
+            console.log("joinstate="+joinstate);
             addGroup = -1;
             popuText = "群成员已满";
           } else {
+            console.log("joinstate="+joinstate);
             addGroup = 0;
             popuText = '加群失败！';
             clearStatus(addGroup);
           }
           fn.invoke(addGroup, popuText, 0);
         } else {//通过加群资格验证：
+          console.log("joinstate="+joinstate);
           validStatus = true;
           doJoin('/api/v2/w/circle/member/',circleId,userId,followerId,join,cb);
         }

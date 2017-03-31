@@ -1,6 +1,6 @@
 <template>
   <div class="home_bg">
-    <sention class="home_img" :style="bgStyle"></sention>
+    <section class="home_img" :style="bgStyle"></section>
     <div class="home_top">
       <div v-bind:class="{'up_con':upHtBtn,'dn_con':dnHtBtn}" class="home_top_con">
         <div class="logo">

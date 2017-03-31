@@ -50,16 +50,6 @@
       this.liveId = this.liveInfo.id;
       this.getDescByLiveId();
       this.getCircleInfo();
-
-      console.log("--组件创建完成的参数状态：");
-      console.log("--社群名称：" + this.circleInfo.name);
-      console.log("--分享logo：" + this.circleInfo.logo);
-      console.log("--直播标题：" + this.liveInfo.title);
-      console.log("--followerId：" + this.followerId);
-      console.log("--备用信息：");
-      console.log(this.circleInfo);
-      console.log(this.liveInfo);
-      console.log("--组件创建完成的参数状态：结束。。。。。");
     },
     methods: {
       hrefCircle(){
@@ -102,17 +92,6 @@
         })
       },
       getCircleInfo(){
-        console.log("初始化分享时能获取到的参数：");
-        console.log("社群名称：" + this.circleInfo.name);
-        console.log("分享logo：" + this.circleInfo.logo);
-        console.log("直播标题：" + this.liveInfo.title);
-        console.log("followerId：" + this.followerId);
-        console.log("备用信息：");
-        console.log(this.circleInfo);
-        console.log(this.liveInfo);
-        console.log("备用信息：结束。。。。。")
-
-
         this.$http.get(this.circleInfoUrl, {params: {'circleId': this.circleId}})
         .then((response) => {
           var body = response.body;

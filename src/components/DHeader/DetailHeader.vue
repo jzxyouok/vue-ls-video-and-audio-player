@@ -111,9 +111,6 @@
       }
     },
     created: function () {
-      console.log("详情头部组件的详情信息：");
-      console.log(this.liveInfo);
-      console.log("权限弹层码：" + this.authStatus);
     },
     methods: {
       passEvt(){ //密码框按钮点击事件
