@@ -20,6 +20,7 @@
             return {
                 bgStyle: {
                     background:"url("+this.logo+"_r750x500) no-repeat center",
+                    backgroundColor:'#fff',
                     backgroundSize:'100% 4.2rem'
                 },
                 tHeight : 0.86,

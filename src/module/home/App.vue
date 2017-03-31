@@ -2,12 +2,10 @@
   <div id="app">
     <g-header :name="circleInfo.name" :logo="circleInfo.logo" :desc="circleInfo.desc"
               :memberNum="circleInfo.memberNum"></g-header>
-    <ul class="home_nav">
-      <li v-for="(tab, index) in tabs" @click="choose(index)">
-        <a href="javascript:;"
-           :class="{'selected':index===selected}">{{tab.tabName}}</a>
+    <ul class="home_nav pubFlex">
+      <li v-for="(tab, index) in tabs" @click="choose(index)":class="{'selected':index===selected}"><span>{{tab.tabName}}</span>
       </li>
-      <li><a href="javascript:;" @click="utils.downloadApp()">更多精彩</a></li>
+      <li @click="utils.downloadApp()"><span>更多精彩</span></li>
     </ul>
     <div class="nav_com">
       <live-list v-show="selected==0"></live-list>
@@ -188,29 +186,28 @@
     z-index: 33;
     width: 100%;
     background: #fff;
-    height: 0.79rem;
+    height:.81rem;
     border-bottom: #e6e6e6 solid 1px;
   }
 
   .home_nav li {
     width: 33.333%;
-    float: left;
     text-align: center;
     height: 0.79rem;
+    line-height: .79rem;
     font-size: 0.3rem;
   }
 
-  .home_nav li a {
+  .home_nav li span{
     color: #323232;
-    line-height: 0.71rem;
     font-size: 0.3rem;
     padding: 0 0.06rem;
     display: inline-block;
+    height:100%;
   }
-
-  .home_nav li a.selected {
+  .home_nav li.selected span {
     color: #fd2a2a;
-    border-bottom: #fd2a2a solid 4px;
+    border-bottom: #fd2a2a solid 2px;
   }
 
   .nav_com {
