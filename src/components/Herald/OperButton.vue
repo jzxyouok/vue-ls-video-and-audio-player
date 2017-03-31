@@ -74,7 +74,27 @@
       }
     },
     created(){
-      this.getUserRole();
+      if (this.userId) {
+        this.getUserRole();
+      }else{//1免费,2成员,4付费,8密码,16会员类型，预告不需要这个属性
+        switch (this.view){
+          case 1:
+            this.text="加入社群预约直播";
+            break;
+          case 2:
+            this.text="加入社群预约直播";
+            break;
+          case 4:
+            this.text="支付￥"+this.price+'预约直播';
+            break;
+          case 8:
+            this.text="加入社群预约直播";
+            break;
+          case 16:
+            this.text="开通会员预约直播";
+            break;
+        }
+      }
     },
     data () {
       return {
