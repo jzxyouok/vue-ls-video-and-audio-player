@@ -30,7 +30,7 @@
     font: .32rem/.9rem 'Microsoft YaHei';
     height: .9rem;
     color: #fff;
-    background: #fc4e52;
+    background: #f03c38;
   }
 
 </style>

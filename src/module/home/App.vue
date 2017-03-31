@@ -204,8 +204,8 @@
     line-height:.76rem;
   }
   .home_nav li.selected span {
-    color: #fd2a2a;
-    border-bottom: #fd2a2a solid 2px;
+    color: #f03c38;
+    border-bottom: #f03c38 solid 2px;
   }
 
   .nav_com {

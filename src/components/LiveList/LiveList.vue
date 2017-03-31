@@ -17,7 +17,7 @@
               <p v-bind:class="{'video_ioc':list.type == 1,'aideo_ioc':list.type == 2}" class="ioc"></p>
             </div>
             <div class="lt_text">
-              <p class="title">{{list.title}}</p>
+              <p class="title twoline_text">{{list.title+'回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放回放'}}</p>
               <div class="lt_time">
                 <p>{{ new Date(list.startTime).Format("yyyy-MM-dd hh:mm:ss")}}</p>
                 <p v-if="list.num">{{list.num}}</p>

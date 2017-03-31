@@ -21,8 +21,7 @@
             return {
                 bgStyle: {
                     background:"url("+this.logo+"_r750x500) no-repeat center",
-                    backgroundColor:'#fff',
-                    backgroundSize:'100% 4.2rem'
+                    backgroundColor:'#fff'
                 },
                 tHeight : 0.86,
                 upHtBtn : false,
@@ -84,16 +83,16 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .home_img{position: absolute;width: 100%;height: 4.2rem;top: 0;left: 0;z-index: 0;-webkit-filter: blur(5px); /* Chrome, Safari, Opera */filter: blur(5px);}
+  .home_img{position: absolute;width: 100%;height: 4.2rem;top: 0;left: 0;z-index: 0;-webkit-filter: blur(10px); /* Chrome, Safari, Opera */filter: blur(13px);background-size:100%!important}
   .home_bg {position: fixed;top:0;width: 100%;z-index: 33;background: #fff;}
   .home_top { height: 4.2rem; color: #fff; background: rgba(0, 0, 0, 0.55); font-size: 0.24rem; text-align: center;position: relative;z-index: 5}
   .home_top_con{color: #fff; font-size: 0.24rem; text-align: center;}
   .logo{padding-top: 0.54rem; margin: 0 auto; height: 1.7rem;  width: 1.16rem;}
   .home_top img {height: 1.16rem; width: 1.16rem; border-radius: 100%;}
-  .home_top h3 {font-size: 0.36rem; line-height: 0.4rem; padding:0.2rem .3rem 0 .3rem; text-align: center;}
+  .home_top h3 {font-size: 0.36rem; line-height: 0.4rem; padding:0.2rem .5rem 0; text-align: center;}
   .home_top .ht_num {font-size: 0.24rem; text-align: center; line-height: 0.24rem; padding-top: 0.1rem;}
   .home_top .ht_num em {display: inline-block; width: 0.2rem; height: 0.2rem; background: url("../../module/home/images/g_ioc_1.png") no-repeat; background-size: 0.2rem; vertical-align: middle; margin-right: 0.08rem;}
-  .home_top .ht_desc {padding: 0.2rem 1.23rem 0; line-height: 0.33rem; height: 0.86rem; overflow : hidden;}
+  .home_top .ht_desc {padding: 0.2rem 1.23rem 0; line-height: 0.33rem; height: 0.86rem; overflow : hidden; opacity:.8}
   .home_top .simpleLineAlign {display: block; text-align: center;}
   .home_top .ht_open_btn {display: block; width: 0.4rem; height: 0.3rem; background: url("../../module/home/images/g_ioc_2.png") no-repeat center bottom; background-size: 0.24rem 0.14rem; position: absolute; left: 50%; top:3.7rem; margin-left: -0.15rem;}
   .up_ht_btn{
