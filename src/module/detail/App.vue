@@ -107,6 +107,7 @@
         }
         this.circleId = utils._getQueryString('circleId');
         sessionStorage.setItem('circleId',this.circleId);
+        sessionStorage.setItem("liveType",window.liveInfo.type);
         window.circleInfo.id = this.circleId;
         this.userId = window.userId;
         if(this.liveInfo.price != undefined){
