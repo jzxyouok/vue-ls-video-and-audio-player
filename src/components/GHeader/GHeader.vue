@@ -97,93 +97,60 @@
   .home_top .simpleLineAlign {display: block; text-align: center;}
   .home_top .ht_open_btn {display: block; width: 0.4rem; height: 0.3rem; background: url("../../module/home/images/g_ioc_2.png") no-repeat center bottom; background-size: 0.24rem 0.14rem; position: absolute; left: 50%; top:3.7rem; margin-left: -0.15rem;}
   .up_ht_btn{
-    animation:a_dn_hto_btn 0.5s forwards;
     -webkit-animation:a_dn_hto_btn 0.5s forwards;
-    -moz-animation:a_dn_hto_btn 0.5s forwards;
-    -ms-animation:a_dn_hto_btn 0.5s forwards;
-    -o-animation:a_dn_hto_btn 0.5s forwards;
+    animation:a_dn_hto_btn 0.5s forwards;
   }
   .dn_ht_btn{
-    animation:a_up_hto_btn 0.5s forwards;
     -webkit-animation:a_up_hto_btn 0.5s forwards;
-    -moz-animation:a_up_hto_btn 0.5s forwards;
-    -ms-animation:a_up_hto_btn 0.5s forwards;
-    -o-animation:a_up_hto_btn 0.5s forwards;
+    animation:a_up_hto_btn 0.5s forwards;
   }
   .up_con{
-    animation:a_up_con 0.5s forwards;
     -webkit-animation:a_up_con 0.5s forwards;
-    -moz-animation:a_up_con 0.5s forwards;
-    -ms-animation:a_up_con 0.5s forwards;
-    -o-animation:a_up_con 0.5s forwards;
+    animation:a_up_con 0.5s forwards;
   }
   .dn_con{
-    animation:a_dn_con 0.5s forwards;
     -webkit-animation:a_dn_con 0.5s forwards;
-    -moz-animation:a_dn_con 0.5s forwards;
-    -ms-animation:a_dn_con 0.5s forwards;
-    -o-animation:a_dn_con 0.5s forwards;
+    animation:a_dn_con 0.5s forwards;
   }
   @keyframes a_up_hto_btn
   {
     0%   {
-      transform:rotate(0deg);
       -webkit-transform:rotate(0deg); /* Safari 和 Chrome */
-      -moz-transform:rotate(0deg); /* Safari 和 Chrome */
-      -ms-transform:rotate(0deg); /* Safari 和 Chrome */
-      -o-transform:rotate(0deg); /* Safari 和 Chrome */
+       transform:rotate(0deg);
     }
     100%   {
-      transform:rotate(180deg);
       -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
-      -moz-transform:rotate(180deg); /* Safari 和 Chrome */
-      -ms-transform:rotate(180deg); /* Safari 和 Chrome */
-      -o-transform:rotate(180deg); /* Safari 和 Chrome */
+      transform:rotate(180deg);
     }
   }
   @keyframes a_dn_hto_btn
   {
     0%   {
-      transform:rotate(180deg);
       -webkit-transform:rotate(180deg); /* Safari 和 Chrome */
-      -moz-transform:rotate(180deg); /* Safari 和 Chrome */
-      -ms-transform:rotate(180deg); /* Safari 和 Chrome */
-      -o-transform:rotate(180deg); /* Safari 和 Chrome */
+     transform:rotate(180deg);
     }
     100%   {
-      transform:rotate(360deg);
       -webkit-transform:rotate(360deg); /* Safari 和 Chrome */
-      -moz-transform:rotate(360deg); /* Safari 和 Chrome */
-      -ms-transform:rotate(360deg); /* Safari 和 Chrome */
-      -o-transform:rotate(360deg); /* Safari 和 Chrome */
+       transform:rotate(360deg);
     }
   }
 
   @keyframes a_up_con
   {
     100%   {
-      transform:translate(0,-1.5rem);
       -webkit-transform:translate(0,-1.5rem);
-      -moz-transform:translate(0,-1.5rem);
-      -ms-transform:translate(0,-1.5rem);
-      -o-transform:translate(0,-1.5rem);
+      transform:translate(0,-1.5rem);
     }
   }
   @keyframes a_dn_con
   {
     0%   {
-      transform:translate(0,-1.5rem);
       -webkit-transform:translate(0,-1.5rem);
-      -moz-transform:translate(0,-1.5rem);
-      -ms-transform:translate(0,-1.5rem);
-      -o-transform:translate(0,-1.5rem);
+     transform:translate(0,-1.5rem);
     }
     100%   {
-      transform:translate(0,0);
       -webkit-transform:translate(0,0);
-      -moz-transform:translate(0,0);
-      -ms-transform:translate(0,0);
-      -o-transform:translate(0,0);
+      transform:translate(0,0);
     }
   }
 </style>
