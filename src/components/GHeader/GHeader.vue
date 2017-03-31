@@ -1,5 +1,6 @@
 <template>
-  <div class="home_bg" :style="bgStyle">
+  <div class="home_bg">
+    <sention class="home_img" :style="bgStyle"></sention>
     <div class="home_top">
       <div v-bind:class="{'up_con':upHtBtn,'dn_con':dnHtBtn}" class="home_top_con">
         <div class="logo">
@@ -83,8 +84,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .home_bg {position: fixed;top:0;width: 100%;z-index: 33;}
-  .home_top { height: 4.2rem; color: #fff; background: rgba(0, 0, 0, 0.55); font-size: 0.24rem; text-align: center;}
+  .home_img{position: absolute;width: 100%;height: 4.2rem;top: 0;left: 0;z-index: 0;-webkit-filter: blur(5px); /* Chrome, Safari, Opera */filter: blur(5px);}
+  .home_bg {position: fixed;top:0;width: 100%;z-index: 33;background: #fff;}
+  .home_top { height: 4.2rem; color: #fff; background: rgba(0, 0, 0, 0.55); font-size: 0.24rem; text-align: center;position: relative;z-index: 5}
   .home_top_con{color: #fff; font-size: 0.24rem; text-align: center;}
   .logo{padding-top: 0.54rem; margin: 0 auto; height: 1.7rem;  width: 1.16rem;}
   .home_top img {height: 1.16rem; width: 1.16rem; border-radius: 100%;}
