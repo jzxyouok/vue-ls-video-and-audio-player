@@ -117,7 +117,7 @@ export function joinEvent(userId,followerId,circleId,join,liveId,liveName,cb){
         joinOnVip('/vip/'+circleId+'/product/list',userId,followerId,circleId,liveId);
         break;
       case 4:// 入群类型为 付费入群
-        joinOnPay('/zhangmen/live/view/charge',userId,followerId,circleId,liveId,liveName);
+        joinOnPay('/zhangmen/circle/circle-pay',userId,followerId,circleId,liveId,liveName);
         break;
       default://其它入群方式
         hasJoinAuth('/api/v2/circle/member/validation',userId,circleId,followerId,join,cb);
