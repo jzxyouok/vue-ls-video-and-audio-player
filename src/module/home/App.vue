@@ -186,7 +186,7 @@
     z-index: 33;
     width: 100%;
     background: #fff;
-    height:.81rem;
+    height:.8rem;
     border-bottom: #e6e6e6 solid 1px;
   }
 
@@ -201,9 +201,12 @@
     font-size: 0.3rem;
     padding: 0 0.06rem;
     display: inline-block;
-    line-height:.76rem;
+    line-height:.8rem;
+    height:.8rem;
+    position: relative;
   }
-  .home_nav li.selected span {
+  .home_nav li span::after{position: absolute;bottom: 0;left: 0;right: 0;content: "";height:0;}
+  .home_nav li.selected span::after {
     color: #f03c38;
     border-bottom: #f03c38 solid 2px;
   }
