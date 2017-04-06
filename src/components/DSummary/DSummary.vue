@@ -140,7 +140,6 @@
   /*视频信息*/
   .liveInfo {
     padding: .3rem 0;
-    color:red;
   }
 
   .liveInfoTit {
