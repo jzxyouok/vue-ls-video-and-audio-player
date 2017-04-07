@@ -30,7 +30,7 @@ module.exports = {
       });
     });
     
-    apiRoutes.get('/circle/member/role', function (req, res) {
+    apiRoutes.get('/v2/circle/member/role', function (req, res) {
       res.json(roleInfo);
     });
     

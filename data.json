@@ -187,9 +187,9 @@
   }
  ],
  "roleInfo": {
-  "code": 0,
-  "message": "成功",
-  "role": 4
+  "role": 3,
+  "authMap": {},
+  "code": 0
  },
  "members": [
   {
@@ -258,13 +258,9 @@
   "circleId": "111111111"
  },
  "viewAuth": {
-  "code": 0,
-  "views": [
-   {
-    "liveId": "",
-    "code": 16301
-   }
-  ],
-  "message": ""
+  "views": {
+   "563627": 16301
+  },
+  "code": 0
  }
 }

@@ -6,6 +6,7 @@
                   @ended="onPlayerEnded($event)"
                   @statechanged="playerStateChanged($event)"
                   @ready="playerReadied"
+                  :class="{audioBg:audioBg}"
     >
     </video-player>
   </div>
@@ -23,6 +24,7 @@
     },
     data(){
       return {
+        audioBg:true,
         playerOptions: {
           // component options
           start: 0,
@@ -42,22 +44,27 @@
     },
     methods: {
       onPlayerPlay(player) {
-        console.log('player play!', player)
+        player.bigPlayButton.el().style.display='block';
+        player.posterImage.el().style.display='block';
+        console.log('player play!', player.el().style.backgroundImage);
+
       },
       onPlayerPause(player) {
+        player.posterImage.el().style.display='block';
+        player.bigPlayButton.el().style.display='block';
         console.log('player pause!', player)
       },
       onPlayerEnded(player){
-        console.log('player End!', player)
+//        console.log('player End!', player)
       },
       // or listen state event
       playerStateChanged(playerCurrentState) {
-        console.log('player current update state', playerCurrentState)
+//        console.log('player current update state', playerCurrentState)
       },
 
       // player is ready
       playerReadied(player) {
-        console.log('the player is readied', player)
+//        console.log('the player is readied', player)
         // you can use it to do something...
         // player.[methods]
       }
@@ -66,4 +73,7 @@
 </script>
 
 <style>
+  .audioBg video{
+    background-color: #ff9600;
+  }
 </style>
