@@ -1,6 +1,6 @@
 <template>
   <section class="familyNumVideo">
-    <img v-bind:data-src="livePoster" :src="livePoster" v-show="play" v-lazy="livePoster" style="width:100%;height:100%;">
+    <img :src="livePoster" v-show="livePlay" v-lazy="livePoster" style="width:100%;height:100%;">
     <div class="topVBf" style="display:block" v-show="play" @click="player"></div>
     <div class="videoPlayControl" style="display:block;">
       <video id="video" style="z-index:-1; object-fit: fill;" :poster="livePoster" preload="" controls="" webkit-playsinline="" playsinline="" x-webkit-airplay="" width="100%"
@@ -267,7 +267,9 @@
     background-position: .02rem -2.49rem;
   }
 
-  .videoPlayControl,.videoPlayControl video,.audioPlayControl,.audioPlayControl audio{height: 4.22rem;}
+  .videoPlayControl, .videoPlayControl video, .audioPlayControl, .audioPlayControl audio {
+    height: 4.22rem;
+  }
 
   /*** 音频控件的css (从老版本拷过来的) ***/
   .audioPlay {
@@ -496,24 +498,28 @@
     },
     data() {
       return {
-          play:true,
+        play: true,
+        livePlay: true,
+        liveType: sessionStorage.getItem("liveType"),
       }
     },
-    computed: {
-    },
+    computed: {},
     created(){
       console.log("初始化GaiayPlayer");
       console.log(this.livePoster);
       console.log(this.liveSource);
     },
-    methods:{
-        player(){//播放按钮事件
-          var audio =document.querySelector('#video');
-          if(this.play){
-            audio.play();
-            this.play = false;
-          }
+    methods: {
+      player(){//播放按钮事件
+        var audio = document.querySelector('#video');
+        if (this.play) {
+          audio.play();
+          this.play = false;
         }
+        if (this.liveType === 1) {
+          this.livePlay = false;
+        }
+      }
     }
   }
 </script>

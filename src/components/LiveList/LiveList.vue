@@ -17,7 +17,7 @@
               <p v-bind:class="{'video_ioc':list.type == 1,'aideo_ioc':list.type == 2}" class="ioc"></p>
             </div>
             <div class="lt_text">
-              <p class="title">{{list.title}}</p>
+              <p class="title twoline_text">{{list.title}}</p>
               <div class="lt_time">
                 <p>{{ new Date(list.startTime).Format("yyyy-MM-dd hh:mm:ss")}}</p>
                 <p v-if="list.num">{{list.num}}</p>
@@ -33,6 +33,7 @@
   </div>
 </template>
 <script>
+
   export default ({
     name: 'liveList',
     data () {
@@ -138,23 +139,26 @@
   .live_list_con {
   }
 
-  .live_more {
-    height: 0.7rem;
-    line-height: 0.7rem;
+  .live_more,.more{
+    /*height: 0.7rem;
+    line-height: 0.7rem;*/
     text-align: center;
     font-size: 0.28rem;
     background: #f5f5f5;
   }
 
-  .live_more a {
+  .live_more a,.more .more_btn {
     color: #565656;
     background: url("../../module/home/images/g_ioc_7.png") no-repeat right center;
-    background-size: 0.14rem 0.24rem;
+    background-size:auto .24rem;
     padding-right: 0.32rem;
+    display: inline-block;
+    padding:.165rem .3rem .165rem 0;
+   /* height: .7rem;*/
   }
 
   .live_list {
-    padding: 0.2rem 0;
+    padding: 0.2rem 0 0 0;
   }
 
   .live_list li {
@@ -166,7 +170,10 @@
     display: -webkit-box;
     width: 100%;
   }
-
+  .live_list li:last-child{padding-bottom: 0
+  }
+   .live_list li:first-child{padding-top: 0
+  }
   .lt_img {
     width: 2.4rem;
     height: 1.5rem;
@@ -246,20 +253,6 @@
     background: url("../../module/home/images/g_ioc_6.png") no-repeat left center;
     background-size:auto .22rem;
   }
-  .more {
-    display: -webkit-box;
-    -webkit-box-pack: center;
-  }
-  .more a {
-    display: block;
-    height: 0.88rem;
-    line-height: 0.88rem;
-    font-size: 0.28rem;
-  }
-  .more_btn {
-    color: #787878;
-    background: url("../../module/home/images/g_ioc_7.png") no-repeat right center;
-    background-size: 0.14rem 0.24rem;
-    padding-right: 0.3rem;
-  }
+  .more{background:none;}
+  .more .more_btn{padding:.3rem .3rem .3rem 0;}
 </style>

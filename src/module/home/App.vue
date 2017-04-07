@@ -2,12 +2,10 @@
   <div id="app">
     <g-header :name="circleInfo.name" :logo="circleInfo.logo" :desc="circleInfo.desc"
               :memberNum="circleInfo.memberNum"></g-header>
-    <ul class="home_nav">
-      <li v-for="(tab, index) in tabs" @click="choose(index)">
-        <a href="javascript:;"
-           :class="{'selected':index===selected}">{{tab.tabName}}</a>
+    <ul class="home_nav pubFlex">
+      <li v-for="(tab, index) in tabs" @click="choose(index)":class="{'selected':index===selected}"><span>{{tab.tabName}}</span>
       </li>
-      <li><a href="javascript:;" @click="utils.downloadApp()">更多精彩</a></li>
+      <li @click="utils.downloadApp()"><span>更多精彩</span></li>
     </ul>
     <div class="nav_com">
       <live-list v-show="selected==0"></live-list>
@@ -58,7 +56,7 @@
         userId:userId,
         followerId: '',
         userRoleUrl: requstUrl + "/api/v2/circle/member/role?circleId="+window.circleInfo.id,//社群身份信息
-        followerIdUrl: requstUrl + "/api/sf/" + window.circleInfo.id + "/belong?userId=" + userId + "&circleIds=" + window.circleInfo.id + "&sfType=1",//查询当前用户是否分销商
+        followerIdUrl: requstUrl + "/api/sf/" + userId + "/belong?userId=" + userId + "&circleIds=" + window.circleInfo.id + "&sfType=1",//查询当前用户是否分销商
         conditionUrl: requstUrl + "/api/sf/" + window.circleInfo.id + "/condition",//查询当前社群是否开启加群资格
         tabs: [
           {tabName: "直播"},
@@ -124,8 +122,8 @@
           .then((res) => {
             if(res.body.code == 0) {
               let data = res.body;
-              if (data.result) {
-                if (data.result.length >= 1) {
+              if (data.results) {
+                if (data.results.length >= 1) {
                   this.followerId = this.userId || '';
                   sessionStorage.setItem("followerId", this.userId);
                 }
@@ -188,29 +186,29 @@
     z-index: 33;
     width: 100%;
     background: #fff;
-    height: 0.79rem;
+    height:.8rem;
     border-bottom: #e6e6e6 solid 1px;
   }
 
   .home_nav li {
     width: 33.333%;
-    float: left;
     text-align: center;
-    height: 0.79rem;
     font-size: 0.3rem;
   }
 
-  .home_nav li a {
+  .home_nav li span{
     color: #323232;
-    line-height: 0.71rem;
     font-size: 0.3rem;
     padding: 0 0.06rem;
     display: inline-block;
+    line-height:.8rem;
+    height:.8rem;
+    position: relative;
   }
-
-  .home_nav li a.selected {
-    color: #fd2a2a;
-    border-bottom: #fd2a2a solid 4px;
+  .home_nav li span::after{position: absolute;bottom: 0;left: 0;right: 0;content: "";height:0;}
+  .home_nav li.selected span::after {
+    color: #f03c38;
+    border-bottom: #f03c38 solid 2px;
   }
 
   .nav_com {
