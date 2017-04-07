@@ -67,6 +67,7 @@
       },
       /**
        * 根据直播id获取直播简介
+       * 测试提交git 
        **/
       getDescByLiveId(){
         var liveId = this.liveInfo.id;
