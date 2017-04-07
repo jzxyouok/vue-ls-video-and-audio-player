@@ -80,6 +80,7 @@
       if (this.userId) {
         this.getFollowerId();
       }
+      this.viewByView(this.liveInfo.view);
       this.getUserRole();
       if (this.liveInfo.view == 4 || this.liveInfo.view == 16) {
         this.getViewAuth();
@@ -155,6 +156,25 @@
 
         });
       },
+      viewByView(view){//直播观看方式，1免费,2成员,4付费,8密码,16会员类型，预告不需要这个属性
+        switch (view){
+          case 1:
+            this.authStatus = 0;
+            break;
+          case 2:
+            this.authStatus = 1; //审核时该值为2
+            break;
+          case 4:
+            this.authStatus = 4;
+            break;
+          case 8:
+            this.authStatus = 8;
+            break;
+          case 16:
+            this.authStatus = 16;
+            break;
+        }
+      },
       viewByRole(view, role){//根据用户 更新播放的权限弹层 view :1免费,2成员,4付费,8密码,16会员类型
         switch (view) {
           case 1://免费视频，不显示任何遮罩 可看
@@ -172,23 +192,26 @@
           case 4: //
             if (role == 0 || role == 1) {//群主和管理员可看
               this.authStatus = 0;
-            } else {
-              this.authStatus = 4;
             }
+//            else {
+//              this.authStatus = 4;
+//            }
             break;
           case 8:
             if (role == 0 || role == 1) {//群主和管理员可看
               this.authStatus = 0;
-            } else {
-              this.authStatus = 8;
             }
+//            else {
+//              this.authStatus = 8;
+//            }
             break;
           case 16:
             if (role == 0 || role == 1) {//群主和管理员可看
               this.authStatus = 0;
-            } else {
-              this.authStatus = 16;
             }
+//            else {
+//              this.authStatus = 16;
+//            }
             break;
           default:
             break;
@@ -197,28 +220,32 @@
       viewByAuth(view, authCode){//根据鉴权返回的code 更新播放的权限弹层
         switch (view) {
           case 4:
-            if (authCode == "16301") {//已付费
+            if (authCode == 16301) {//已付费
               this.authStatus = 0;
-            } else if (authCode == "16321") {//未付费
-              this.authStatus = 4;
             }
+//            else if (authCode == "16321") {//未付费
+//              this.authStatus = 4;
+//            }
             break;
           case 8:
-            if (authCode == "16302") {//密码正确
+            if (authCode == 16302) {//密码正确
               this.authStatus = 0;
-            } else if (authCode == "16322") {//密码错误
+            } else if (authCode == 16322) {//密码错误
               this.authStatus = 8;
               alert("密码错误");
             }
             break;
           case 16:
-            if (authCode == "16303") {//会员类型正确
+            if (authCode == 16303) {//会员类型正确
               this.authStatus = 0;
-            } else if (authCode == "16323") {//需要购买会员类型
-              this.authStatus = 16;
-            } else if (authCode == "16331") {//该用户的会员类型没有获取到，可以重试
-              this.authStatus = 16;
-            } else if (authCode == "16324") {// 购买其他会员
+            }
+//            else if (authCode == "16323") {//需要购买会员类型
+//              this.authStatus = 16;
+//            }
+//            else if (authCode == "16331") {//该用户的会员类型没有获取到，可以重试
+//              this.authStatus = 16;
+//            }
+            else if (authCode == 16324) {// 购买其他会员
               this.authStatus = -2;
             }
             break;
