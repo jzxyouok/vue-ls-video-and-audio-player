@@ -162,27 +162,40 @@
         }
       },
       //跳转交费
-      viewAuth_charge: function () {
-        var url = requstUrl + "/zhangmen/live/view/charge";
-        var param = {"liveName" : this.liveInfo.title, "userId" : this.userId, "liveId" : this.liveInfo.id , "circleId" : this.circleId, "liveChargeCallback" : encodeURIComponent(window.location.href), "followerId" : this.followerId};
+      viewAuth_charge() {
+        var url = "/zhangmen/live/view/charge" + "?";
+        url += "circleId=" + this.circleId;
+        url += "&userId=" + this.userId;
+        url += "&liveId=" + this.liveInfo.id;
+        url += "&liveName=" + this.liveInfo.title;
+        url += "&bizType=joinCirclePay";
+        url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
         if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
-          param.type = 1;
+          url +="&type=1";
         }
-        this.$http.post(url,{params: param },{emulateJSON: true})
+        url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
+        window.location.href = url;
+      },
+      /*viewAuth_charge: function () {
+        var url = requstUrl + "/zhangmen/live/view/charge";
+        var type = null;
+        if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
+          type = 1;
+        }
+        this.$http.post(url,{"liveName" : this.liveInfo.title, "userId" : this.userId, "liveId" : this.liveInfo.id , "circleId" : this.circleId, "liveChargeCallback" : encodeURIComponent(window.location.href), "followerId" : this.followerId,"type" : type},{emulateJSON:true})
           .then((response) => {
             var data = response.body;
             if (data.code == 0) {
-
-            } else if(data.code == -5){
-              alert(0);
-            } else {
-
+              window.wallet.pay(data.walletOrderId, data.appKey, data.appDomain, data.price, data.redirect,data.description,'','web');
+            } else if(data.code == 16224){
+              this.authStatus = 0;
+              this.addGroup = 4;
             }
           })
           .catch(function (response) {
             console.log(response);
           })
-      },
+      },*/
       //会员购买
       viewVipList_change: function () {
         var url = requstUrl + "/vip/" + this.circleId + "/product/list";
@@ -395,5 +408,4 @@
   .vjs_video_3-dimensions {
     height: 4.22rem;
   }
-
 </style>

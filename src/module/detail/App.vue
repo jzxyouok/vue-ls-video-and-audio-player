@@ -54,9 +54,10 @@
     },
     data () {
       return {
-        token: utils.getCookie('zhangmen_token_cookie'),
+        token: '',
         userId: '',
-        userRole: 4,
+        userRole: -1,
+        authCode: 0,
         circleId: '',
         join: 0,
         liveInfo: '',
@@ -77,14 +78,17 @@
     created: function () {
       this.followerId = utils._getQueryString('followerId');
       this.loadStaticData();
+      this.viewByView(this.liveInfo.view);
       if (this.userId) {
         this.getFollowerId();
+        this.getUserRole();
+        if(this.liveInfo.view == 4 || this.liveInfo.view == 16){
+          this.getViewAuth();
+        }
+      }else{
+          this.initView(this.liveInfo.view);
       }
-      this.viewByView(this.liveInfo.view);
-      this.getUserRole();
-      if (this.liveInfo.view == 4 || this.liveInfo.view == 16) {
-        this.getViewAuth();
-      }
+
       this.addEventListenerEnded();
     },
     methods: {
@@ -106,6 +110,7 @@
         } else {
           this.liveInfo = JSON.parse(sessionStorage.getItem("list"));
         }
+        this.token = utils.getCookie('zhangmen_token_cookie');
         this.circleId = utils._getQueryString('circleId');
         sessionStorage.setItem('circleId', this.circleId);
         sessionStorage.setItem("liveType", window.liveInfo.type);
@@ -143,38 +148,49 @@
           var data = res.body;
           var code = data.code;
           var msg = data.message;
-          if (data.views) {
-            var view = data.views[this.liveInfo.id];
-            this.viewByAuth(this.liveInfo.view, view);
+          if (data.views && code == 0) {
+            this.authCode = data.views[this.liveInfo.id];
+            this.viewByAuth(this.liveInfo.view, this.authCode);
           } else {
-            //测试：
-//            data.views=[];
-//            var view= data.views[0]={code:16322};
-//            this.viewByAuth(this.liveInfo.view, view.code);
             console.log(msg);
           }
-
         });
       },
-      viewByView(view){//直播观看方式，1免费,2成员,4付费,8密码,16会员类型，预告不需要这个属性
+      /** 游客初始化 **/
+      initView(view){//直播观看方式，1免费,2成员,4付费,8密码,16会员类型，预告不需要这个属性
         switch (view){
           case 1:
             this.authStatus = 0;
             break;
           case 2:
-            this.authStatus = 1; //审核时该值为2
+            this.authStatus = 1;
             break;
           case 4:
             this.authStatus = 4;
             break;
-          case 8:
-            this.authStatus = 8;
-            break;
           case 16:
             this.authStatus = 16;
             break;
+          case 8:
+            this.authStatus = 8;
+            break;
         }
       },
+      /**初始化**/
+      viewByView(view){//直播观看方式，1免费,2成员,4付费,8密码,16会员类型，预告不需要这个属性
+        switch (view){
+          case 1:
+          case 2:
+          case 4:
+          case 16:
+            this.authStatus = 0;
+            break;
+          case 8:
+            this.authStatus = 8;
+            break;
+        }
+      },
+      /**根据角色改变遮罩**/
       viewByRole(view, role){//根据用户 更新播放的权限弹层 view :1免费,2成员,4付费,8密码,16会员类型
         switch (view) {
           case 1://免费视频，不显示任何遮罩 可看
@@ -190,42 +206,34 @@
             }
             break;
           case 4: //
-            if (role == 0 || role == 1) {//群主和管理员可看
-              this.authStatus = 0;
+            if (role > 1) {//群主和管理员可看
+              this.notify();
             }
-//            else {
-//              this.authStatus = 4;
-//            }
             break;
           case 8:
             if (role == 0 || role == 1) {//群主和管理员可看
               this.authStatus = 0;
             }
-//            else {
-//              this.authStatus = 8;
-//            }
+            else {
+              this.authStatus = 8;
+            }
             break;
           case 16:
-            if (role == 0 || role == 1) {//群主和管理员可看
-              this.authStatus = 0;
+            if (role > 1) {//群主和管理员可看
+              this.notify();
             }
-//            else {
-//              this.authStatus = 16;
-//            }
             break;
           default:
             break;
         }
       },
+      /**根据权限code改变遮罩**/
       viewByAuth(view, authCode){//根据鉴权返回的code 更新播放的权限弹层
         switch (view) {
           case 4:
-            if (authCode == 16301) {//已付费
-              this.authStatus = 0;
+            if (authCode != 16301) {//已付费
+              this.notify();
             }
-//            else if (authCode == "16321") {//未付费
-//              this.authStatus = 4;
-//            }
             break;
           case 8:
             if (authCode == 16302) {//密码正确
@@ -236,21 +244,29 @@
             }
             break;
           case 16:
-            if (authCode == 16303) {//会员类型正确
-              this.authStatus = 0;
-            }
-//            else if (authCode == "16323") {//需要购买会员类型
-//              this.authStatus = 16;
-//            }
-//            else if (authCode == "16331") {//该用户的会员类型没有获取到，可以重试
-//              this.authStatus = 16;
-//            }
-            else if (authCode == 16324) {// 购买其他会员
-              this.authStatus = -2;
+            if (authCode != 16303) {//会员类型正确
+              this.notify();
             }
             break;
           default:
             break;
+        }
+      },
+      notify(){
+        if(this.userRole > 0 && this.authCode > 0){
+          if(this.liveInfo.view == 4){
+            if(this.userRole > 1 && this.authCode != 16301){
+                this.authStatus = 4;
+            }
+          }else if(this.liveInfo.view == 16){
+            if(this.userRole > 1){
+                if(this.authCode == 16324){
+                  this.authStatus = -2;
+                }else{
+                  this.authStatus = 16;
+                }
+            }
+          }
         }
       },
       /**
@@ -299,7 +315,7 @@
        * 直播上报统计
        */
       liveVisitCount() {
-        this.$http.post("/api/zm/w/live/statistics", {params: {"circleId": this.circleId, "userId": this.userId, "liveId": this.liveInfo.id}}, {emulateJSON: true})
+        this.$http.post("/api/zm/w/live/statistics", {"circleId": this.circleId, "userId": this.userId, "liveId": this.liveInfo.id}, {emulateJSON: true})
         .then((res) => {
           if (res.body.code == 0) {
           } else {
