@@ -12,6 +12,7 @@
 
 <script>
   import 'common/css/reset.css';
+  import 'common/js/reset.js';
   import GaiayM3u8 from 'components/GaiayPlayer/GaiayM3u8.vue'
   export default {
     name: 'app',
@@ -20,7 +21,7 @@
     },
     data(){
       return {
-        type:2,
+        type:1,
         liveState:68,
         pic:'http://pic11.nipic.com/20101214/213291_155243023914_2.jpg',
         url:'https://logos-channel.scaleengine.net/logos-channel/live/biblescreen-ad-free/playlist.m3u8'
