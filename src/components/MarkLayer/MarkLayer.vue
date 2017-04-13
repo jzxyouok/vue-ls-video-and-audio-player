@@ -2,11 +2,11 @@
   <div>
     <div class="sf_popups hide" v-if="addGroup == 0 || addGroup == 1">
       <div class="popups" v-if="addGroup == 0">
-        <img src="/static/images/g_ioc_10.png">
+        <img src="/statics/images/g_ioc_10.png">
         <p>加群失败！</p>
       </div>
       <div class="popups" v-if="addGroup == 1">
-        <img src="/static/images/g_ioc_11.png">
+        <img src="/statics/images/g_ioc_11.png">
         <p>加群成功！</p>
       </div>
     </div>

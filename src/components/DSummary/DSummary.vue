@@ -6,7 +6,7 @@
       <!--<li class="num fl">128</li>-->
     </ul>
     <div class="introduction" v-if="desc">
-      <div class="introCont" v-bind:class="{'showHeight':showHeight,'three':desc.length>=97}">{{desc}}</div>
+      <div class="introCont" v-bind:class="{'showHeight':showHeight,'three':desc.length>=97}" v-html="desc"></div>
       <p class="introArrow" v-if="desc.length>=97" v-bind:class="{'down':showHeight}" @click="changeAbstract">箭头</p>
       <!--<p class="introArrow down">箭头</p>向下-->
     </div>
@@ -67,7 +67,7 @@
       },
       /**
        * 根据直播id获取直播简介
-       * 测试提交git 
+       * 测试提交git
        **/
       getDescByLiveId(){
         var liveId = this.liveInfo.id;
@@ -79,8 +79,8 @@
               this.desc = '这个群主很懒，还没有编写直播简介';
               window.circleInfo.desc = '这个群主很懒，还没有编写直播简介';
             } else {
-              this.desc = data.descs[liveId];
-              window.circleInfo.desc = data.descs[liveId];
+              this.desc = data.descs[liveId].replace(/↵/g, "<br/>");
+              window.circleInfo.desc = data.descs[liveId].replace(/↵/g, "<br/>");
             }
             this.$parent.descError = -1;
           } else {

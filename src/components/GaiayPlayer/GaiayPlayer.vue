@@ -65,6 +65,7 @@
     height: 4.22rem;
     position: relative;
     overflow: hidden;
+    z-index: 5;
   }
 
   .familyNumVideo .pic {
@@ -269,6 +270,10 @@
 
   .videoPlayControl, .videoPlayControl video, .audioPlayControl, .audioPlayControl audio {
     height: 4.22rem;
+    width: 100%;
+    position: absolute;
+    top:0;
+    z-index: -1;
   }
 
   /*** 音频控件的css (从老版本拷过来的) ***/
