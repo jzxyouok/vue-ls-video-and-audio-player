@@ -134,11 +134,11 @@
           return auth.auth();
         } else {
           if (role == 0 || role == 1) {
-            this.popFlag = true;
+            this.utils.downloadApp();
             return false;
           }
           if(this.text == "已预约，下载APP接收直播提醒"){
-            this.popFlag = true;
+            this.utils.downloadApp();
             return false;
           }
           switch (this.view) {
@@ -336,7 +336,7 @@
           .then((res) => {
             var data = res.body;
             if (data.code == 0 ){/**加群成功**/
-              this.$parent.addGroup = 1;
+              this.popFlag = true;
               this.text = "已预约，下载APP接收直播提醒";
             }else if(data.code == "16021" || data.code == "16061") {/**审核中/已加入该社群**/
               this.text = "已预约，下载APP接收直播提醒";
