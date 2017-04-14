@@ -2,12 +2,6 @@
   <article class="topVideo">
     <span class="topVSub topVLive" v-show="(liveInfo.state & 1)==1">直播</span>
     <span class="topVSub topVHf" v-show="(liveInfo.state & 4)==4">回放</span>
-    <section class="topVFail" v-show="authStatus==-1">
-      <div class="topVFailCont">
-        <h3 class="tit">连接失败，点击重试</h3>
-        <button class="btn">重试</button>
-      </div>
-    </section>
     <section class="topVStatus" v-show="authStatus==8">
       <div class="topVStatusCont">
         <h3 class="tit">本直播为私密直播</h3>
