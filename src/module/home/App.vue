@@ -39,7 +39,8 @@
       GHeader, LiveList, Members, JoinCircle,MarkLayer
     },
     created(){//相当于init
-      window.circleInfo.circleId = window.circleInfo.id
+      window.circleInfo.circleId = window.circleInfo.id;
+      document.title = window.circleInfo.name;
       sessionStorage.setItem('circleId', window.circleInfo.id);
       this.followerId = utils._getQueryString("followerId") || '';
       console.log(this.followerId);

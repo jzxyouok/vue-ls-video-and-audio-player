@@ -80,6 +80,7 @@
         } else {
           this.liveInfo = JSON.parse(sessionStorage.getItem("list"));
         }
+        document.title = this.liveInfo.title;
         this.circleId = utils._getQueryString('circleId');
         this.followerId = utils._getQueryString('followerId');
         sessionStorage.setItem('circleId', this.circleId);

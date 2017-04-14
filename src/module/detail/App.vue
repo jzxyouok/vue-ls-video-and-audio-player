@@ -110,6 +110,7 @@
         } else {
           this.liveInfo = JSON.parse(sessionStorage.getItem("list"));
         }
+        document.title = this.liveInfo.title;
         this.token = utils.getCookie('zhangmen_token_cookie');
         this.circleId = utils._getQueryString('circleId');
         sessionStorage.setItem('circleId', this.circleId);
