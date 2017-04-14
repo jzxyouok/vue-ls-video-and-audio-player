@@ -48,18 +48,22 @@
       </div>
     </section>
     <!--<video-player :options="videoOptions" style="display:block;width:100%;height:100%"></video-player>-->
-    <gaiay-player :addGroup="addGroup" :liveSource="dealLiveSrc" :livePoster="liveInfo.pic"></gaiay-player>
+    <!--<gaiay-player :addGroup="addGroup" :liveSource="dealLiveSrc" :livePoster="liveInfo.pic"></gaiay-player>-->
+    <gaiay-m3u8 :type="liveInfo.type"
+                :state="dealState"
+                :poster="liveInfo.pic"
+                :playerUrl="dealLiveSrc">
+    </gaiay-m3u8>
   </article>
 </template>
 <script>
   //  import {videoPlayer} from 'vue-video-player'
-  import GaiayPlayer from 'components/GaiayPlayer/GaiayPlayer';
+  import GaiayM3u8 from 'components/GaiayPlayer/GaiayM3u8';
   import {joinEvent} from 'common/js/joinCircle.js';
   export default {
     name: 'detailheader',
     components: {
-//      videoPlayer,
-      GaiayPlayer
+      GaiayM3u8
     },
     props: {
       circleId: {
@@ -171,31 +175,31 @@
         url += "&bizType=joinCirclePay";
         url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
         if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
-          url +="&type=1";
+          url += "&type=1";
         }
         url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
         window.location.href = url;
       },
       /*viewAuth_charge: function () {
-        var url = requstUrl + "/zhangmen/live/view/charge";
-        var type = null;
-        if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
-          type = 1;
-        }
-        this.$http.post(url,{"liveName" : this.liveInfo.title, "userId" : this.userId, "liveId" : this.liveInfo.id , "circleId" : this.circleId, "liveChargeCallback" : encodeURIComponent(window.location.href), "followerId" : this.followerId,"type" : type},{emulateJSON:true})
-          .then((response) => {
-            var data = response.body;
-            if (data.code == 0) {
-              window.wallet.pay(data.walletOrderId, data.appKey, data.appDomain, data.price, data.redirect,data.description,'','web');
-            } else if(data.code == 16224){
-              this.authStatus = 0;
-              this.addGroup = 4;
-            }
-          })
-          .catch(function (response) {
-            console.log(response);
-          })
-      },*/
+       var url = requstUrl + "/zhangmen/live/view/charge";
+       var type = null;
+       if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
+       type = 1;
+       }
+       this.$http.post(url,{"liveName" : this.liveInfo.title, "userId" : this.userId, "liveId" : this.liveInfo.id , "circleId" : this.circleId, "liveChargeCallback" : encodeURIComponent(window.location.href), "followerId" : this.followerId,"type" : type},{emulateJSON:true})
+       .then((response) => {
+       var data = response.body;
+       if (data.code == 0) {
+       window.wallet.pay(data.walletOrderId, data.appKey, data.appDomain, data.price, data.redirect,data.description,'','web');
+       } else if(data.code == 16224){
+       this.authStatus = 0;
+       this.addGroup = 4;
+       }
+       })
+       .catch(function (response) {
+       console.log(response);
+       })
+       },*/
       //会员购买
       viewVipList_change: function () {
         var url = requstUrl + "/vip/" + this.circleId + "/product/list";
@@ -224,6 +228,12 @@
         if ((liveInfo.state & 1) == 1)src = liveInfo.play.hls;
         else if ((liveInfo.state & 4) == 4) src = liveInfo.playBackUrl;
         return src;
+      },
+      dealState(){
+        let state = 0;
+        if ((liveInfo.state & 1) == 1)state = 1;
+        else if ((liveInfo.state & 4) == 4) state = 4;
+        return state;
       }
     }
   }
