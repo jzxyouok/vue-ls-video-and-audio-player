@@ -160,19 +160,19 @@
 <style>
 /*herald.vue*/
  /*点击按下效果*/
-  .topVFail .btn:active, .sharePopBtn:active, .noticeTimeBtn:active, .fixedFdRed:active, .yugaoSuccBtn:active {
+  .topVFail .btn:active, .noticeTimeBtn:active, .fixedFdRed:active, .yugaoSuccBtn:active {
     opacity: .85
   }
 
   /*伪类*/
-  .topMenuTabs li::before, .liveInfoSub li::before, .moreListSp::after, .topVLive::before, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after ,.topVLive::before,.topVHf::before,.topVYgao::before{
+  .topMenuTabs li::before, .liveInfoSub li::before, .moreListSp::after, .topVLive::before, .topVFail .btn::before, .noticeTimeBtn::before,.topVLive::before,.topVHf::before,.topVYgao::before{
     display: block;
     content: "";
     position: absolute;
   }
 
   /*社群公用背景*/
-  .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before, .yugaoSuccTit::before, .yugaoSuccClose::after,.liveInfoTuig dd:after,,.liveInfoTuig dd:after {
+  .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after, .topVFail .btn::before, .noticeTimeBtn::before,.liveInfoTuig dd:after,,.liveInfoTuig dd:after {
     background-image: url(/statics/images/pubBack.png);
     background-repeat: no-repeat;
     background-size: 1rem 5rem;
@@ -599,74 +599,6 @@
     color: #f04640
   }
 
-  /*分享弹出层*/
-  .sharePop {
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    background-color: rgba(0, 0, 0, .4);
-  }
-
-  .sharePopBox {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    width: 72%;
-    background: #fff;
-    border-radius: .3rem;
-  }
-
-  .sharePopCent {
-    padding: .35rem 6%;
-    font-size: .28rem;
-    line-height: .44rem;
-    color: #a0a0a0;
-    border-bottom: 1px solid #dadade
-  }
-
-  .sharePopCent p {
-    margin-bottom: .13rem;
-    line-height: .44rem;
-  }
-
-  .sharePopCent span {
-    color: #323232;
-    display: inline-block;
-    padding-left: .62rem;
-    position: relative;
-    height: .44rem;
-  }
-
-  .sharePopCent span::after {
-    width: .44rem;
-    height: .44rem;
-    top: 0;
-    left: .08rem;
-  }
-
-  .sharePopCent .sp01::after {
-    background-position: 0 -3.19rem;
-  }
-
-  .sharePopCent .sp02::after {
-    background-position: 0 -2.55rem;
-  }
-
-  .sharePopBtn {
-    display: block;
-    width: 100%;
-    height: .9rem;
-    font-size: .34rem;
-    line-height: .9rem;
-    color: #007aff;
-    text-align: center;
-  }
-
   /*============详情============end*/
   /*============预告（继承详情样式）============start*/
   .mainCont-yg {
@@ -698,83 +630,15 @@
     margin-top: -.18rem;
     background-position: -.61rem -3.2rem;
   }
-
-  /*预约成功弹出层*/
-  .yugaoSucc {
-    width: 74%;
-    height: 6.7rem;
-    text-align: center;
-  }
-
-  .yugaoSuccPic {
-    display: block;
-    width: 100%;
-    height: 3.8rem;
-    border-top-left-radius: .3rem;
-    border-top-right-radius: .3rem;
-    margin-bottom: .45rem;
-  }
-
-  .yugaoSuccTit {
-    display: inline-block;
-    font-size: .32rem;
-    line-height: .36rem;
-    height: .36rem;
-    color: #a0a0a0;
-    padding-left: .39rem;
-    position: relative;
-    margin-bottom: .18rem;
-  }
-
-  .yugaoSuccTit::before {
-    width: .31rem;
-    height: .31rem;
-    top: 50%;
+  .sharePop {
+    position: fixed;
+    z-index: 9999;
     left: 0;
-    margin-top: -.13rem;
-    background-position: -.68rem -3.63rem
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, .4);
   }
-
-  .yugaoSuccDown {
-    text-align: center;
-    font-size: .34rem;
-    font-weight: bold;
-    margin-bottom: .32rem;
-  }
-
-  .yugaoSuccBtn {
-    font-size: .32rem;
-    line-height: .7rem;
-    width: 2.8rem;
-    height: .7rem;
-    border-radius: .5rem;
-    background: #ff4c4d;
-    color: #fff;
-    text-align: center;
-  }
-
-  .yugaoSuccClose {
-    position: absolute;
-    bottom: -.8rem;
-    left: 50%;
-    margin-left: -.28rem;
-    width: .56rem;
-    height: .56rem;
-    border: .02rem solid #fff;
-    border-radius: 100%;
-    text-indent: -9999px;
-  }
-
-  .yugaoSuccClose::after {
-    width: .2rem;
-    height: .2rem;
-    background-position: -.79rem -4rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -.1rem 0 0 -.1rem;
-  }
-
   .sharePic {
     background: rgba(0, 0, 0, .8);
   }
