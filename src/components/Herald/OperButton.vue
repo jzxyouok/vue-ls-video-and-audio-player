@@ -14,6 +14,18 @@
 </template>
 <style>
 /*operButton.vue*/
+  /*伪类*/
+ .yugaoSuccTit::before, .yugaoSuccClose::after{
+    display: block;
+    content: "";
+    position: absolute;
+  }
+ .yugaoSuccTit::before, .yugaoSuccClose::after {
+    background-image: url(/statics/images/pubBack.png);
+    background-repeat: no-repeat;
+    background-size: 1rem 5rem;
+  }
+
   /*吸底按扭*/
   .fixedFd {
     position: fixed;
@@ -31,6 +43,81 @@
     height: .9rem;
     color: #fff;
     background: #f03c38;
+  }
+/*预约成功弹出层*/
+  .yugaoSucc {
+    width: 74%;
+    height: 6.7rem;
+    text-align: center;
+    margin:-3.35rem 0 0 -37%;
+  }
+  .yugaoSuccPic {
+    display: block;
+    width: 100%;
+    height: 3.8rem;
+    border-top-left-radius: .3rem;
+    border-top-right-radius: .3rem;
+    margin-bottom: .45rem;
+  }
+
+  .yugaoSuccTit {
+    display: inline-block;
+    font-size: .32rem;
+    line-height: .36rem;
+    height: .36rem;
+    color: #a0a0a0;
+    padding-left: .39rem;
+    position: relative;
+    margin-bottom: .18rem;
+  }
+
+  .yugaoSuccTit::before {
+    width: .31rem;
+    height: .31rem;
+    top: 50%;
+    left: 0;
+    margin-top: -.13rem;
+    background-position: -.68rem -3.63rem
+  }
+
+  .yugaoSuccDown {
+    text-align: center;
+    font-size: .34rem;
+    font-weight: bold;
+    margin-bottom: .32rem;
+  }
+
+  .yugaoSuccBtn {
+    font-size: .32rem;
+    line-height: .7rem;
+    width: 2.8rem;
+    height: .7rem;
+    border-radius: .5rem;
+    background: #ff4c4d;
+    color: #fff;
+    text-align: center;
+  }
+
+  .yugaoSuccClose {
+    position: absolute;
+    bottom: -.8rem;
+    left: 50%;
+    margin-left: -.28rem;
+    width: .56rem;
+    height: .56rem;
+    border: .02rem solid #fff;
+    border-radius: 100%;
+    text-indent: -9999px;
+  }
+
+  .yugaoSuccClose::after {
+    width: .2rem;
+    height: .2rem;
+    background-position: -.79rem -4rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -.1rem 0 0 -.1rem;
   }
 
 </style>
