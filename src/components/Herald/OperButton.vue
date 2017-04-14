@@ -25,7 +25,6 @@
     background-repeat: no-repeat;
     background-size: 1rem 5rem;
   }
-
   /*吸底按扭*/
   .fixedFd {
     position: fixed;
@@ -45,6 +44,14 @@
     background: #f03c38;
   }
 /*预约成功弹出层*/
+  .sharePopBox {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 72%;
+    background: #fff;
+    border-radius: .3rem;
+  }
   .yugaoSucc {
     width: 74%;
     height: 6.7rem;

@@ -160,19 +160,19 @@
 <style>
 /*herald.vue*/
  /*点击按下效果*/
-  .topVFail .btn:active, .sharePopBtn:active, .noticeTimeBtn:active, .fixedFdRed:active, .yugaoSuccBtn:active {
+  .topVFail .btn:active, .noticeTimeBtn:active, .fixedFdRed:active, .yugaoSuccBtn:active {
     opacity: .85
   }
 
   /*伪类*/
-  .topMenuTabs li::before, .liveInfoSub li::before, .moreListSp::after, .topVLive::before, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before,.topVLive::before,.topVHf::before,.topVYgao::before{
+  .topMenuTabs li::before, .liveInfoSub li::before, .moreListSp::after, .topVLive::before, .topVFail .btn::before, .noticeTimeBtn::before,.topVLive::before,.topVHf::before,.topVYgao::before{
     display: block;
     content: "";
     position: absolute;
   }
 
   /*社群公用背景*/
-  .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after, .topVFail .btn::before, .sharePopCent span::after, .noticeTimeBtn::before,.liveInfoTuig dd:after,,.liveInfoTuig dd:after {
+  .topMenuTabs li::before, .topMenuTool li, .liveInfoSub li::before, .introArrow, .moreListSp::after, .topVBf::after, .topVFail .btn::before, .noticeTimeBtn::before,.liveInfoTuig dd:after,,.liveInfoTuig dd:after {
     background-image: url(/statics/images/pubBack.png);
     background-repeat: no-repeat;
     background-size: 1rem 5rem;
@@ -599,73 +599,6 @@
     color: #f04640
   }
 
-  /*分享弹出层*/
-  .sharePop {
-    position: fixed;
-    z-index: 9999;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    top: 0;
-    background-color: rgba(0, 0, 0, .4);
-  }
-
-  .sharePopBox {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 72%;
-    background: #fff;
-    border-radius: .3rem;
-    margin:-1.36rem 0 0 -36%;
-  }
-
-  .sharePopCent {
-    padding: .35rem 6%;
-    font-size: .28rem;
-    line-height: .44rem;
-    color: #a0a0a0;
-    border-bottom: 1px solid #dadade
-  }
-
-  .sharePopCent p {
-    margin-bottom: .13rem;
-    line-height: .44rem;
-  }
-
-  .sharePopCent span {
-    color: #323232;
-    display: inline-block;
-    padding-left: .62rem;
-    position: relative;
-    height: .44rem;
-  }
-
-  .sharePopCent span::after {
-    width: .44rem;
-    height: .44rem;
-    top: 0;
-    left: .08rem;
-  }
-
-  .sharePopCent .sp01::after {
-    background-position: 0 -3.19rem;
-  }
-
-  .sharePopCent .sp02::after {
-    background-position: 0 -2.55rem;
-  }
-
-  .sharePopBtn {
-    display: block;
-    width: 100%;
-    height: .9rem;
-    font-size: .34rem;
-    line-height: .9rem;
-    color: #007aff;
-    text-align: center;
-  }
-
   /*============详情============end*/
   /*============预告（继承详情样式）============start*/
   .mainCont-yg {
@@ -696,6 +629,15 @@
     top: 50%;
     margin-top: -.18rem;
     background-position: -.61rem -3.2rem;
+  }
+  .sharePop {
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, .4);
   }
   .sharePic {
     background: rgba(0, 0, 0, .8);
