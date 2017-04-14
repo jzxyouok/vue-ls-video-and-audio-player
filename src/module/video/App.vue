@@ -24,7 +24,7 @@
         type:2,
         liveState:68,
         pic:'http://pic11.nipic.com/20101214/213291_155243023914_2.jpg',
-        url:'http://pili-live-hls.live.zm.gaiay.cn/gaiay-pro/58ef31e2d425e164d0000b99.m3u8'
+        url:'http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58ef1601a3d5ec320f006768/1492063760.1492063923.m3u8'
       }
     },
     methods: {

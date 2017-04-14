@@ -29,7 +29,7 @@
     props: {
       type: {//播放类型 0：非媒体状态, 1: 视频 , 2 音频
         type: Number,
-        default: 2
+        default: 1
       },
       state: {//直播状态：1：直播, 2:预告, 3:回放
         type: Number,
@@ -71,6 +71,7 @@
           html5: {hls: {withCredentials: false}},
           poster: this.poster,
 //          autoplay:true
+          isAudio:true,
         }
       }
     },
@@ -126,7 +127,7 @@
 //        player.el().firstChild.setAttribute("x5-video-player-type", "h5");
         player.el().firstChild.setAttribute("x5-playsinline", "");
         player.el().firstChild.setAttribute("x-webkit-airplay", "allow");
-        player.el().firstChild.setAttribute("style", "object-fit: fill");
+        player.el().firstChild.setAttribute("style", "object-fit:fill");
       },
 
       /**
@@ -138,16 +139,16 @@
 
         });
         player.on('waiting',function () {// 当视频因缓冲下一帧而停止时产生该事件
-
+          console.log(1);
         });
         player.on('playing',function () {// 当媒体从因缓冲而引起的暂停和停止恢复到播放时产生该事件
 
         });
         player.on('abort',function () {// 当加载媒体被异常终止时产生该事件
-
+          alert('abort');
         });
         player.on('error',function () {// 当加载媒体发生错误时产生该事件
-
+          alert('error');
         });
       }
     }
@@ -161,14 +162,19 @@
   /*
     隐藏设备自带的播放按钮
   */
-  video::-webkit-media-controls {
-    display: none !important;
+  video::-webkit-media-controls ,.vjs-modal-dialog-content{
+    display:none !important;
+  }
+  .vjs-error .vjs-error-display:before{
+    content: ""!important;
+  }
+  .vjs-poster{
+  background-size: cover!important;
   }
 
   .player {
     position: relative;
   }
-
   .vjs-big-play-button::after {
     background-image: url(/statics/images/pubBack.png);
     background-repeat: no-repeat;
