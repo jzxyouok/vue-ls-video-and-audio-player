@@ -89,7 +89,7 @@
           this.initView(this.liveInfo.view);
       }
 
-      this.addEventListenerEnded();
+      //this.addEventListenerEnded();
     },
     methods: {
       addEventListenerEnded(){
