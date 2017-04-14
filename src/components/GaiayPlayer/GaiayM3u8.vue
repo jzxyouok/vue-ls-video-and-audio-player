@@ -123,7 +123,7 @@
        * @param player
        */
       intoPlayerAttr(player){
-//        player.el().firstChild.setAttribute("x5-video-player-type", "h5");     
+//        player.el().firstChild.setAttribute("x5-video-player-type", "h5");
         player.el().firstChild.setAttribute("x5-playsinline", "");
         player.el().firstChild.setAttribute("x-webkit-airplay", "allow");
         player.el().firstChild.setAttribute("style", "object-fit: fill");
@@ -146,7 +146,7 @@
         player.on('abort',function () {// 当加载媒体被异常终止时产生该事件
 
         });
-        player.on('ended',function () {// 当加载媒体发生错误时产生该事件
+        player.on('error',function () {// 当加载媒体发生错误时产生该事件
 
         });
       }
