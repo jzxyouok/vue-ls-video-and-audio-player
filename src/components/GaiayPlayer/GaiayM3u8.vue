@@ -1,6 +1,12 @@
 <template>
   <div class="item">
     <div class="player">
+      <section class="topVFail" v-show="aginConn">
+        <div class="topVFailCont">
+          <h3 class="tit">连接失败，点击重试</h3>
+          <button class="btn" @click="_eventAginConnect">重试</button>
+        </div>
+      </section>
       <video-player :options="getPlayerOptions"
                     @play="onPlayerPlay($event)"
                     @pause="onPlayerPause($event)"
@@ -11,9 +17,7 @@
       >
       </video-player>
       <!-- 音频收听中动画 -->
-      <section class="active" :class="{musicPlayer:audioPlaying}" @click="audioPause"><i></i><i></i><i></i><i></i><i></i><i></i></section>
-
-
+      <section class="active" :class="{musicPlayer:audioPlaying}" @click="_eventAudioPause"><i></i><i></i><i></i><i></i><i></i><i></i></section>
     </div>
   </div>
 </template>
@@ -42,17 +46,17 @@
       playerUrl: {//媒体播放地址
         type: String,
 //        default: 'http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58db9ea020a05d5f990e7186/1490788004.1490788022.m3u8'
-        default: 'http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58ef1601a3d5ec320f006768/1492063760.1492063923.m3u8'
+        default: ''
       }
     },
     data() {
       return {
+        aginConn:false,
         audioPlaying:false,
         player:{}
       }
     },
     created(){
-      console.log(this.playerUrl+"----------------------------------------------");
     },
     computed: {
       getPlayerOptions: function () {
@@ -68,14 +72,22 @@
           },
           playsinline: true,
           flash: {hls: {withCredentials: false}},
-          html5: {hls: {withCredentials: false}},
+          html5: {hls: {withCredentials: true}},
           poster: this.poster,
 //          autoplay:true
-          isAudio:true,
+          aspectRatio:"16:9",
         }
       }
     },
     methods: {
+      /**
+       * 重新链接的点击事件
+       **/
+      _eventAginConnect(){
+        this.aginConn = false;
+        this.player.load();
+        this.player.play();
+      },
       /**
        * 显示音频播放器样式
        * @param player
@@ -84,38 +96,54 @@
         player.posterImage.el().style.display = 'block';
         if(played){
           player.bigPlayButton.el().style.display = 'none';
-           this.audioPlaying = true;
+          this.audioPlaying = true;
         }else{
           player.bigPlayButton.el().style.display = 'block';
           this.audioPlaying = false;
         }
       },
-      audioPause(){
+
+      /*
+      * 音频时 播放状态下的按钮事件
+      * */
+      _eventAudioPause(){
         this.player.pause();
       },
+
+      /**
+       * 视频播放时触发
+       * */
       onPlayerPlay(player) {
-        if (this.type == 2) {
-          this.showAudioStyle(player,true);
-        }
+        this.aginConn=false;
       },
+      /**
+       * 视频暂停时触发
+       * */
       onPlayerPause(player) {
         if (this.type == 2) {
           this.showAudioStyle(player,false);
         }
       },
+      /**
+       * 视频结束时触发
+       * */
       onPlayerEnded(player){
         alert("播放结束");
       },
+      /**
+       * 视频？时触发
+       * */
       playerStateChanged(playerCurrentState) {
 
       },
+
+      /**
+       * 初始化播放器时触发
+       * */
       playerReadied(player) {
-        this.intoPlayerAttr(player);
         this.player=player;
-        var hls = player.tech({IWillNotUseThisInPlugins: true}).hls
-        player.tech_.hls.xhr.beforeRequest = function (options) {
-          return options
-        }
+        this.intoPlayerAttr(player);
+        this.bindOtherEvent(player);
       },
 
       /**
@@ -124,7 +152,7 @@
        * @param player
        */
       intoPlayerAttr(player){
-//        player.el().firstChild.setAttribute("x5-video-player-type", "h5");
+        player.el().firstChild.setAttribute("x5-video-player-type", "h5");
         player.el().firstChild.setAttribute("x5-playsinline", "");
         player.el().firstChild.setAttribute("x-webkit-airplay", "allow");
         player.el().firstChild.setAttribute("style", "object-fit:fill");
@@ -135,20 +163,27 @@
        * @param player
        */
       bindOtherEvent(player){
+        var that = this;
         player.on('canplay',function () {// 当视频可以播放时产生该事件
-
+          console.log("canplay.....");
+          if (this.type == 2) {
+            this.showAudioStyle(player,true);
+          }
         });
         player.on('waiting',function () {// 当视频因缓冲下一帧而停止时产生该事件
           console.log(1);
+//          alert("waiting");
         });
         player.on('playing',function () {// 当媒体从因缓冲而引起的暂停和停止恢复到播放时产生该事件
-
+          console.log("playing......");
         });
         player.on('abort',function () {// 当加载媒体被异常终止时产生该事件
+
           alert('abort');
         });
         player.on('error',function () {// 当加载媒体发生错误时产生该事件
-          alert('error');
+         that.aginConn = true;
+          that.audioPlaying = false;
         });
       }
     }
@@ -162,26 +197,26 @@
   /*
     隐藏设备自带的播放按钮
   */
-  video::-webkit-media-controls ,.vjs-modal-dialog-content{
+  video::-webkit-media-controls ,.vjs-modal-dialog-content,.vjs-error-display{
     display:none !important;
   }
   .vjs-error .vjs-error-display:before{
     content: ""!important;
   }
   .vjs-poster{
-  background-size: cover!important;
+    background-size: cover!important;
   }
 
   .player {
     position: relative;
   }
-  .vjs-big-play-button::after {
+  .vjs-big-play-button::after,.topVFail .btn::before {
     background-image: url(/statics/images/pubBack.png);
     background-repeat: no-repeat;
     background-size: 1rem 5rem;
   }
 
-  .vjs-big-play-button::after {
+  .vjs-big-play-button::after,.topVFail .btn::before{
     display: block;
     content: "";
     position: absolute;
@@ -396,5 +431,55 @@
       height: 1px
     }
   }
+  /*连接失败*/
+  .topVFail, .topVStatus {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    z-index: 1000
+  }
 
+  .topVFailCont, .topVStatusCont {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* -webkit-transform: translate(-50%, -50%);
+     transform: translate(-50%, -50%);*/
+    text-align: center;
+    width: 90%;
+    height: 1.6rem;
+    margin: -.6rem 0 0 -45%;
+  }
+
+  .topVFail .tit, .topVStatusCont .tit {
+    text-align: center;
+    font-size: .28rem;
+    opacity: .8;
+    margin-bottom: .35rem;
+    color: #fff;
+  }
+
+  .topVFail .btn {
+    display: inline-block;
+    color: #fff;
+    font-size: .32rem;
+    line-height: .7rem;
+    height: .7rem;
+    padding: 0 .45rem 0 .94rem;
+    border: 1px solid #fff;
+    border-radius: .5rem;
+    position: relative;
+  }
+
+  .topVFail .btn::before {
+    width: .33rem;
+    height: .33rem;
+    background-position: 0 -4.53rem;
+    position: absolute;
+    top: 50%;
+    margin: -.165rem 0 0 .46rem;
+  }
 </style>

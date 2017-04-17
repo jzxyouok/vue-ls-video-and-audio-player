@@ -21,7 +21,7 @@
     },
     data(){
       return {
-        type:2,
+        type:1,
         liveState:68,
         pic:'http://pic11.nipic.com/20101214/213291_155243023914_2.jpg',
         url:'http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58ef1601a3d5ec320f006768/1492063760.1492063923.m3u8'

@@ -2,12 +2,6 @@
   <article class="topVideo">
     <span class="topVSub topVLive" v-show="(liveInfo.state & 1)==1">直播</span>
     <span class="topVSub topVHf" v-show="(liveInfo.state & 4)==4">回放</span>
-    <section class="topVFail" v-show="authStatus==-1">
-      <div class="topVFailCont">
-        <h3 class="tit">连接失败，点击重试</h3>
-        <button class="btn">重试</button>
-      </div>
-    </section>
     <section class="topVStatus" v-show="authStatus==8">
       <div class="topVStatusCont">
         <h3 class="tit">本直播为私密直播</h3>
@@ -48,23 +42,23 @@
       </div>
     </section>
     <!--<video-player :options="videoOptions" style="display:block;width:100%;height:100%"></video-player>-->
-    <gaiay-player :addGroup="addGroup" :liveSource="dealLiveSrc" :livePoster="liveInfo.pic"></gaiay-player>
-    <!--<gaiay-m3u8 :type="liveInfo.type"-->
-                <!--:state="dealState"-->
-                <!--:poster="liveInfo.pic"-->
-                <!--:playerUrl="dealLiveSrc">-->
-    <!--</gaiay-m3u8>-->
+    <!--<gaiay-player :addGroup="addGroup" :liveSource="dealLiveSrc" :livePoster="liveInfo.pic"></gaiay-player>-->
+    <gaiay-m3u8 :type="liveInfo.type"
+                :state="dealState"
+                :poster="liveInfo.pic"
+                :playerUrl="dealLiveSrc">
+    </gaiay-m3u8>
   </article>
 </template>
 <script>
-  import GaiayPlayer from 'components/GaiayPlayer/GaiayPlayer';
-//  import GaiayM3u8 from 'components/GaiayPlayer/GaiayM3u8';
+//  import GaiayPlayer from 'components/GaiayPlayer/GaiayPlayer';
+  import GaiayM3u8 from 'components/GaiayPlayer/GaiayM3u8';
   import {joinEvent} from 'common/js/joinCircle.js';
   export default {
     name: 'detailheader',
     components: {
-//      GaiayM3u8
-      GaiayPlayer
+      GaiayM3u8
+//      GaiayPlayer
     },
     props: {
       circleId: {
