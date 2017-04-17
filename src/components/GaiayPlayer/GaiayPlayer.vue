@@ -1,9 +1,9 @@
 <template>
   <section class="familyNumVideo">
-    <img :src="livePoster" v-show="livePlay" v-lazy="livePoster" style="width:100%;height:100%;">
+    <img :src="livePoster" v-show="livePlay" v-lazy="livePoster" style="width:100%;height:100%; position: absolute; z-index: 5;">
     <div class="topVBf" style="display:block" v-show="play" @click="player"></div>
-    <div class="videoPlayControl" style="display:block;">
-      <video id="video" style="z-index:-1; object-fit: fill;" :poster="livePoster" preload="" controls="" webkit-playsinline="" playsinline="" x-webkit-airplay="" width="100%"
+    <div class="videoPlayControl" :class="{zIndex:!play}" style="display:block;">
+      <video id="video" style="z-index:-1; object-fit: fill;" :poster="livePoster" preload="" controls="" webkit-playsinline="" playsinline="" x5-playsinline="" x-webkit-airplay="allow" width="100%"
              :data-src="liveSource" :src="liveSource">
       </video>
     </div>
@@ -274,6 +274,9 @@
     position: absolute;
     top:0;
     z-index: -1;
+  }
+  .zIndex{
+    z-index: 6;
   }
 
   /*** 音频控件的css (从老版本拷过来的) ***/
