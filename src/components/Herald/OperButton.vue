@@ -456,7 +456,7 @@
           url += "&liveName=" + this.liveName;
           url += "&bizType=joinCirclePay";
           url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-          url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
+          url += "&followerId=" + (this.followerId == undefined ? '' : this.followerId);
           window.location.href = url;
         }
       },
@@ -474,7 +474,7 @@
           url += "&liveId=" + this.liveId;
           url += "&noJoin=0";
           url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-          url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
+          url += "&followerId=" + (this.followerId == undefined ? '' : this.followerId);
           window.location.href = url;
         }
       },
@@ -487,7 +487,7 @@
         url += "&userId=" + this.userId;
         url += "&bizType=joinCirclePay";
         url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-        url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
+        url += "&followerId=" + (this.followerId == undefined ? '' : this.followerId);
         window.location.href = url;
       },
       /**
@@ -498,7 +498,7 @@
         url += "userId=" + this.userId;
         url += "&noJoin=0";
         url += "&liveChargeCallback=" + encodeURIComponent(window.location.href);
-        url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
+        url += "&followerId=" + (this.followerId == undefined ? '' : this.followerId);
         window.location.href = url;
       },
     }

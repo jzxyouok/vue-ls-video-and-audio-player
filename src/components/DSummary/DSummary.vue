@@ -79,8 +79,8 @@
               this.desc = '这个群主很懒，还没有编写直播简介';
               window.circleInfo.desc = '这个群主很懒，还没有编写直播简介';
             } else {
-              this.desc = data.descs[liveId].replace(/↵/g, "<br/>");
-              window.circleInfo.desc = data.descs[liveId].replace(/↵/g, "<br/>");
+              this.desc = data.descs[liveId].replace(/↵|\n|\r/g, "<br/>");
+              window.circleInfo.desc = data.descs[liveId].replace(/↵|\n|\r/g, "<br/>");
             }
             this.$parent.descError = -1;
           } else {

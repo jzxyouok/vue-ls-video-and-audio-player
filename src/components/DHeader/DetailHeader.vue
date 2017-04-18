@@ -172,7 +172,7 @@
         if (this.authStatus != 4) {// 付费直播不需要传type，全部观看、群成员观看、密码观看传type=1
           url += "&type=1";
         }
-        url += "&followerId=" + this.followerId == undefined ? '' : this.followerId;
+        url += "&followerId=" + (this.followerId == undefined ? '' : this.followerId);
         window.location.href = url;
       },
       /*viewAuth_charge: function () {
@@ -222,7 +222,8 @@
         let liveInfo = this.liveInfo;
         if ((liveInfo.state & 1) == 1)src = liveInfo.play.hls;
         else if ((liveInfo.state & 4) == 4) src = liveInfo.playBackUrl;
-        return src;
+//        return src;
+        return 'http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58db9ea020a05d5f990e7186/1490788004.1490788022.m3u8';
       },
       dealState(){
         let state = 0;

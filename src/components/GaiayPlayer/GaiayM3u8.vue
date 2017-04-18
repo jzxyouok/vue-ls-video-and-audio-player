@@ -74,7 +74,6 @@
           flash: {hls: {withCredentials: false}},
           html5: {hls: {withCredentials: true}},
           poster: this.poster,
-//          autoplay:true
           aspectRatio:"16:9",
         }
       }
@@ -115,13 +114,18 @@
        * */
       onPlayerPlay(player) {
         this.aginConn=false;
+        var that = this;
+        if (that.type == 2) {
+          that.showAudioStyle(player,true);
+        }
       },
       /**
        * 视频暂停时触发
        * */
       onPlayerPause(player) {
-        if (this.type == 2) {
-          this.showAudioStyle(player,false);
+        var that = this;
+        if (that.type == 2) {
+          that.showAudioStyle(player,false);
         }
       },
       /**
@@ -152,8 +156,9 @@
        * @param player
        */
       intoPlayerAttr(player){
-        player.el().firstChild.setAttribute("x5-video-player-type", "h5");
+//        player.el().firstChild.setAttribute("x5-video-player-type", "h5");
         player.el().firstChild.setAttribute("x5-playsinline", "");
+        player.el().firstChild.setAttribute("webkit-inline", "true");
         player.el().firstChild.setAttribute("x-webkit-airplay", "allow");
         player.el().firstChild.setAttribute("style", "object-fit:fill");
       },
@@ -166,9 +171,8 @@
         var that = this;
         player.on('canplay',function () {// 当视频可以播放时产生该事件
           console.log("canplay.....");
-          if (this.type == 2) {
-            this.showAudioStyle(player,true);
-          }
+          player.el().children[4].style.display = 'none';
+          player.el().children[5].style.display = 'block';
         });
         player.on('waiting',function () {// 当视频因缓冲下一帧而停止时产生该事件
           console.log(1);
@@ -182,7 +186,7 @@
           alert('abort');
         });
         player.on('error',function () {// 当加载媒体发生错误时产生该事件
-         that.aginConn = true;
+          that.aginConn = true;
           that.audioPlaying = false;
         });
       }
