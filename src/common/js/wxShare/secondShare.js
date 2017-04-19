@@ -32,7 +32,9 @@ export var secondShare = {
     if (followerId != undefined && followerId != "") {
       shareUrl = this.checkFollowerId(shareUrl, followerId);//检测分销商id
     }
-    
+    if(typeof bangHelper != "undefined"){
+      shareUrl = bangHelper.renewSharer(shareUrl, userId, "") ;
+    }
     if (window.wxHelper6) {
       //把logo赋值给分享图片地址
       wxHelper6.img = logo;

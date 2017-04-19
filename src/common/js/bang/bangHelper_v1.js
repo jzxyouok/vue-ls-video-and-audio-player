@@ -20,17 +20,17 @@ var bangData ={
 };
 
 // 掌门封神榜封装
-var bangHelper = {
+window.bangHelper = {
 	// 是否自动构造上报数据
 	isAutoSave : true,
 	// 上传服务器域名
 	bangServer : BANG_SERVER,
 	// 更新分享地址中的分享者
 	renewSharer : function(url, userId, circleId){
-		s = url.indexOf("sharerId=");
+		var s = url.indexOf("sharerId=");
 		var key = "";
 		if ( s != -1){
-			e = url.indexOf("&", s);
+			var e = url.indexOf("&", s);
 			if (e != -1)
 				key = url.substring(s+9, e);
 			else
@@ -72,21 +72,19 @@ var bangHelper = {
 				typeof(bangData) == "undefined" ||
 				typeof(bangData.sharerId) == "undefined")
 			return;
-		if (userId.length != 22 || bangData.sharerId.length != 22 )
-			return;
 		// end
 		bangData.userId = userId;
 		bangData.bangType = bangType;
     utils.ajax({
       type: 'GET',
-      url: this.bangServer + '/api/statistic/element',
-      data: {"bizType":bangType,"srcType":bangData.srcUrl,"parentId":bangData.sharerId,"currentId":userId,"circleId":bangData.circleId},
+      url: this.bangServer + "/api/statistic/element?bizType="+bangType+"&srcType="+bangData.srcUrl+"&parentId="+bangData.sharerId+"&currentId="+userId+"&circleId="+bangData.circleId,
       async: false,
       success: function (data) {
         console.log(data);
       },
-      error:function(){}
+      error:function(error){
+        console.log(error);
+      }
     });
 	}
 };
-export default bangHelper;

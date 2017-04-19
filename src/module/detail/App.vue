@@ -42,6 +42,7 @@
   import 'common/js/wxShare/wxHelper-6.1.js';
   import {secondShare} from 'common/js/wxShare/secondShare.js';
   import zmOauth from 'common/js/wxShare/oauth.js';
+  import {bangHelper} from 'common/js/bang/bangHelper_v1.js';
   import DSummary from 'components/DSummary/DSummary';
   import LiveList from 'components/LiveList/LiveList';
   import GroupChat from 'components/GroupChat/GroupChat';
@@ -79,15 +80,6 @@
       this.followerId = utils._getQueryString('followerId');
       this.loadStaticData();
       this.viewByView(this.liveInfo.view);
-      if (this.userId) {
-        this.getFollowerId();
-        this.getUserRole();
-        if(this.liveInfo.view == 4 || this.liveInfo.view == 16){
-          this.getViewAuth();
-        }
-      }else{
-          this.initView(this.liveInfo.view);
-      }
 
       //this.addEventListenerEnded();
     },
@@ -111,14 +103,27 @@
           this.liveInfo = JSON.parse(sessionStorage.getItem("list"));
         }
         document.title = this.liveInfo.title;
+        this.liveInfo.pic = this.liveInfo.pic||'/statics/images/750x420-min.jpg';
         this.token = utils.getCookie('zhangmen_token_cookie');
         this.circleId = utils._getQueryString('circleId');
         sessionStorage.setItem('circleId', this.circleId);
         sessionStorage.setItem("liveType", window.liveInfo.type);
         window.circleInfo.id = this.circleId;
         this.userId = window.userId;
+        if (this.userId != '') {
+          this.getUserRole();
+          if(this.liveInfo.view == 4 || this.liveInfo.view == 16){
+            this.getViewAuth();
+          }
+          this.getFollowerId();
+        }else{
+          this.initView(this.liveInfo.view);
+        }
         if (this.liveInfo.price != undefined) {
           this.price = this.liveInfo.price;
+        }
+        if(typeof window.bangHelper != "undefined"){
+          window.bangHelper.saveBang("0", this.userId);
         }
       },
       getUserRole(){//获取用户角色
@@ -264,7 +269,10 @@
                 if(this.authCode == 16324){
                   this.authStatus = -2;
                 }else{
-                  this.authStatus = 16;
+                    if(this.authCode == 16323){
+                      this.authStatus = 16;
+                    }
+                  console.log("会员权限参数:"+this.authStatus);
                 }
             }
           }

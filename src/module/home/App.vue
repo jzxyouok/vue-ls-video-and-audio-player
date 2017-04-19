@@ -28,6 +28,7 @@
   import utils from 'common/js/utils.js';
   import 'common/js/wxShare/wxHelper-6.1.js';
   import {secondShare} from 'common/js/wxShare/secondShare.js';
+  import {bangHelper} from 'common/js/bang/bangHelper_v1.js';
   import GHeader from 'components/GHeader/GHeader';
   import LiveList from 'components/LiveList/LiveList';
   import Members from 'components/Members/Members';
@@ -47,6 +48,9 @@
       if(userId){
         this.getRoleInfo();
         this.getFollowerId();
+      }
+      if(typeof window.bangHelper != "undefined"){
+        window.bangHelper.saveBang("0", userId);
       }
     },
     data () {
@@ -167,7 +171,11 @@
           .catch(function (response) {
             console.log(response);
           })
-      }
+      },
+      /**
+       *
+       */
+
     }
   }
 </script>

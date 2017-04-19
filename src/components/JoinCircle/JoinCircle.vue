@@ -67,27 +67,15 @@
        * 加群事件函数
        */
       joinEvent(){
-          if(this.timer!=0){
-              return;
-          }
-          console.log(this.userId);
+        if(this.timer!=0){return;}
+        console.log(this.userId);
         if (this.$parent.joinButtonText == "加群审核中")return;
         if(this.userId == undefined || this.userId == ""){
           var auth = new oauth();
           auth.init("", 1);
           return auth.auth();
         }else{
-          switch (this.join) {
-            case 8:// 入群类型为 会员入群
-              this.joinOnVip();
-              break;
-            case 4:// 入群类型为 付费入群
-              this.joinOnPay();
-              break;
-            default://其它入群方式
-              this.hasJoinAuth();
-              break;
-          }
+          this.hasJoinAuth();
         }
       },
       /**
@@ -150,7 +138,17 @@
             }
           } else {//通过加群资格验证：
             this.validStatus = true;
-            this.doJoin();
+            switch (this.join) {
+              case 8:// 入群类型为 会员入群
+                this.joinOnVip();
+                break;
+              case 4:// 入群类型为 付费入群
+                this.joinOnPay();
+                break;
+              default://其它入群方式
+                this.doJoin();
+                break;
+            }
           }
         }, (err)=> {
           var code = err.status;

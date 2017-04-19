@@ -1,8 +1,8 @@
 /*
  * 网页版群聊	groupChat.js
- * 2016-06-16
- * dengyang
- * 
+ * 2017-04-18
+ * duxin
+ *
  * groupChat.Chat.init(groupChatBox,userID,communityID,chatID,joinState,loginState);
  * groupChatBox, //加载群聊的div,css路径形式，如：#qunliaoBox
  * userID,		 //用户ID
@@ -14,8 +14,8 @@
 
 /*
  * 命名空间构建：为了防止命名冲突，因此使用此方式来建立命名空间
- * 2016-06-01
- * dengyang
+ * 2017-04-18
+ * duxin
  */
 var ChatNamespace = {
 	/*
@@ -135,7 +135,7 @@ groupChat.Util = {
 	    	window.event.cancelBubble=true;
 	    }
 	},
-	
+
 	myEncode:function(_map,_content){
 	    _content = ''+_content;
 	    if (!_map||!_content){
@@ -384,15 +384,15 @@ groupChat.Html= {
 	createAuthStateHtml : function(authState){
 		var  authStateHtml = "";//如果没加V 加V图标不显示
 		if(authState == 3){	//如果authstate==3,表示此用户已经认证，那么需要显示加V图标
-			authStateHtml=[ 
+			authStateHtml=[
 				'<div class="dy_gc_sm_mo_un_authstate" authState="'+authState+'">',
 					'<img class="dy_gc_sm_mo_un_as_img" src="/images/groupChat/authStateIcon.png">',
-				'</div>' 
+				'</div>'
 			              ].join('');
 		}
 		return authStateHtml;
 	},
-	
+
 	createAccountInfoHtml : function(link, avatar, username, company, position,  accountId, authStateHtml, curMsgId){
 		var dAvatar = groupChat.Data.curUser.defaultAvatar;
 		return ['<div class="dy_gc_sm_msgother" data-curmsgid="'+curMsgId+'">',
@@ -408,7 +408,7 @@ groupChat.Html= {
 			'<div class="dy_gc_sm_mo_un_position">'+position+'</div>',
 		'</div>'].join('');
 	},
-	
+
 	/*
 	 * 功能：把他人发送的消息 组合成html
 	 * 参数：
@@ -438,7 +438,7 @@ groupChat.Html= {
 			              ].join('');
 			return msgHtml;
 		}else if(type=='emojimsg'){		//系统自定义表情消息
-			
+
 			var msgHtml = [
 			             accountInfoHtml,
 						'<div class="dy_gc_sm_mo_imagemsgcont">',
@@ -448,7 +448,7 @@ groupChat.Html= {
 			              ].join('');
 			return msgHtml;
 		}else if(type=='imagemsg'){		//图片消息
-			
+
 			var msgHtml = [
 					accountInfoHtml,
 						'<div class="dy_gc_sm_mo_imagemsgcont">',
@@ -458,7 +458,7 @@ groupChat.Html= {
 			              ].join('');
 			return msgHtml;
 		}else if(type=='linkcard'){		//卡片消息
-			
+
 			var msgHtml = [
 					accountInfoHtml,
 						'<div class="dy_gc_sm_mo_msgcontbg">',
@@ -492,10 +492,10 @@ groupChat.Html= {
 		var msgHtml ='';	//定义消息变量为空字符串
 		if (curData.scene == "team") {	//判断是否为群聊，不是则返回空字符串
 			if(curData.to == curThisData.curUser.chatID){	//判断是否为当前群的消息，不是则返回空字符串
-				
+
 				var curMsgId = curData.idClient;	//存一下当前消息id，传给组合消息html的函数
 				if(!this.checkMsgId(curMsgId)){	//增加一层判断，用来判断该条消息id是否已经显示在showmsg div中
-					
+
 					if(curData.type=='custom'){	//判断是否为自定义消息
 						var  contentJson = JSON.parse(curData.content);	//把字符串格式的json转化为json对象
 						if(contentJson.type==1){//内容卡片消息
@@ -677,7 +677,7 @@ groupChat.Html= {
 				userAccounts.push(data.historyMsgs.msgs[i].from);
 			}
 		}
-	
+
 		function getSenderInfo(error, userInfos){	//获取用户名片的回调函数，根据用户名片和消息的对应关系来显示消息。
 			//console.log('获取用户名片' + (!error?'成功':'失败'), error,userInfos);
 		    if (!error && userInfos) {
@@ -687,13 +687,13 @@ groupChat.Html= {
 		    			var accountId = curData[i].from;
 			    		if(accountId == userInfos[j].account){	//判断当前消息和用户名片信息的对应关系
 			    			//console.log(curData[i].from,userInfos[j].account);
-			    			
+
 				    		var avatar=userInfos[j].avatar;	//用户头像
 //				    		console.log(avatar);
 				    		if(avatar==''){	//检查用户头像链接是否存在
 				    			avatar=data.curUser.defaultAvatar;
 							}
-				    		
+
 							var username=userInfos[j].nick;	//用户昵称
 							var userLink=groupChat.Util.getCardInfoLink(userInfos[j].account);	//用户名片详情
 							var authstate = 0;	//认证状态
@@ -717,13 +717,13 @@ groupChat.Html= {
 		    	groupChat.Chat.showMsgToBox(msgHtml);	//调用方法来显示消息到showmsg div中
 		    }
 		}
-		
+
 		if(userAccounts.length==0){
 			return;
 		}else{
 			mynim.getUsers(userAccounts, getSenderInfo);	//调用Sdk上的方法来获取一组用户的名片
 		}
-		
+
 	    return msgHtml;
 	},
 	/*
@@ -744,7 +744,7 @@ groupChat.Html= {
 						//console.log('用户名片信息：',userInfo);
 						var avatar=userInfo.avatar;
 						var dAvatar = data.curUser.defaultAvatar;
-						
+
 						var username=userInfo.nick;
 //						var userLink=groupChat.Util.getCardInfoLink(userInfo.account);
 						var authstate = 0;
@@ -762,19 +762,19 @@ groupChat.Html= {
 							$("."+accountId+"_info  .dy_gc_sm_mm_un_name").text(username);
 							$("."+accountId+"_info .dy_gc_sm_mm_un_authstate").attr("authState", authstate);//认证需要考虑一下
 							$("."+accountId+"_info .dy_gc_sm_mm_un_company").text(company);
-							$("."+accountId+"_info .dy_gc_sm_mm_un_position").text(position);	
+							$("."+accountId+"_info .dy_gc_sm_mm_un_position").text(position);
 						}else{
 							$("."+accountId+"_id  .dy_gc_sm_mo_ua_a_img").attr("src",avatar).attr("onerror", dAvatar);
 							$("."+accountId+"_info  .dy_gc_sm_mo_un_name").text(username);
 							$("."+accountId+"_info .dy_gc_sm_mo_un_authstate").attr("authState", authstate);//认证需要考虑一下
 							$("."+accountId+"_info .dy_gc_sm_mo_un_company").text(company);
-							$("."+accountId+"_info .dy_gc_sm_mo_un_position").text(position);	
+							$("."+accountId+"_info .dy_gc_sm_mo_un_position").text(position);
 						}
-						
+
 //						msgHtml+=curThis.bulidMsgHtml(curData,data,avatar,username,userLink,authstate,company,position);
 //						groupChat.Chat.showMsgToBox(msgHtml);
 					}
-					
+
 					var avatar  = "";
 					if(accountId == groupChat.Data.curUser.userID){
 						avatar  = $("."+accountId+"_id .dy_gc_sm_mm_ua_a_img").attr("src");
@@ -852,11 +852,11 @@ groupChat.Sdk = (function(){
 	var Sdk = function(curThis){
 		this.curThis = curThis;	//用来传递this对象
 		this.data = curThis.data;		//数据对象，存放所有数据
-		
+
 		this.appKey = this.data.curOptions.appKey;	//云信appKey
 		this.account = this.data.curOptions.userID;	//用户ID
 		this.token = this.data.curOptions.userToken;	//用户登录云信的token
-		
+
 		/*
 		 * NIM.getInstance(options)
 		 * 此接口为单例模式, 对于同一个账号, 永远返回同一份实例, 即只有第一次调用会初始化一个实例
@@ -869,7 +869,7 @@ groupChat.Sdk = (function(){
 			appKey: this.appKey,	//云信appKey
 			account: this.account,	//用户ID
 			token: this.token,		//用户token, 用于建立连接
-			
+
 			/*
 			 * 连接建立后的回调, 会传入一个对象, 包含登录的信息, 有以下字段
 			 * 		connectionId: 本次登录的连接号
@@ -914,23 +914,23 @@ groupChat.Sdk = (function(){
 			 * 登录端列表参考:http://dev.netease.im/doc/web/LoginPort.html
 			 */
 			onloginportschange: onLoginPortsChange.bind(this),  //多端登录状态变化的回调
-			
+
 			syncRelations:false,		//是否同步黑名单和静音列表, 默认true
 			//onblacklist:onBlacklist.bind(this), 	//同步黑名单的回调, 会传入黑名单列表blacklist
 			//onsyncmarkinblacklist: onMarkInBlacklist.bind(this),	//当前登录用户在其它端加入黑名单/从黑名单移除后的回调
     		//onmutelist: onMutelist.bind(this),					//同步静音列表的回调, 会传入静音列表mutelist
     		//onsyncmarkinmutelist: onMarkInMutelist.bind(this),	//当前登录用户在其它端加入静音列表/从静音列表移除后的回调
-			
+
 			syncFriends:false,		//是否同步好友列表, 默认true
 			//onfriends: onFriends.bind(this),	//同步好友列表的回调, 会传入好友列表
    		 	//onsyncfriendaction: onSyncFriendAction.bind(this),	//当前登录用户在其它端进行好友相关的操作后的回调
-   		 	
+
 			onmyinfo: onMyInfo.bind(this),				//同步登录用户名片的回调, 会传入用户名片:http://dev.netease.im/doc/web/User.html
 			onupdatemyinfo: onUpdateMyInfo.bind(this),	//当前登录用户在其它端修改自己的个人名片之后的回调, 会传入用户名片
 			syncFriendUsers:false,			//是否同步好友对应的用户名片列表, 默认true
 			//onusers: onUsers.bind(this),				//同步好友用户名片的回调, 会传入用户名片数组
 			onupdateuser: onUpdateUser.bind(this),		//用户名片更新后的回调, 会传入用户名片
-			
+
 			syncTeams:false,		//是否同步群列表, 默认true
 			//onteams: onTeams.bind(this),		//同步群列表的回调, 会传入群数组teams:http://dev.netease.im/doc/web/Team.html
 			//onsynccreateteam: onCreateTeam.bind(this),	//当前登录用户在其它端创建群后的回调, 会传入群对象:http://dev.netease.im/doc/web/Team.html
@@ -938,7 +938,7 @@ groupChat.Sdk = (function(){
 			//onteammembers: onTeamMembers.bind(this),	//同步群成员的回调, 一个群对应一个回调, 会传入群成员数组:http://dev.netease.im/doc/web/TeamMember.html
 			//onsyncteammembersdone: onSyncTeamMembersDone.bind(this),	//当syncTeams和syncTeamMembers同时为true时, 会同步所有群的群成员, 当所有群的群成员同步结束时, 会调用此回调
 			onupdateteammember: onUpdateTeamMember.bind(this),			//群成员信息更新后的回调, 会传入群成员对象, 不过此时的信息是不完整的, 只会包括被更新的字段。当前登录帐号在其它端修改自己在群里面的昵称时也会收到此回调。
-			
+
 			onsessions: onSessions.bind(this),			 //同步最近会话列表回调, 会传入会话列表, 按时间正序排列, 即最近聊过天的放在列表的最后面。:http://dev.netease.im/doc/web/Session.html
 			onupdatesession: onUpdateSession.bind(this),//更新会话的回调, 会传入会话, 以下情况会收到此回调:收到消息,发送消息,设置当前会话,重置会话未读数
 
@@ -946,7 +946,7 @@ groupChat.Sdk = (function(){
 		    //onroamingmsgs: onRoamingMsgs.bind(this),	//同步漫游消息的回调, 每个会话对应一个回调, 会传入消息数组:http://dev.netease.im/doc/web/IMMessage.html
 		    onofflinemsgs: onOfflineMsgs.bind(this),	//同步离线消息的回调, 每个会话对应一个回调, 会传入消息数组
 		    onmsg: onMsg.bind(this),	//收到消息的回调, 会传入消息对象,当前登录帐号在其它端发送消息之后也会收到此回调, 注意此时消息对象的from字段就是当前登录的帐号
-		    
+
 		    syncMsgReceipts:true,	//是否同步已读回执时间戳, 默认true
 			onofflinesysmsgs: onOfflineSysMsgs.bind(this),	//同步离线系统通知的回调, 会传入系统通知:http://dev.netease.im/doc/web/SystemMessage.html
 			onsysmsg: onSysMsg.bind(this),		//收到系统通知的回调, 会传入系统通知
@@ -955,14 +955,14 @@ groupChat.Sdk = (function(){
 			onupdatesysmsgunread: onUpdateSysMsgUnread.bind(this),		//更新系统通知未读数的回调
 			onofflinecustomsysmsgs: onOfflineCustomSysMsgs.bind(this),	//同步离线自定义系统通知的回调, 会传入系统通知
 			oncustomsysmsg: onCustomSysMsg.bind(this),	//收到自定义系统通知的回调, 会传入系统通知
-			
+
 			onsyncdone: onSyncDone.bind(this),	//当上面各个同步（不包括下面的同步群成员）完成后, 会调用此回调
-			
+
 			//以下两项具体参考：http://dev.netease.im/doc/web/NIM.html#.getInstance
 			autoMarkRead: true,	//是否自动标记消息为已收到 ，默认情况下SDK在收到服务器推送过来的消息后, 会在将消息推给开发者时将消息标记为已读状态, 下次登录后就不会收到标记为已读的消息。
 			db:	true	//是否使用数据库,默认为true，在支持数据库的浏览器上 SDK 会将数据缓存到数据库中, 后续同步都是增量更新, 加快初始化速度
 		});
-		
+
 		//以下是初始化SDK的回调函数的定义
 		function onConnect() {	//连接建立后的回调
 			//console.log('连接成功');
@@ -990,7 +990,7 @@ groupChat.Sdk = (function(){
 		function onLoginPortsChange(loginPorts) {	//多端登录状态变化的回调
 			//console.log('当前登录帐号在其它端的【登录状态】发生改变', loginPorts);
 		}
-		
+
 		/*注释黑名单和静音列表同步相关回调
 		function onBlacklist(blacklist) {	//同步黑名单的回调
 		    //console.log('收到黑名单', blacklist);
@@ -1005,7 +1005,7 @@ groupChat.Sdk = (function(){
 		    //console.log('当前登录用户在其它端进行了【静音列表】相关操作',mutelistChangeInfo);
 		}
 		*/
-		
+
 		/*注释好友列表同步相关回调
 		function onFriends(friends) {  //同步好友列表的回调
 		    //console.log('收到好友列表', friends);
@@ -1014,7 +1014,7 @@ groupChat.Sdk = (function(){
 		    //console.log('当前登录用户在其它端进行了【好友】相关操作',friendChangeInfo);
 		}
 		*/
-		
+
 		function onMyInfo(userInfo) {	//同步登录用户名片的回调
 			//console.log('收到我的名片信息', userInfo);
 			this.data.curUser.curUserNick=userInfo.nick;
@@ -1032,7 +1032,7 @@ groupChat.Sdk = (function(){
 			//console.log('用户名片更新了', userInfo);
 			this.data.users = this.nim.mergeUsers(this.data.users, userInfo);
 		}
-		
+
 		/*注释同步群列表和群成员的回调
 		function onTeams(teams) {	//同步群列表的回调
 			//console.log('收到群列表', teams);
@@ -1050,8 +1050,8 @@ groupChat.Sdk = (function(){
 		function onUpdateTeamMember(teamMember) {	//群成员信息更新后的回调
 			//console.log('群成员信息更新了', teamMember);
 		}
-		
-		
+
+
 		function onSessions(sessions) {		//同步最近会话列表回调
 			//console.log('收到会话列表', sessions);
 			//this.data.sessions = this.nim.mergeSessions(this.data.sessions, sessions);
@@ -1062,7 +1062,7 @@ groupChat.Sdk = (function(){
 			this.data.sessions = this.nim.mergeSessions(this.data.sessions, session);
 			this.curThis.showCurMsgDom();
 		}
-		
+
 		/*注释漫游消息同步回调
 		function onRoamingMsgs(roamingMsgs) {	//同步漫游消息的回调
 			//console.log('收到漫游消息', roamingMsgs);
@@ -1074,8 +1074,8 @@ groupChat.Sdk = (function(){
 		function onMsg(msg) {	//收到消息的回调
 			//console.log('收到消息', msg.scene, msg.type, msg);
 		}
-	
-	
+
+
 		function onOfflineSysMsgs(sysMsgsOffline) {	//同步离线系统通知的回调
 			//console.log('收到离线系统通知', sysMsgsOffline);
 		}
@@ -1091,8 +1091,8 @@ groupChat.Sdk = (function(){
 		function onUpdateSysMsgUnread(obj) {	//更新系统通知未读数的回调
 			//console.log('系统通知未读数更新了', obj);
 		}
-		
-		
+
+
 		function onOfflineCustomSysMsgs(sysMsgsCustomOffline) {	//同步离线自定义系统通知的回调
 			//console.log('收到离线自定义系统通知', sysMsgsCustomOffline);
 		}
@@ -1100,12 +1100,12 @@ groupChat.Sdk = (function(){
 			//console.log('收到自定义系统通知', sysMsgCustom);
 			this.curThis.showCurCustomMsgDom(sysMsgCustom);
 		}
-	
+
 		function onSyncDone() {		//当所有同步全部都完成同步后的回调
 			//console.log('所有数据同步完成');
 		}
 	};
-	
+
 	//构造函数Sdk的原型上添加方法
 	Sdk.prototype = {
 		//发送普通文本消息,scene默认为team
@@ -1213,7 +1213,7 @@ groupChat.Sdk = (function(){
 			});
 		}
 	};
-	
+
 	return Sdk;		//把定义好的构造函数Sdk返回给 groupChat.Sdk
 })();
 
@@ -1221,7 +1221,7 @@ groupChat.Sdk = (function(){
  * 群聊主要逻辑，登录状态判断，加群状态判断，调用sdk操作，初始化html，绑定事件，操作html显示消息等
  * 2016-06-16
  * dengyang
- * 
+ *
  * groupChat.Chat.init(groupChatBox,userID,communityID,chatID,joinState,loginState);
  * groupChatBox, //加载群聊的div,css路径形式，如：#qunliaoBox
  * userID,		 //用户ID
@@ -1235,18 +1235,18 @@ groupChat.Chat={
 		this._groupChatBox=groupChatBox;  //加载群聊的div,css路径形式，如：#qunliaoBox
 		this.userID=userID;  //用户ID
 		this.communityID=communityID;  //社群ID
-		this.chatID=chatID;  //群聊ID	
+		this.chatID=chatID;  //群聊ID
 		this.joinState=joinState;  //用户在社群中的状态
 		this.loginState=loginState;  //是否登录
 		this.creatorID=creator;  //群主ID
-		
+
 		this._communityName='.community_name';  //社群名称div
 		this.defaultAvatar='/images/groupChat/defaultAvatar.png';
 		this.defaultLink='/images/groupChat/defaultLink.png';
 		this.appKey='';  //云信appKey
 		this.userToken='';  //用户登录云信的token
 		this.communityName=groupChat.Util.getCommunityName(this._communityName);//获取社群名称
-		
+
 		this.data = groupChat.Data;  //存储和传递所有数据
 		this.data.curUser={  //传递本次初始化用到的基本数据
 			groupChatBox: this._groupChatBox,
@@ -1260,7 +1260,7 @@ groupChat.Chat={
 			defaultLink:this.defaultLink,
 			creatorID:this.creatorID
 		};
-		
+
 		this.initDomNode();  //初始化各类需要用的dom节点
 		this.initBaseHtml();  //初始化各类需要加载的静态html
 		this.loadBaseHtml();  //加载各个区域的静态html
@@ -1282,7 +1282,7 @@ groupChat.Chat={
 		this._cancelMsgBtn='#dx_gc_qx_btn';  //取消消息的按钮
 		this._popLoginTips='#dy_gc_poptips_logintips';  //弹窗跳转登录div
 		this._popJoinTips='#dy_gc_poptips_jointips';  //弹窗加入社群div
-		
+
 		this._popEntryTips='#dx_gc_entry_tips';  //弹窗聊天输入div
 		this._popLoginTipsClose='#dy_gc_pt_bt_iconclose_login';  //关闭跳转登录弹窗的图标
 		this._popJoinTipsClose='#dy_gc_pt_bt_iconclose_join';  //关闭加入社群弹窗图标
@@ -1307,7 +1307,7 @@ groupChat.Chat={
 		          			  ].join('');
 		//显示消息区域
 		this.showMsgHtml = '<div class="dy_gc_showmsg"><div class="dy_gc_showmsg_blanktopopenapp"></div><div class="dy_gc_sm_msgblank"></div></div>';
-		
+
 		var tip = "我也来聊两句吧";
 		if(this.joinState == 4){
 			tip = "已申请待审核，审核通过即可聊天";
@@ -1400,11 +1400,11 @@ groupChat.Chat={
 		var groupChatHeight = windowHeight - groupChatOffsetTop;
 		gBox.attr("data-height",groupChatHeight);
 		gBox.height(groupChatHeight);
-		
+
 		//console.log('window 的高度是：', windowHeight);
 		//console.log('groupChatBox 距离页面顶部的距离：', groupChatOffsetTop);
 		//console.log('groupChatBox 的高度应该是：', groupChatHeight);
-		
+
 		var sBox = $(this._sendMsgBox);
 		var mBox = $(this._showMsgBox);
 		//var showMsgBoxOffsetTop = mBox.offset().top;
@@ -1412,7 +1412,7 @@ groupChat.Chat={
 		var showMsgBoxHeight = groupChatHeight -sendMsgBoxHeight;
 		mBox.attr("data-height",showMsgBoxHeight);
 		mBox.height(showMsgBoxHeight);
-		
+
 		//console.log('');
 		//console.log('window 的高度是：', windowHeight);
 		//console.log('showMsgBox 距离页面顶部的距离：', showMsgBoxOffsetTop);
@@ -1596,14 +1596,14 @@ groupChat.Chat={
 		if(!e){
 			e = window.event;
 		}
-		
+
 		$(this._sendBigMsgTextarea).focus().select();
 		if(this.joinState==2){
 			this.sendTextMessage();
 		}else if(this.joinState==3){
 			this.silenceStateAction();
 		}
-		
+
 		//发送按钮增加阻止事件冒泡
 		groupChat.Util.stopBubble(e);
 		return false;
@@ -1613,7 +1613,7 @@ groupChat.Chat={
 			e = window.event;
 		}
 		if (e.keyCode == 13){
-			this.btnSendMsgEvent();	
+			this.btnSendMsgEvent();
 			//这里是阻止回车默认事件，设置按回车不换行
 			groupChat.Util.stopBubble(e);
 			return false;
@@ -1683,7 +1683,7 @@ groupChat.Chat={
 		$(this._sendBigMsgTextarea).blur();
 		$(this._popEntryTips).hide();
 		//$(this._sendMsgBtn).removeClass('isactive').attr('disabled', 'disabled');
-	},	
+	},
 	textareaOnfocus:function(){	//点击文本框弹起输入框后，改变群聊显示样式
 		if(this.joinState == 2){
 			var gBox = $(this._groupChat);
@@ -1691,31 +1691,31 @@ groupChat.Chat={
 			var sBox = $(this._sendMsgBox);
 			$(this._popEntryTips).show();
 			$(this._sendBigMsgTextarea).focus().select();
-			
+
 			if($.os.ios){	//判断是否是 iPhone或者ipad，该方法位于/js/twoC-Plug.js
 				//触发焦点事件时，需要重新计算一下群聊的高度
 				//var wHeight = $(window).height();
 //				var sBoxHeight = sBox.height();
-//				
+//
 //				gBox.height(wHeight);
 //				mBox.height(wHeight - sBoxHeight);
-				
+
 				//gBox.css({'position':'fixed','top':'0px','bottom':'1.1733rem','z-index':'9999999','background':'rgba(235,235,235,0.8)'});
 				//尝试解决iPhone搜狗输入法顶不起来群聊div的问题
 				//gBox.css({'position':'fixed','bottom':'0px','z-index':'9999999','background':'rgba(235,235,235,0.8)'});
 				//ios弹起群聊内容时，再绑定blur事件，为了用户点击键盘上完成按钮时，可以触发失去焦点的动作
 				//$(this._sendMsgTextarea).off('blur').on('blur', this.textareaOnblur.bind(this));
-				
+
 			}else{
 				//sBox.css({'position':'fixed','bottom':'0px','z-index':'9999999'});
 				//mBox.css({'position':'fixed','bottom':'1.1733rem','z-index':'9999999','background':'rgba(235,235,235,0.8)'});
-				
+
 				$('#video').css('display','none');//安卓上隐藏视频
-				
+
 				//$('#myVideo').css('display','none');
-				
+
 			}
-			
+
 			//当触发输入框的焦点事件时需要把tab导航和引导下载的文案隐藏掉,不需要隐藏，隐藏后如果无法触发再显示出来会出问题。
 			//$("#circle_contentNav").hide();
 			//$(".dy_gc_topopenapp").hide();
@@ -1727,7 +1727,7 @@ groupChat.Chat={
 		var gBox = $(this._groupChat);
 		var mBox = $(this._showMsgBox);
 		var sBox = $(this._sendMsgBox);
-		
+
 		if($.os.ios){
 			//设置群聊容器的高度
 //			var gChatHeight = gBox.attr("data-height");
@@ -1735,23 +1735,23 @@ groupChat.Chat={
 //			//设置群聊聊天信息的高度
 //			var mHeight = mBox.attr("data-height");
 //			mBox.height(mHeight);
-//			
+//
 //			//gBox.css({'position':'relative','bottom':'0px','z-index':'','background':'rgb(235,235,235)'});
 //			//ios收起群聊div时，取消绑定blur事件
 //			$(this._sendMsgTextarea).off('blur');
-			
+
 		}else{
 			//sBox.css({'position':'absolute','bottom':'0px','z-index':''});
 			//mBox.css({'position':'relative','bottom':'0px','z-index':'','background':'rgb(235,235,235)'});
-			
+
 			$('#video').css('display','inline');//安卓上显示视频，开始播放
 			$('#video').play();
 //			$(this._sendMsgTextarea).blur();
-			
+
 			//$('#myVideo').css('display','block');
 			//$('#myVideo').play();
 		}
-		
+
 		//当触发滑动事件时需要把tab导航和引导下载的文案显示出来,没隐藏不需要显示
 		//$("#circle_contentNav").show();
 		//$(".dy_gc_topopenapp").show();

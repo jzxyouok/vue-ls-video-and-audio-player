@@ -112,17 +112,7 @@ export function joinEvent(userId,followerId,circleId,join,liveId,liveName,cb){
     auth.init("", 1);
     return auth.auth();
   }else{
-    switch (join) {
-      case 8:// 入群类型为 会员入群
-        joinOnVip('/vip/'+circleId+'/product/list',userId,followerId,circleId,liveId);
-        break;
-      case 4:// 入群类型为 付费入群
-        joinOnPay('/zhangmen/circle/circle-pay',userId,followerId,circleId,liveId,liveName);
-        break;
-      default://其它入群方式
-        hasJoinAuth('/api/v2/circle/member/validation',userId,circleId,followerId,join,cb);
-        break;
-    }
+    hasJoinAuth('/api/v2/circle/member/validation',userId,circleId,followerId,join,liveId,liveName,cb);
   }
 }
 /**
@@ -175,10 +165,10 @@ function doJoin(url,circleId,userId,followerId,join,cb){
 /**
  * 判断用户是否有入群资格
  */
-function hasJoinAuth(joinAuthUrl,userId,circleId,followerId,join,cb){
+function hasJoinAuth(joinAuthUrl,userId,circleId,followerId,join,liveId,liveName,cb){
   console.log("hasJoinAuth方法：join="+join);
   var addGroup, popuText;
-  var fn = new invoker(cb, arguments, 5);
+  var fn = new invoker(cb, arguments, 7);
   utils.ajax({
     url:joinAuthUrl+"?circleId="+circleId,
     type:'GET',
@@ -207,7 +197,17 @@ function hasJoinAuth(joinAuthUrl,userId,circleId,followerId,join,cb){
         } else {//通过加群资格验证：
           console.log("joinstate="+joinstate);
           validStatus = true;
-          doJoin('/api/v2/w/circle/member/',circleId,userId,followerId,join,cb);
+          switch (join) {
+            case 8:// 入群类型为 会员入群
+              joinOnVip('/vip/'+circleId+'/product/list',userId,followerId,circleId,liveId);
+              break;
+            case 4:// 入群类型为 付费入群
+              joinOnPay('/zhangmen/circle/circle-pay',userId,followerId,circleId,liveId,liveName);
+              break;
+            default://其它入群方式
+              doJoin('/api/v2/w/circle/member/',circleId,userId,followerId,join,cb);
+              break;
+          }
         }
     },
     error:function (e) {

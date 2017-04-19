@@ -41,11 +41,10 @@
       },
       poster: {//封面
         type: String,
-        default: "http://ss.zm518.cn/ae32c42e64434648af5cccb25ee1e906/image/20170330/10/1757.00009.jpeg"
+        default: ""
       },
       playerUrl: {//媒体播放地址
         type: String,
-//        default: 'http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58db9ea020a05d5f990e7186/1490788004.1490788022.m3u8'
         default: ''
       }
     },
@@ -68,13 +67,13 @@
           }],
           controlBar: {
             timeDivider: false,
+            liveDisplay:false,
             durationDisplay: false
           },
           playsinline: true,
           flash: {hls: {withCredentials: false}},
           html5: {hls: {withCredentials: true}},
           poster: this.poster,
-          aspectRatio:"16:9",
         }
       }
     },
@@ -151,6 +150,17 @@
       },
 
       /**
+       *Android 微信中 监听不到ended的替代方案
+       * */
+      onTimeUpdate (player) {
+        // 如果 currentTime() === duration()，则视频已播放完毕
+        if (player.duration() != 0 && player.currentTime() === player.duration()) {
+          alert("播放结束");
+        }
+      },
+
+
+      /**
        * 手动向videojs 生成的 元素video上添加一些属性
        * 做一些兼容问题的处理
        * @param player
@@ -170,20 +180,19 @@
       bindOtherEvent(player){
         var that = this;
         player.on('canplay',function () {// 当视频可以播放时产生该事件
-          console.log("canplay.....");
-          player.el().children[4].style.display = 'none';
-          player.el().children[5].style.display = 'block';
+//          console.log("canplay.....");
+//          player.el().children[4].style.display = 'none';
+//          player.el().children[5].style.display = 'block';
         });
         player.on('waiting',function () {// 当视频因缓冲下一帧而停止时产生该事件
-          console.log(1);
 //          alert("waiting");
         });
         player.on('playing',function () {// 当媒体从因缓冲而引起的暂停和停止恢复到播放时产生该事件
-          console.log("playing......");
+//          console.log("playing......");
         });
         player.on('abort',function () {// 当加载媒体被异常终止时产生该事件
-
-          alert('abort');
+          that.aginConn = true;
+          that.audioPlaying = false;
         });
         player.on('error',function () {// 当加载媒体发生错误时产生该事件
           that.aginConn = true;
@@ -213,6 +222,7 @@
 
   .player {
     position: relative;
+    height: 4.22rem;
   }
   .vjs-big-play-button::after,.topVFail .btn::before {
     background-image: url(/statics/images/pubBack.png);
@@ -442,7 +452,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: #000;
+    background: rgba(0,0,0,.4);
     z-index: 1000
   }
 

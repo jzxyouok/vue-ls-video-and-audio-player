@@ -79,7 +79,7 @@
       },
       userRole: {
         type: Number,
-        default: 4
+        default: -1
       },
       liveInfo: {
         type: Object,
@@ -110,6 +110,7 @@
       }
     },
     created: function () {
+
     },
     methods: {
       passEvt(){ //密码框按钮点击事件
@@ -223,7 +224,7 @@
         if ((liveInfo.state & 1) == 1)src = liveInfo.play.hls;
         else if ((liveInfo.state & 4) == 4) src = liveInfo.playBackUrl;
 //        return src;
-        return 'http://pili-static.live.zm.gaiay.cn/recordings/z1.gaiay-pro.58db9ea020a05d5f990e7186/1490788004.1490788022.m3u8';
+        return '//cnhlsvodhls01.e.vhall.com//vhallrecord/706527958/20170410123325/record.m3u8';
       },
       dealState(){
         let state = 0;

@@ -240,13 +240,7 @@
             case 2:
             case 8:
               if (role == 3) {
-                if (join == 4) {
-                  this.joinOnPay();
-                } else if (join == 8) {
-                  this.joinOnVip();
-                } else {
-                  this.ajaxViewAuth();
-                }
+                this.ajaxViewAuth();
               }else{
                 this.text = "已预约，下载APP接收直播提醒";
               }
@@ -384,6 +378,7 @@
        * 鉴权请求 成功返回true,失败返回false
        */
       ajaxViewAuth(){
+        var join = this.$parent.join;
         var url = requstUrl + "/api/v2/circle/member/validation";
         this.$http.get(url, {params: {"circleId": this.circleId}})
           .then((res) => {
@@ -407,7 +402,13 @@
               }
               this.clearStatus();
             } else {//通过加群资格验证：
-              this._EventJoin();
+              if (join == 4) {
+                this.joinOnPay();
+              } else if (join == 8) {
+                this.joinOnVip();
+              } else {
+                this._EventJoin();
+              }
             }
           }).catch(function (res) {
             console.log(res);

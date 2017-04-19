@@ -30,6 +30,7 @@
   import 'common/js/wxShare/wxHelper-6.1.js';
   import {secondShare} from 'common/js/wxShare/secondShare.js';
   import zmOauth from 'common/js/wxShare/oauth.js';
+  import {bangHelper} from 'common/js/bang/bangHelper_v1.js';
   import CountDown from 'components/Herald/CountDown';
   import OperButton from 'components/Herald/OperButton';
   import DSummary from 'components/DSummary/DSummary';
@@ -89,6 +90,9 @@
         this.liveName = this.liveInfo.title;
         if (this.liveInfo.price != undefined) {
           this.price = this.liveInfo.price;
+        }
+        if(typeof window.bangHelper != "undefined"){
+          window.bangHelper.saveBang("0", this.userId);
         }
       },
       /**
