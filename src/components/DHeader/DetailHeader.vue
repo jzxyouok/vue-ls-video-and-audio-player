@@ -51,14 +51,12 @@
   </article>
 </template>
 <script>
-//  import GaiayPlayer from 'components/GaiayPlayer/GaiayPlayer';
   import GaiayM3u8 from 'components/GaiayPlayer/GaiayM3u8';
   import {joinEvent} from 'common/js/joinCircle.js';
   export default {
     name: 'detailheader',
     components: {
       GaiayM3u8
-//      GaiayPlayer
     },
     props: {
       circleId: {

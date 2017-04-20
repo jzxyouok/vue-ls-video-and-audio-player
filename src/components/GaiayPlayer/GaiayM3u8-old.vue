@@ -1,33 +1,23 @@
 <template>
   <div class="item">
     <div class="player">
-      <section class="topVFail" v-show="tryaginConnection">
+      <section class="topVFail" v-show="aginConn">
         <div class="topVFailCont">
           <h3 class="tit">连接失败，点击重试</h3>
           <button class="btn" @click="_eventAginConnect">重试</button>
         </div>
       </section>
       <video-player :options="getPlayerOptions"
-                    :class="{audioBg:audioBg}"
-                    :liveType="type"
                     @play="onPlayerPlay($event)"
                     @pause="onPlayerPause($event)"
                     @ended="onPlayerEnded($event)"
                     @statechanged="playerStateChanged($event)"
-                    @timeupdate="onTimeUpdate($event)"
                     @ready="playerReadied"
+                    :class="{audioBg:audioBg}"
       >
       </video-player>
       <!-- 音频收听中动画 -->
-      <div class="audio-playing-status">
-        <div>
-          <section class="active"
-          :class="{audioPlaying:audioPlaying}"
-          @click="_eventAudioPause">
-          <i></i><i></i><i></i><i></i><i></i><i></i>
-        </section>
-        </div>
-      </div>
+      <section class="active" :class="{musicPlayer:audioPlaying}" @click="_eventAudioPause"><i></i><i></i><i></i><i></i><i></i><i></i></section>
     </div>
   </div>
 </template>
@@ -60,9 +50,9 @@
     },
     data() {
       return {
-        tryaginConnection: false, //是否显示重连遮罩
-        audioPlaying: false,// 播放状态的音频按钮
-        player: {}         //播放器
+        aginConn:false,
+        audioPlaying:false,
+        player:{}
       }
     },
     created(){
@@ -77,20 +67,101 @@
           }],
           controlBar: {
             timeDivider: false,
-            liveDisplay: false,
+            liveDisplay:false,
             durationDisplay: false
           },
           playsinline: true,
           flash: {hls: {withCredentials: false}},
           html5: {hls: {withCredentials: true}},
           poster: this.poster,
-          aspectRatio: "16:9",
         }
       }
     },
     methods: {
       /**
-       * 手动向videojs 生成的video标签上添加一些属性
+       * 重新链接的点击事件
+       **/
+      _eventAginConnect(){
+        this.aginConn = false;
+        this.player.load();
+        this.player.play();
+      },
+      /**
+       * 显示音频播放器样式
+       * @param player
+       */
+      showAudioStyle(player,played){
+        player.posterImage.el().style.display = 'block';
+        if(played){
+          player.bigPlayButton.el().style.display = 'none';
+          this.audioPlaying = true;
+        }else{
+          player.bigPlayButton.el().style.display = 'block';
+          this.audioPlaying = false;
+        }
+      },
+
+      /*
+      * 音频时 播放状态下的按钮事件
+      * */
+      _eventAudioPause(){
+        this.player.pause();
+      },
+
+      /**
+       * 视频播放时触发
+       * */
+      onPlayerPlay(player) {
+        this.aginConn=false;
+        var that = this;
+        if (that.type == 2) {
+          that.showAudioStyle(player,true);
+        }
+      },
+      /**
+       * 视频暂停时触发
+       * */
+      onPlayerPause(player) {
+        var that = this;
+        if (that.type == 2) {
+          that.showAudioStyle(player,false);
+        }
+      },
+      /**
+       * 视频结束时触发
+       * */
+      onPlayerEnded(player){
+        alert("播放结束");
+      },
+      /**
+       * 视频？时触发
+       * */
+      playerStateChanged(playerCurrentState) {
+
+      },
+
+      /**
+       * 初始化播放器时触发
+       * */
+      playerReadied(player) {
+        this.player=player;
+        this.intoPlayerAttr(player);
+        this.bindOtherEvent(player);
+      },
+
+      /**
+       *Android 微信中 监听不到ended的替代方案
+       * */
+      onTimeUpdate (player) {
+        // 如果 currentTime() === duration()，则视频已播放完毕
+        if (player.duration() != 0 && player.currentTime() === player.duration()) {
+          alert("播放结束");
+        }
+      },
+
+
+      /**
+       * 手动向videojs 生成的 元素video上添加一些属性
        * 做一些兼容问题的处理
        * @param player
        */
@@ -103,94 +174,28 @@
       },
 
       /**
-       * 重新链接的点击事件
-       **/
-      _eventAginConnect(){
-        this.tryaginConnection = false;
-        this.player.load();
-        this.player.play();
-      },
-
-      /*
-       * 音频时 播放状态下的按钮事件
-       * */
-      _eventAudioPause(){
-        this.player.pause();
-      },
-
-      /**
-       * 时刻监听播放器的状态
-       * */
-      playerStateChanged(playerCurrentState) {
-        this.playerCurrentState = playerCurrentState;
-        if (playerCurrentState.canplaythrough) {
-          this.player.loadingSpinner.hide();
-          this.audioPlaying = false;
-        } else if (playerCurrentState.waiting) {
-        }
-      },
-      /**
-       * 初始化播放器时触发
-       * */
-      playerReadied(player) {
-        this.player = player;
-        this.intoPlayerAttr(player);
-        this.bindOtherEvent(player);
-      },
-
-      /**
-       * 视频播放时触发
-       * */
-      onPlayerPlay(player) {
-        var that = this;
-      },
-      /**
-       * 视频暂停时触发
-       * */
-      onPlayerPause(player) {
-        var that = this;
-        this.audioPlaying = false;
-      },
-      /**
-       * 视频结束时触发
-       * */
-      onPlayerEnded(player){
-        alert("播放结束");
-      },
-
-      /**
-       *Android 微信中 监听不到ended的替代方案
-       * */
-      onTimeUpdate (player) {
-        // 如果 currentTime() === duration()，则视频已播放完毕
-        if (player.duration() != 0 && player.currentTime() === player.duration()) {
-          // alert("播放结束");
-          this.audioPlaying = false;
-        } else {
-          this.audioPlaying = false;
-          if (this.type == 2) {
-            this.audioPlaying = true;
-          }
-        }
-      },
-
-      /**
        * 绑定一些其他事件
-       * canplay:当视频可以播放时产生该事件
-       * waiting:当视频因缓冲下一帧而停止时产生该事件
-       * playing:当媒体从因缓冲而引起的暂停和停止恢复到播放时产生该事件
-       * abort:  当加载媒体被异常终止时产生该事件
-       * error:当加载媒体发生错误时产生该事件
        * @param player
        */
       bindOtherEvent(player){
         var that = this;
-        player.on('abort', function () {
-          that.tryaginConnection = true;
+        player.on('canplay',function () {// 当视频可以播放时产生该事件
+//          console.log("canplay.....");
+//          player.el().children[4].style.display = 'none';
+//          player.el().children[5].style.display = 'block';
+        });
+        player.on('waiting',function () {// 当视频因缓冲下一帧而停止时产生该事件
+//          alert("waiting");
+        });
+        player.on('playing',function () {// 当媒体从因缓冲而引起的暂停和停止恢复到播放时产生该事件
+//          console.log("playing......");
+        });
+        player.on('abort',function () {// 当加载媒体被异常终止时产生该事件
+          that.aginConn = true;
           that.audioPlaying = false;
         });
-        player.on('error', function () {
-          that.tryaginConnection = true;
+        player.on('error',function () {// 当加载媒体发生错误时产生该事件
+          that.aginConn = true;
           that.audioPlaying = false;
         });
       }
@@ -198,10 +203,6 @@
   }
 </script>
 <style>
-  .mytest {
-    width: 200px !important;
-  }
-
   .audioBg video {
     background-color: #ff9600;
   }
@@ -209,33 +210,27 @@
   /*
     隐藏设备自带的播放按钮
   */
-  video::-webkit-media-controls, .vjs-modal-dialog-content, .vjs-error-display {
-    display: none !important;
+  video::-webkit-media-controls ,.vjs-modal-dialog-content,.vjs-error-display{
+    display:none !important;
   }
-
-  .vjs-error .vjs-error-display:before {
-    content: "" !important;
+  .vjs-error .vjs-error-display:before{
+    content: ""!important;
   }
-
-  .vjs-poster {
-    background-size: cover !important;
+  .vjs-poster{
+    background-size: cover!important;
   }
 
   .player {
     position: relative;
+    height: 4.22rem;
   }
-
-  .video-js.vjs-paused .vjs-big-play-button {
-    display: block !important;
-  }
-
-  .vjs-big-play-button::after, .topVFail .btn::before {
+  .vjs-big-play-button::after,.topVFail .btn::before {
     background-image: url(/statics/images/pubBack.png);
     background-repeat: no-repeat;
     background-size: 1rem 5rem;
   }
 
-  .vjs-big-play-button::after, .topVFail .btn::before {
+  .vjs-big-play-button::after,.topVFail .btn::before{
     display: block;
     content: "";
     position: absolute;
@@ -342,17 +337,17 @@
   }
 
   /*音频收听中动画*/
-  .audioPlaying {
+  .musicPlayer {
     position: absolute;
     top: 50%;
     left: 50%;
     margin: -.31rem 0 0 -.32rem;
     width: .64rem;
     height: .62rem;
-    z-index: 1000;
+    z-index: 9999;
   }
 
-  .audioPlaying::before {
+  .musicPlayer::before {
     content: "";
     position: absolute;
     top: 50%;
@@ -364,7 +359,7 @@
     border-radius: 100%;
   }
 
-  .audioPlaying i {
+  .musicPlayer i {
     width: .04rem;
     height: .04rem;
     position: absolute;
@@ -373,56 +368,56 @@
     border-radius: 2px;
   }
 
-  .audioPlaying i:nth-of-type(1) {
+  .musicPlayer i:nth-of-type(1) {
     left: 0;
   }
 
-  .audioPlaying i:nth-of-type(2) {
+  .musicPlayer i:nth-of-type(2) {
     left: .12rem;
   }
 
-  .audioPlaying i:nth-of-type(3) {
+  .musicPlayer i:nth-of-type(3) {
     left: .24rem;
   }
 
-  .audioPlaying i:nth-of-type(4) {
+  .musicPlayer i:nth-of-type(4) {
     left: .36rem;
   }
 
-  .audioPlaying i:nth-of-type(5) {
+  .musicPlayer i:nth-of-type(5) {
     left: .48rem;
   }
 
-  .audioPlaying i:nth-of-type(6) {
+  .musicPlayer i:nth-of-type(6) {
     left: .6rem;
   }
 
-  .audioPlaying.active i:nth-of-type(1) {
+  .musicPlayer.active i:nth-of-type(1) {
     -webkit-animation: wave 0.66s linear infinite;
     animation: wave 0.66s linear infinite;
   }
 
-  .audioPlaying.active i:nth-of-type(2) {
+  .musicPlayer.active i:nth-of-type(2) {
     -webkit-animation: wave 0.8s linear infinite;
     animation: wave 0.8s linear infinite;
   }
 
-  .audioPlaying.active i:nth-of-type(3) {
+  .musicPlayer.active i:nth-of-type(3) {
     -webkit-animation: wave 0.7s linear infinite;
     animation: wave 0.7s linear infinite;
   }
 
-  .audioPlaying.active i:nth-of-type(4) {
+  .musicPlayer.active i:nth-of-type(4) {
     -webkit-animation: wave 0.5s linear infinite;
     animation: wave 0.5s linear infinite;
   }
 
-  .audioPlaying.active i:nth-of-type(5) {
+  .musicPlayer.active i:nth-of-type(5) {
     -webkit-animation: wave 0.9s linear infinite;
     animation: wave 0.9s linear infinite;
   }
 
-  .audioPlaying.active i:nth-of-type(6) {
+  .musicPlayer.active i:nth-of-type(6) {
     -webkit-animation: wave 1.2s linear infinite;
     animation: wave 1.2s linear infinite;
   }
@@ -450,7 +445,6 @@
       height: 1px
     }
   }
-
   /*连接失败*/
   .topVFail, .topVStatus {
     position: absolute;
@@ -458,7 +452,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: #000;
+    background: rgba(0,0,0,.4);
     z-index: 1000
   }
 

@@ -266,10 +266,10 @@
             }
           }else if(this.liveInfo.view == 16){
             if(this.userRole > 1){
-                if(this.authCode == 16324){
+                if(this.authCode == 16324){// 购买其他会员才能观看
                   this.authStatus = -2;
                 }else{
-                    if(this.authCode == 16323){
+                    if(this.authCode == 16323){// 需要购买会员才能观看
                       this.authStatus = 16;
                     }
                   console.log("会员权限参数:"+this.authStatus);
