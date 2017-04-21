@@ -221,8 +221,7 @@
         let liveInfo = this.liveInfo;
         if ((liveInfo.state & 1) == 1)src = liveInfo.play.hls;
         else if ((liveInfo.state & 4) == 4) src = liveInfo.playBackUrl;
-//        return src;
-        return '//cnhlsvodhls01.e.vhall.com//vhallrecord/706527958/20170410123325/record.m3u8';
+        return src;
       },
       dealState(){
         let state = 0;
