@@ -1,7 +1,7 @@
 <template>
   <div>
     <section class="sharePop sharePic" style="display:none">
-      <img src="/statics/images/herald/sharePic.png"/>
+      <img src="/statics/images/herald/11.png"/>
     </section><!-- 分享弹出层 -->
     <section class="sharePop" style="display:none">
       <div class="sharePopBox yugaoSucc">

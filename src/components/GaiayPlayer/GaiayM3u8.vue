@@ -9,8 +9,9 @@
       </section>
       <video-player :options="getPlayerOptions"
                     :class="{audioBg:audioBg}"
-                    :liveType="type"
+                    :media="type"
                     @play="onPlayerPlay($event)"
+                    @playing="onPlayerPlaying($event)"
                     @pause="onPlayerPause($event)"
                     @ended="onPlayerEnded($event)"
                     @statechanged="playerStateChanged($event)"
@@ -19,15 +20,10 @@
       >
       </video-player>
       <!-- 音频收听中动画 -->
-      <div class="audio-playing-status">
-        <div>
-          <section class="active"
-          :class="{audioPlaying:audioPlaying}"
-          @click="_eventAudioPause">
-          <i></i><i></i><i></i><i></i><i></i><i></i>
-        </section>
-        </div>
-      </div>
+      <section class="active"
+               :class="{audioPlaying:audioPlaying}"
+               @click="_eventAudioPause">
+      </section>
     </div>
   </div>
 </template>
@@ -122,10 +118,13 @@
        * 时刻监听播放器的状态
        * */
       playerStateChanged(playerCurrentState) {
+        console.log("----");
+        console.log("状态：");
+        console.log(playerCurrentState);
+        console.log("----");
         this.playerCurrentState = playerCurrentState;
         if (playerCurrentState.canplaythrough) {
           this.player.loadingSpinner.hide();
-          this.audioPlaying = false;
         } else if (playerCurrentState.waiting) {
         }
       },
@@ -151,6 +150,9 @@
         var that = this;
         this.audioPlaying = false;
       },
+      onPlayerPlaying(player){
+        if (this.type == 2)this.audioPlaying = true;
+      },
       /**
        * 视频结束时触发
        * */
@@ -165,11 +167,10 @@
         // 如果 currentTime() === duration()，则视频已播放完毕
         if (player.duration() != 0 && player.currentTime() === player.duration()) {
           // alert("播放结束");
-          this.audioPlaying = false;
+//          this.audioPlaying = false;
         } else {
-          this.audioPlaying = false;
           if (this.type == 2) {
-            this.audioPlaying = true;
+//            this.audioPlaying = true;
           }
         }
       },
@@ -346,109 +347,13 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -.31rem 0 0 -.32rem;
-    width: .64rem;
-    height: .62rem;
-    z-index: 1000;
-  }
-
-  .audioPlaying::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -.6rem 0 0 -.6rem;
+    margin: -.6rem 0 0 -.rem;
     width: 1.2rem;
-    height: 1.2rem;
-    background: rgba(0, 0, 0, .4);
-    border-radius: 100%;
-  }
-
-  .audioPlaying i {
-    width: .04rem;
-    height: .04rem;
-    position: absolute;
-    bottom: 0;
-    background-color: #fff;
-    border-radius: 2px;
-  }
-
-  .audioPlaying i:nth-of-type(1) {
-    left: 0;
-  }
-
-  .audioPlaying i:nth-of-type(2) {
-    left: .12rem;
-  }
-
-  .audioPlaying i:nth-of-type(3) {
-    left: .24rem;
-  }
-
-  .audioPlaying i:nth-of-type(4) {
-    left: .36rem;
-  }
-
-  .audioPlaying i:nth-of-type(5) {
-    left: .48rem;
-  }
-
-  .audioPlaying i:nth-of-type(6) {
-    left: .6rem;
-  }
-
-  .audioPlaying.active i:nth-of-type(1) {
-    -webkit-animation: wave 0.66s linear infinite;
-    animation: wave 0.66s linear infinite;
-  }
-
-  .audioPlaying.active i:nth-of-type(2) {
-    -webkit-animation: wave 0.8s linear infinite;
-    animation: wave 0.8s linear infinite;
-  }
-
-  .audioPlaying.active i:nth-of-type(3) {
-    -webkit-animation: wave 0.7s linear infinite;
-    animation: wave 0.7s linear infinite;
-  }
-
-  .audioPlaying.active i:nth-of-type(4) {
-    -webkit-animation: wave 0.5s linear infinite;
-    animation: wave 0.5s linear infinite;
-  }
-
-  .audioPlaying.active i:nth-of-type(5) {
-    -webkit-animation: wave 0.9s linear infinite;
-    animation: wave 0.9s linear infinite;
-  }
-
-  .audioPlaying.active i:nth-of-type(6) {
-    -webkit-animation: wave 1.2s linear infinite;
-    animation: wave 1.2s linear infinite;
-  }
-
-  @-webkit-keyframes wave {
-    0% {
-      height: 1px
-    }
-    50% {
-      height: .62rem
-    }
-    100% {
-      height: 1px
-    }
-  }
-
-  @keyframes wave {
-    0% {
-      height: 1px
-    }
-    50% {
-      height: .62rem
-    }
-    100% {
-      height: 1px
-    }
+    height:1.2rem;
+    z-index: 1000;
+    background: url(/statics/images/player/aplaying.gif) no-repeat center rgba(0, 0, 0, .4);
+    background-size: 100%;
+    border-radius:100%
   }
 
   /*连接失败*/
