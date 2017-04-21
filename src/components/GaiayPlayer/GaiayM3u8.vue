@@ -347,7 +347,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -.6rem 0 0 -.rem;
+    margin: -.6rem 0 0 -.6rem;
     width: 1.2rem;
     height:1.2rem;
     z-index: 1000;
