@@ -42,23 +42,23 @@
       </div>
     </section>
     <!--<video-player :options="videoOptions" style="display:block;width:100%;height:100%"></video-player>-->
-    <gaiay-player :addGroup="addGroup" :liveSource="dealLiveSrc" :livePoster="liveInfo.pic"></gaiay-player>
-    <!--<gaiay-m3u8 :type="liveInfo.type"-->
-                <!--:state="dealState"-->
-                <!--:poster="liveInfo.pic"-->
-                <!--:playerUrl="dealLiveSrc">-->
-    <!--</gaiay-m3u8>-->
+    <!--<gaiay-player :addGroup="addGroup" :liveSource="dealLiveSrc" :livePoster="liveInfo.pic"></gaiay-player>-->
+    <gaiay-m3u8 :type="liveInfo.type"
+                :state="dealState"
+                :poster="liveInfo.pic"
+                :playerUrl="dealLiveSrc">
+    </gaiay-m3u8>
   </article>
 </template>
 <script>
-  import GaiayPlayer from 'components/GaiayPlayer/GaiayPlayer';
-//  import GaiayM3u8 from 'components/GaiayPlayer/GaiayM3u8';
+  //import GaiayPlayer from 'components/GaiayPlayer/GaiayPlayer';
+  import GaiayM3u8 from 'components/GaiayPlayer/GaiayM3u8';
   import {joinEvent} from 'common/js/joinCircle.js';
   export default {
     name: 'detailheader',
     components: {
-//      GaiayM3u8
-      GaiayPlayer
+//    GaiayPlayer
+      GaiayM3u8
     },
     props: {
       circleId: {

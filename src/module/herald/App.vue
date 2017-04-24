@@ -16,7 +16,6 @@
       <live-list></live-list>
     </article><!-- 内容 -->
     <section class="sharePop sharePic" v-show="shareFlag" @click="shareFlag=false">
-      <img src="/statics/images/herald/sharePic.png"/>
     </section><!-- 分享弹出层 -->
     <oper-button :utils="utils" :liveName="liveName" :circleId="circleId" :view="liveInfo.view" :liveId="liveInfo.id" :token="token"
                  :price="price" :userId="userId" :followerId="followerId"></oper-button>
@@ -644,19 +643,10 @@
     top: 0;
     background-color: rgba(0, 0, 0, .4);
   }
-  .sharePic {
-    background: rgba(0, 0, 0, .8);
-  }
-
-  .sharePic img {
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 4.67rem;
-    left: 0;
-    right: 0;
-    top: .4rem;
-  }
+.sharePic {
+  background:url(/statics/images/herald/sharePic.png) no-repeat top center rgba(0, 0, 0, .8);
+  background-size: 100%;
+}
 
   /*分享弹出层*/
   /*============预告（继承详情样式）============end*/

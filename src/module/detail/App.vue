@@ -20,16 +20,7 @@
       <live-list v-if="descError == -1"></live-list>
     </div>
     <group-chat v-show="selected==1"></group-chat>
-
-    <section class="sharePop" v-if="shareStatus == 0">
-      <div class="sharePopBox">
-        <div class="sharePopCent">
-          <p>1.点击页面右上</p>
-          2.选择<span class="sp01">发送给好友</span>或<span class="sp02">朋友圈</span>
-          <p></p>
-        </div>
-        <button class="sharePopBtn" @click="shareStatus = -1">关闭</button>
-      </div>
+    <section class="sharePop sharePic" v-if="shareStatus == 0" @click="shareStatus = -1">
     </section>
     <mark-layer :addGroup="addGroup" :popuText="popuText"></mark-layer>
   </div>
@@ -266,10 +257,10 @@
             }
           }else if(this.liveInfo.view == 16){
             if(this.userRole > 1){
-                if(this.authCode == 16324){
+                if(this.authCode == 16324){// 购买其他会员才能观看
                   this.authStatus = -2;
                 }else{
-                    if(this.authCode == 16323){
+                    if(this.authCode == 16323){// 需要购买会员才能观看
                       this.authStatus = 16;
                     }
                   console.log("会员权限参数:"+this.authStatus);
@@ -464,7 +455,6 @@
     color: #f04640
   }
 
-  /*分享弹出层*/
   .sharePop {
     position: fixed;
     z-index: 9999;
@@ -474,60 +464,8 @@
     top: 0;
     background-color: rgba(0, 0, 0, .4);
   }
-
-  .sharePopBox {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 72%;
-    background: #fff;
-    border-radius: .3rem;
-    margin: -.75rem 0 0 -36%;
-  }
-
-  .sharePopCent {
-    padding: .35rem 6%;
-    font-size: .28rem;
-    line-height: .44rem;
-    color: #a0a0a0;
-    border-bottom: 1px solid #dadade
-  }
-
-  .sharePopCent p {
-    margin-bottom: .13rem;
-    line-height: .44rem;
-  }
-
-  .sharePopCent span {
-    color: #323232;
-    display: inline-block;
-    padding-left: .62rem;
-    position: relative;
-    height: .44rem;
-  }
-
-  .sharePopCent span::after {
-    width: .44rem;
-    height: .44rem;
-    top: 0;
-    left: .08rem;
-  }
-
-  .sharePopCent .sp01::after {
-    background-position: 0 -3.19rem;
-  }
-
-  .sharePopCent .sp02::after {
-    background-position: 0 -2.55rem;
-  }
-
-  .sharePopBtn {
-    display: block;
-    width: 100%;
-    height: .9rem;
-    font-size: .34rem;
-    line-height: .9rem;
-    color: #007aff;
-    text-align: center;
+  .sharePic {
+    background:url(/statics/images/herald/sharePic.png) no-repeat top center rgba(0, 0, 0, .8);
+    background-size: 100%;
   }
 </style>
