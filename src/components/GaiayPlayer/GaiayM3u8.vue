@@ -8,7 +8,7 @@
         </div>
       </section>
       <video-player :options="getPlayerOptions"
-                    :class="{audioBg:audioBg}"
+                    :class="{audioBg:audioBg,isAudioType:hideFull}"
                     :media="type"
                     @play="onPlayerPlay($event)"
                     @playing="onPlayerPlaying($event)"
@@ -25,6 +25,12 @@
                @click="_eventAudioPause">
       </section>
     </div>
+    <section class="videoEndPop" v-if="endLayer" @click="endLayer=false">
+      <ul>
+        <li>直播已结束</li>
+        <li>我知道了</li>
+      </ul>
+    </section>
   </div>
 </template>
 
@@ -58,10 +64,13 @@
       return {
         tryaginConnection: false, //是否显示重连遮罩
         audioPlaying: false,// 播放状态的音频按钮
-        player: {}         //播放器
+        player: {},         //播放器
+        endLayer: false, //直播结束弹出层
+        hideFull:false //false:表示不隐藏全屏按钮，true 隐藏
       }
     },
     created(){
+      this.isHideFull();
     },
     computed: {
       getPlayerOptions: function () {
@@ -118,10 +127,10 @@
        * 时刻监听播放器的状态
        * */
       playerStateChanged(playerCurrentState) {
-        console.log("----");
-        console.log("状态：");
-        console.log(playerCurrentState);
-        console.log("----");
+//        console.log("----");
+//        console.log("状态：");
+//        console.log(playerCurrentState);
+//        console.log("----");
         this.playerCurrentState = playerCurrentState;
         if (playerCurrentState.canplaythrough) {
           this.player.loadingSpinner.hide();
@@ -157,7 +166,9 @@
        * 视频结束时触发
        * */
       onPlayerEnded(player){
-        alert("播放结束");
+
+        player.exitFullscreen();
+        this.endLayer = true;
       },
 
       /**
@@ -194,6 +205,18 @@
           that.tryaginConnection = true;
           that.audioPlaying = false;
         });
+      },
+
+      /**
+       * 根据媒体类型判断是否需要全屏
+       */
+      isHideFull(){
+        console.log("计算全屏"+this.type);
+        if(this.type==2){
+         this.hideFull=true;
+        }else {
+          this.hideFull=false;
+        }
       }
     }
   }
@@ -349,11 +372,11 @@
     left: 50%;
     margin: -.6rem 0 0 -.6rem;
     width: 1.2rem;
-    height:1.2rem;
+    height: 1.2rem;
     z-index: 1000;
     background: url(/statics/images/player/aplaying.gif) no-repeat center rgba(0, 0, 0, .4);
     background-size: 100%;
-    border-radius:100%
+    border-radius: 100%
   }
 
   /*连接失败*/
@@ -406,5 +429,52 @@
     position: absolute;
     top: 50%;
     margin: -.165rem 0 0 .46rem;
+  }
+
+  /*视频结束弹出框*/
+  .videoEndPop {
+    background: rgba(0, 0, 0, .4);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+  }
+
+  .videoEndPop ul {
+    width: 5.4rem;
+    min-height: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -1rem 0 0 -2.7rem;
+    background: #fff;
+    border-radius: .3rem;
+    padding: 0
+  }
+
+  .videoEndPop ul li {
+    text-align: center;
+    list-style: none;
+    padding: 0;
+    margin: 0
+  }
+
+  .videoEndPop ul li:nth-child(1) {
+    font-size: .28rem;
+    line-height: 1.1rem;
+    border-bottom: 1px solid #dadade;
+    color: #000
+  }
+
+  .videoEndPop ul li:nth-child(2) {
+    font-size: .3rem;
+    font-weight: bold;
+    line-height: 1rem;
+    color: #007aff
+  }
+  .isAudioType .video-js.vjs-custom-skin .vjs-control-bar .vjs-fullscreen-control{
+    width: 0;
   }
 </style>

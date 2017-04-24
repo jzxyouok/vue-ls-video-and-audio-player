@@ -7,6 +7,7 @@
     >
 
     </gaiay-m3u8>
+
   </div>
 </template>
 
@@ -14,6 +15,7 @@
   //  import 'common/css/reset.css';
   import 'common/js/reset.js';
     import GaiayM3u8 from 'components/GaiayPlayer/GaiayM3u8.vue'
+
   export default {
     name: 'app',
     components: {
