@@ -1,6 +1,6 @@
 /*
  * 网页版群聊	groupChat.js
- * 2017-04-18
+ * 2017-04-24
  * duxin
  *
  * groupChat.Chat.init(groupChatBox,userID,communityID,chatID,joinState,loginState);
@@ -14,8 +14,6 @@
 
 /*
  * 命名空间构建：为了防止命名冲突，因此使用此方式来建立命名空间
- * 2017-04-18
- * duxin
  */
 var ChatNamespace = {
 	/*
@@ -51,8 +49,6 @@ if(!Function.prototype.bind){
 
 /*
  * 各类需要的操作：读取appkey/token，跳转到登录页面，打开掌门app跳转，获取社群名称等
- * 2016-06-16
- * dengyang
  */
 groupChat.Util = {
 	readAppkeyToken:function() {	//读取appkey/token，该方法返回请求的data
@@ -162,8 +158,6 @@ groupChat.Util = {
 
 /*
  * 格式化消息：将表情从文字变成图片，将文本消息中的链接文本变成可点链接
- * 2016-06-16
- * dengyang
  */
 groupChat.Parse = {
 	//枚举一下表情文件对应的文字，后面用正则替换
@@ -209,8 +203,6 @@ groupChat.Parse = {
 
 /*
  * 获取各类消息的数据，并返回各类消息的html格式
- * 2016-06-16
- * dengyang
  */
 groupChat.Html= {
 	/*
@@ -837,15 +829,11 @@ groupChat.Html= {
 
 /*
  * 数据对象，存储和传递所需要用到的数据
- * 2016-06-03
- * dengyang
  */
 groupChat.Data = {};
 
 /*
  * 云信SDK初始化，SDK收发消息操作，SDK的API操作
- * 2016-06-16
- * dengyang
  */
 groupChat.Sdk = (function(){
 	//定义构造函数，初始化云信SDK
@@ -1219,8 +1207,6 @@ groupChat.Sdk = (function(){
 
 /*
  * 群聊主要逻辑，登录状态判断，加群状态判断，调用sdk操作，初始化html，绑定事件，操作html显示消息等
- * 2016-06-16
- * dengyang
  *
  * groupChat.Chat.init(groupChatBox,userID,communityID,chatID,joinState,loginState);
  * groupChatBox, //加载群聊的div,css路径形式，如：#qunliaoBox
