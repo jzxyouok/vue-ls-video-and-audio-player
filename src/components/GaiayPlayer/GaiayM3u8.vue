@@ -35,6 +35,12 @@
 </template>
 
 <script>
+  /*
+  * HQ.Wn 2017-04-25 
+  * 使用该组件 请确保 首次构建时修改了 player.vue 文件
+  * 详见 doc/player（vue-player插件源码修改备份）.vue 的说明。
+  * */
+
   // hls plugin
   require('videojs-contrib-hls/dist/videojs-contrib-hls')
   import {videoPlayer} from 'vue-video-player';
