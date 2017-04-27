@@ -1472,7 +1472,7 @@ groupChat.Chat={
 			return false;
 		}
 	},
-	initSdkLoadChat:function(){		//初始化群聊后，第一次判断用户状态，如果判断通过则初始化群聊的操作。
+	initSdkLoadChat:function(){		 //初始化群聊后，第一次判断用户状态，如果判断通过则初始化群聊的操作。
 		if(this.loginState && this.userID){
 			var appkeyTokenInfo = groupChat.Util.readAppkeyToken();
 			if(appkeyTokenInfo && appkeyTokenInfo.code==0){
