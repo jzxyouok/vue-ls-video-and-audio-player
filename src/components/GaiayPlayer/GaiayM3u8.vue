@@ -1,40 +1,46 @@
 <template>
-  <div class="item">
-    <div class="player">
-      <section class="topVFail" v-show="tryaginConnection">
-        <div class="topVFailCont">
-          <h3 class="tit">连接失败，点击重试</h3>
-          <button class="btn" @click="_eventAginConnect">重试</button>
+    <div class="item">
+        <div class="player">
+            <section class="topVFail" v-show="tryaginConnection">
+                <div class="topVFailCont">
+                    <h3 class="tit">连接失败，点击重试</h3>
+                    <button class="btn" @click="_eventAginConnect">重试</button>
+                </div>
+            </section>
+            <video-player :options="getPlayerOptions"
+                          :class="{audioBg:audioBg,isAudioType:hideFull}"
+                          :media="type"
+                          @play="onPlayerPlay($event)"
+                          @playing="onPlayerPlaying($event)"
+                          @pause="onPlayerPause($event)"
+                          @ended="onPlayerEnded($event)"
+                          @statechanged="playerStateChanged($event)"
+                          @timeupdate="onTimeUpdate($event)"
+                          @ready="playerReadied"
+            >
+            </video-player>
+            <!-- 音频收听中动画 -->
+            <section class="active"
+                     :class="{audioPlaying:audioPlaying}"
+                     @click="_eventAudioPause">
+            </section>
         </div>
-      </section>
-      <video-player :options="getPlayerOptions"
-                    :class="{audioBg:audioBg,isAudioType:hideFull}"
-                    :media="type"
-                    @play="onPlayerPlay($event)"
-                    @playing="onPlayerPlaying($event)"
-                    @pause="onPlayerPause($event)"
-                    @ended="onPlayerEnded($event)"
-                    @statechanged="playerStateChanged($event)"
-                    @timeupdate="onTimeUpdate($event)"
-                    @ready="playerReadied"
-      >
-      </video-player>
-      <!-- 音频收听中动画 -->
-      <section class="active"
-               :class="{audioPlaying:audioPlaying}"
-               @click="_eventAudioPause">
-      </section>
+        <section class="videoEndPop" v-if="endLayer" @click="endLayer=false">
+            <ul>
+                <li>直播已结束</li>
+                <li>我知道了</li>
+            </ul>
+        </section>
     </div>
-    <section class="videoEndPop" v-if="endLayer" @click="endLayer=false">
-      <ul>
-        <li>直播已结束</li>
-        <li>我知道了</li>
-      </ul>
-    </section>
-  </div>
 </template>
 
 <script>
+  /*
+  * HQ.Wn 2017-04-25
+  * 使用该组件 请确保 首次构建时修改了 player.vue 文件
+  * 详见 doc/player（vue-player插件源码修改备份）.vue 的说明。
+  * */
+
   // hls plugin
   require('videojs-contrib-hls/dist/videojs-contrib-hls')
   import {videoPlayer} from 'vue-video-player';
@@ -127,14 +133,11 @@
        * 时刻监听播放器的状态
        * */
       playerStateChanged(playerCurrentState) {
-//        console.log("----");
-//        console.log("状态：");
-//        console.log(playerCurrentState);
-//        console.log("----");
         this.playerCurrentState = playerCurrentState;
         if (playerCurrentState.canplaythrough) {
           this.player.loadingSpinner.hide();
         } else if (playerCurrentState.waiting) {
+          this.player.loadingSpinner.show();
         }
       },
       /**
@@ -160,7 +163,7 @@
         this.audioPlaying = false;
       },
       onPlayerPlaying(player){
-        if (this.type == 2)this.audioPlaying = true;
+        //if (this.type == 2)this.audioPlaying = true;
       },
       /**
        * 视频结束时触发
@@ -175,15 +178,14 @@
        *Android 微信中 监听不到ended的替代方案
        * */
       onTimeUpdate (player) {
-        // 如果 currentTime() === duration()，则视频已播放完毕
-        if (player.duration() != 0 && player.currentTime() === player.duration()) {
-          // alert("播放结束");
-//          this.audioPlaying = false;
-        } else {
-          if (this.type == 2) {
-//            this.audioPlaying = true;
-          }
-        }
+       this.audioPlaying = false;
+       if (player.duration() != 0){
+            if(player.currentTime() === player.duration()){// 如果 currentTime() === duration()，则视频已播放完毕
+            }
+            if(this.type == 2 &&  player.currentTime()>0){
+              this.audioPlaying = true;
+            }
+       }
       },
 
       /**
@@ -211,7 +213,6 @@
        * 根据媒体类型判断是否需要全屏
        */
       isHideFull(){
-        console.log("计算全屏"+this.type);
         if(this.type==2){
          this.hideFull=true;
         }else {
@@ -220,6 +221,8 @@
       }
     }
   }
+
+
 </script>
 <style>
   .mytest {
@@ -477,4 +480,6 @@
   .isAudioType .video-js.vjs-custom-skin .vjs-control-bar .vjs-fullscreen-control{
     width: 0;
   }
+
+
 </style>
