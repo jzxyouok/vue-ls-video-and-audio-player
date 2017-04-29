@@ -110,7 +110,6 @@
       }
     },
     created: function () {
-
     },
     methods: {
       passEvt(){ //密码框按钮点击事件

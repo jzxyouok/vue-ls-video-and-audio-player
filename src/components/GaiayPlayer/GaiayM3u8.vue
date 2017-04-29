@@ -389,10 +389,10 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: #000;
     z-index: 1000
   }
-
+  .topVFail{background: #000;}
+  .topVStatus{background: rgba(0,0,0,.3);}
   .topVFailCont, .topVStatusCont {
     position: absolute;
     left: 50%;

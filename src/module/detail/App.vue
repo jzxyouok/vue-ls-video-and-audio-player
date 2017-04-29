@@ -58,7 +58,7 @@
         price: 0,
         addGroup: 2,//0:失败 1:成功 -1：异常
         popuText: '你的入群资格已使用完，若想加更多群，可以购买入群资格，或退出部分已加入的社群',
-        authStatus: 0,//0,免费1成员,2审核,4付费,8密码,16会员类型，预告不需要这个属性
+        authStatus: '',//0,免费1成员,2审核,4付费,8密码,16会员类型，预告不需要这个属性
         liveDetail: {},
         liveBa: 1,
         shareStatus: -1,//分享的弹窗状态 0:显示 -1:不显示
@@ -69,13 +69,14 @@
     },
     created: function () {
       this.followerId = utils._getQueryString('followerId');
-      this.loadStaticData();
+      //初始化蒙层
       this.viewByView(this.liveInfo.view);
-
+      //loading...
+      this.loadStaticData();
       //this.addEventListenerEnded();
     },
     methods: {
-      addEventListenerEnded(){
+      /*addEventListenerEnded(){
         var timer = window.setInterval(function () {
           var audio = document.querySelector('#video');
           if (audio.ended) {
@@ -83,7 +84,7 @@
             window.clearInterval(timer);
           }
         });
-      },
+      },*/
       tabChange(num){
         this.selected = num;
       },
